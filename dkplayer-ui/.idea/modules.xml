@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../DKVideoPlayer.iml" filepath="$PROJECT_DIR$/../DKVideoPlayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dkplayer-java/dkplayer-java.iml" filepath="$PROJECT_DIR$/../dkplayer-java/dkplayer-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dkplayer-players/dkplayer-players.iml" filepath="$PROJECT_DIR$/../dkplayer-players/dkplayer-players.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dkplayer-sample/dkplayer-sample.iml" filepath="$PROJECT_DIR$/../dkplayer-sample/dkplayer-sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dkplayer-ui.iml" filepath="$PROJECT_DIR$/dkplayer-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dkplayer-videocache/dkplayer-videocache.iml" filepath="$PROJECT_DIR$/../dkplayer-videocache/dkplayer-videocache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dkplayer-players/exo/exo.iml" filepath="$PROJECT_DIR$/../dkplayer-players/exo/exo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../dkplayer-players/ijk/ijk.iml" filepath="$PROJECT_DIR$/../dkplayer-players/ijk/ijk.iml" />
+    </modules>
+  </component>
+</project>

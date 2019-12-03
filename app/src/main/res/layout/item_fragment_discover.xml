@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <com.dueeeke.videoplayer.player.IjkVideoView
+        android:id="@+id/play_player"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+    <TextView
+        android:id="@+id/title_tv"
+        android:ellipsize="end"
+        android:maxEms="15"
+        android:singleLine="true"
+        android:layout_margin="@dimen/space_13"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_14"
+        tools:text="视频标题, 视频标题..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/dic_layout"
+        android:layout_below="@+id/play_player"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/play_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_12"
+            tools:text="0.9万次播放"
+            android:textColor="@color/text_color_6"
+            android:textSize="@dimen/text_size_13" />
+
+        <ImageView
+            android:id="@+id/send_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/space_8"
+            android:paddingRight="9dp"
+            app:srcCompat="@mipmap/send_nopress" />
+
+        <ImageView
+            android:id="@+id/download_nopress_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/send_iv"
+            android:paddingLeft="@dimen/space_8"
+            android:paddingRight="9dp"
+            app:srcCompat="@mipmap/download_nopress" />
+
+        <ImageView
+            android:id="@+id/favor_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/download_nopress_iv"
+            android:paddingLeft="@dimen/space_8"
+            android:paddingRight="9dp"
+            app:srcCompat="@mipmap/favor_nopress" />
+    </RelativeLayout>
+    <View
+        android:layout_below="@+id/dic_layout"
+        android:background="#F5F5F5"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+</RelativeLayout>

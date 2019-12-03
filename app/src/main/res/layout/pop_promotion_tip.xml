@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/translucence"
+    android:gravity="center"
+    android:id="@+id/tg_p_layout"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@drawable/boder_all_circular_white_8"
+        android:layout_width="250dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="100dp">
+
+        <TextView
+            android:text="你剩余的播放次数不够"
+            android:textSize="@dimen/text_size_13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:background="@drawable/round_yellow_circle_"
+            android:id="@+id/qq_tv"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="去推广"
+            android:textColor="@color/white"
+            android:layout_width="80dp"
+            android:gravity="center"
+            android:layout_height="25dp" />
+    </LinearLayout>
+</LinearLayout>

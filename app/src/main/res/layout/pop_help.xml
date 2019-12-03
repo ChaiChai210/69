@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucence">
+
+    <LinearLayout
+        android:id="@+id/pop1_layout"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="38dp"
+        android:layout_marginRight="38dp"
+        android:background="@mipmap/bg_sys_note"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+
+            android:id="@+id/title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_24"
+            android:text="标题XXXX"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18" />
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_13"
+            android:layout_marginTop="91dp"
+            android:layout_marginRight="@dimen/space_13"
+            android:text="标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容, 标题内容..."
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="@dimen/text_size_13" />
+
+        <TextView
+            android:id="@+id/next_tv"
+            android:layout_width="175dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/coumm_change_shade"
+            android:gravity="center"
+            android:text="我知道了"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/pop2_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/icon_note_1" />
+
+        <View
+            android:layout_width="188dp"
+            android:layout_height="49dp"
+            android:layout_alignBottom="@+id/next_tv1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-6dp"
+            android:background="@drawable/boder_all_circular_25" />
+
+        <TextView
+            android:id="@+id/next_tv1"
+            android:layout_width="175dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/coumm_change_shade_25"
+            android:gravity="center"
+            android:text="朕知道了"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pop3_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="103dp"
+            app:srcCompat="@mipmap/icon_note_2" />
+
+        <View
+            android:layout_width="188dp"
+            android:layout_height="49dp"
+            android:layout_alignBottom="@+id/next_tv2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-6dp"
+            android:background="@drawable/boder_all_circular_25" />
+
+        <TextView
+            android:id="@+id/next_tv2"
+            android:layout_width="175dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/coumm_change_shade_25"
+            android:gravity="center"
+            android:text="朕知道了"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pop4_layout"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="84dp"
+            android:layout_marginRight="@dimen/space_15"
+            app:srcCompat="@mipmap/icon_note_3" />
+
+        <View
+            android:layout_width="188dp"
+            android:layout_height="49dp"
+            android:layout_alignBottom="@+id/next_tv3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-6dp"
+            android:background="@drawable/boder_all_circular_25" />
+
+        <TextView
+            android:id="@+id/next_tv3"
+            android:layout_width="175dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/coumm_change_shade_25"
+            android:gravity="center"
+            android:text="朕知道了"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pop5_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@mipmap/icon_note_4" />
+
+        <View
+            android:layout_width="188dp"
+            android:layout_height="49dp"
+            android:layout_alignBottom="@+id/next_tv4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-6dp"
+            android:background="@drawable/boder_all_circular_25" />
+
+        <TextView
+            android:id="@+id/next_tv4"
+            android:layout_width="175dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/coumm_change_shade_25"
+            android:gravity="center"
+            android:text="朕知道了"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pop6_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="226dp"
+            app:srcCompat="@mipmap/icon_note5" />
+
+        <View
+            android:layout_width="188dp"
+            android:layout_height="49dp"
+            android:layout_alignBottom="@+id/next_tv5"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-6dp"
+            android:background="@drawable/boder_all_circular_25" />
+
+        <TextView
+            android:id="@+id/next_tv5"
+            android:layout_width="175dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="80dp"
+            android:background="@drawable/coumm_change_shade_25"
+            android:gravity="center"
+            android:text="朕知道了"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

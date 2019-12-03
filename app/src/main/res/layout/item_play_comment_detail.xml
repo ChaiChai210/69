@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_15"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginLeft="@dimen/space_15">
+
+        <com.colin.playerdemo.customeview.third.RoundImageView
+            android:id="@+id/head_image"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="12dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_head_l"
+            app:layout_constraintDimensionRatio="6:7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:radius="2dp"
+            app:type="circle" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_6"
+            android:layout_toRightOf="@+id/head_image"
+            android:drawableRight="@mipmap/boy_comment_mark"
+            android:drawablePadding="@dimen/space_4"
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="@dimen/text_size_14"
+            tools:text="用户昵称" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_tv"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_toRightOf="@+id/head_image"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            tools:text="2小时前" />
+
+        <TextView
+            android:id="@+id/tv_like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/space_6"
+            android:layout_marginRight="@dimen/space_22"
+            android:drawableRight="@mipmap/image_comment_zan_normal"
+            android:drawablePadding="6dp"
+            android:textColor="#999999"
+            tools:text="0" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_15"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginRight="@dimen/space_10"
+        android:layout_marginBottom="@dimen/space_10"
+        android:textColor="@color/activity_title_center_text_black"
+        tools:text="评论内容, 评论内容, 评论内容..." />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_1"
+        android:layout_marginTop="@dimen/space_8"
+        android:background="@color/ColorLine" />
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/child_relayout"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="@dimen/space_8">
+
+        <TextView
+            android:id="@+id/child_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_8"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15"
+            tools:text="最新片源" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/space_10"
+            android:drawableRight="@mipmap/icon_getmore"
+            android:drawablePadding="@dimen/space_5"
+            android:text="更多"
+            android:textColor="@color/text_color_6"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/child_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/adv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ad_iv"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img11" />
+
+        <TextView
+            android:id="@+id/adv_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_12"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="广告位标题..." />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#010101" />
+    </LinearLayout>
+</LinearLayout>

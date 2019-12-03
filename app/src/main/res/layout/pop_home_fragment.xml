@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:id="@+id/qq_layout"
+    android:background="@color/translucence"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="@mipmap/notice_bg"
+        android:layout_width="300dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="435dp">
+
+        <TextView
+            android:id="@+id/qq_tv"
+            android:layout_marginRight="@dimen/text_size_15"
+            android:layout_marginLeft="@dimen/text_size_15"
+            android:layout_marginTop="135dp"
+            android:text="QQ:156646"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="@dimen/space_10"
+            android:id="@+id/domain_tv"
+            android:text="官网地址:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/commit_tv"
+            android:textSize="@dimen/space_15"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="我知道了"
+            android:layout_marginBottom="@dimen/space_15"
+            android:background="@drawable/coumm_change_shade"
+            android:layout_marginTop="@dimen/space_50"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="205dp"
+            android:layout_height="36dp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="评论详情"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/comment_close_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/space_12"
+            android:scaleType="center"
+            app:srcCompat="@mipmap/dialog_close" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/ColorLine" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="49dp">
+
+        <com.colin.playerdemo.customeview.third.RoundImageView
+            android:id="@+id/head_image"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="@dimen/space_8"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_head_l"
+            app:layout_constraintDimensionRatio="6:7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:radius="2dp"
+            app:type="circle" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_6"
+            android:layout_toRightOf="@+id/head_image"
+            android:drawableRight="@mipmap/boy_comment_mark"
+            android:drawablePadding="@dimen/space_4"
+            android:text="用户昵称"
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_tv"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_toRightOf="@+id/head_image"
+            android:text="2小时前"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/show_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_12"
+        android:text="评论内容, 评论内容, 评论内容..."
+        android:textColor="@color/activity_title_center_text_black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/ColorLine" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_20"
+        android:text="全部评论"
+        android:textColor="@color/activity_title_center_text_black" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_comment_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="240dp"
+    android:layout_height="135dp"
+    android:layout_marginLeft="12dp"
+    android:background="@drawable/boder_all_circular_white_2">
+
+    <com.colin.playerdemo.customeview.third.RoundImageView
+        android:id="@+id/column_image"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="@dimen/space_10"
+        android:layout_marginTop="@dimen/space_10"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img8"
+        app:layout_constraintDimensionRatio="6:7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:radius="4dp"
+        app:type="circle" />
+
+    <TextView
+        android:id="@+id/class_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_12"
+        android:layout_marginTop="@dimen/text_size_14"
+        android:layout_toRightOf="@+id/column_image"
+        android:textColor="@color/activity_title_center_text_black"
+        android:textSize="@dimen/text_size_14"
+        tools:text="牛叔说电影" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_name_tv"
+        android:layout_marginLeft="@dimen/space_12"
+        android:layout_toRightOf="@+id/column_image"
+        android:textColor="#999999"
+        android:textSize="@dimen/text_size_12"
+        tools:text="上新时间: 12-12 12:19:32" />
+
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/column_image"
+        android:layout_marginLeft="@dimen/space_11"
+        android:layout_marginTop="@dimen/space_10"
+        android:layout_marginRight="12dp"
+        android:textColor="@color/text_color_6"
+        android:textSize="@dimen/text_size_12"
+        tools:text="内容介绍, 内容介绍, 内容介绍, 内容介..." />
+
+    <TextView
+        android:id="@+id/change_tv"
+        android:layout_width="76dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/space_8"
+        android:background="@drawable/coumm_change_shade"
+        android:gravity="center"
+        android:text="立即选片"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_13" />
+</RelativeLayout>

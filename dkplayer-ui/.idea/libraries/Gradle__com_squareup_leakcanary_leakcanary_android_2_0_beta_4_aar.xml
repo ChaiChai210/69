@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.squareup.leakcanary:leakcanary-android:2.0-beta-4@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0d4d180b1baec9d312ecd419aaded913/leakcanary-android-2.0-beta-4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0d4d180b1baec9d312ecd419aaded913/leakcanary-android-2.0-beta-4/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-android/2.0-beta-4/67a12aec6ee9ace3e8b7fafe31630f90cbaf4efd/leakcanary-android-2.0-beta-4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.leakcanary/leakcanary-android/2.0-beta-4/57534b783fb50a9ab9195b4a41e29c22edaaf3b7/leakcanary-android-2.0-beta-4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

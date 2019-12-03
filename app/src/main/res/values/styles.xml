@@ -1,0 +1,48 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="FullTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/full_transparent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <style name="text_l_white">
+        <item name="android:textColor">@color/core_common_white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="text_m_white">
+        <item name="android:textColor">@color/core_common_white</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="text_h_white">
+        <item name="android:textColor">@color/core_common_white</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="text_xh_white">
+        <item name="android:textColor">@color/core_common_white</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
+    </style>
+
+    <style name="text_xxh_white">
+        <item name="android:textColor">@color/core_common_white</item>
+        <item name="android:textSize">@dimen/text_size_20</item>
+    </style>
+    <style name="CustomCheckBoxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style>
+</resources>

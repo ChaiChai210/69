@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="@dimen/space_20"
+        android:background="@color/full_transparent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_search"
+            android:layout_width="239dp"
+            android:layout_height="@dimen/space_30"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_12"
+            android:background="@drawable/round_bc_all_black_circle_16">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/space_8"
+                android:src="@mipmap/icon_search" />
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="@dimen/space_8"
+                android:background="@null"
+                android:hint="输入关键词查找片源"
+                android:imeOptions="actionSearch"
+                android:lines="1"
+                android:maxEms="10"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:textColor="@color/core_common_text_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingRight="@dimen/space_12"
+            android:text="搜索"
+            android:textColor="@color/text_color"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_history"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="@dimen/space_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/space_12"
+            android:text="历史搜索"
+            android:textColor="@color/text_color_6"
+            android:textSize="@dimen/text_size_15" />
+
+        <ImageView
+            android:id="@+id/delete_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingEnd="@dimen/space_12"
+            android:src="@mipmap/icon_deleted" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_12"
+        android:layout_marginTop="@dimen/text_size_15"
+        android:text="热门搜索"
+        android:textColor="@color/text_color_6"
+        android:textSize="@dimen/text_size_15" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_hot_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_10"
+        android:overScrollMode="never">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

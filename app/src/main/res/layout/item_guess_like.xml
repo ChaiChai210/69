@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.colin.playerdemo.customeview.third.RoundImageView
+        android:id="@+id/search_result_image"
+        android:layout_width="160dp"
+        android:layout_height="110dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img7"
+        app:layout_constraintDimensionRatio="6:7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:radius="2dp"
+        app:type="round" />
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="110dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/translucence" />
+
+    <TextView
+        android:id="@+id/tv_play_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_12"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="@dimen/space_11"
+        android:layout_toRightOf="@+id/search_result_image"
+        android:ellipsize="end"
+        android:lines="1"
+        android:singleLine="true"
+        android:textColor="@color/activity_title_center_text_black"
+        android:textSize="@dimen/text_size_13"
+        tools:text="视频名称..." />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_tags"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_above="@+id/play_num_tv"
+        android:layout_below="@+id/tv_play_name"
+        android:layout_marginLeft="@dimen/space_6"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="@dimen/space_6"
+        android:layout_marginBottom="4dp"
+        android:layout_toRightOf="@+id/search_result_image"
+        android:overScrollMode="never">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/play_num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/search_result_image"
+        android:layout_marginLeft="@dimen/space_12"
+        android:layout_toRightOf="@+id/search_result_image"
+        android:textColor="@color/text_color_6"
+        android:textSize="@dimen/text_size_12"
+        tools:text="666.6万次播放" />
+
+    <TextView
+        android:id="@+id/tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/search_result_image"
+        android:layout_alignBottom="@+id/search_result_image"
+        android:layout_margin="@dimen/space_8"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_12"
+        tools:text="7.2" />
+</RelativeLayout>

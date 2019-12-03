@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@drawable/boder_all_circular_white_8"
+        android:layout_width="300dp"
+        android:layout_height="135dp">
+        <TextView
+            android:layout_marginLeft="@dimen/space_20"
+            android:layout_marginTop="@dimen/space_20"
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="@dimen/text_size_15"
+            android:text="清理缓存"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="@dimen/space_50"
+            android:layout_marginLeft="@dimen/space_20"
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="13sp"
+            android:text="是否清理当前APP缓存"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/confirm_tv"
+            android:padding="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/text_color"
+            android:text="确定"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:paddingTop="@dimen/space_20"
+            android:paddingLeft="@dimen/space_20"
+            android:paddingBottom="@dimen/space_20"
+            android:layout_toLeftOf="@+id/confirm_tv"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/cancel_tv"
+            android:text="取消"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

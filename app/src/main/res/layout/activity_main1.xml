@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity1">
+
+    <!--    <com.colin.banner.BannerLayout-->
+    <!--        android:id="@+id/recycler"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="175dp"-->
+    <!--        app:autoPlaying="true"-->
+    <!--        app:centerScale="1.3"-->
+    <!--        app:indicatorGravity="center"-->
+    <!--        app:itemSpace="20"-->
+    <!--        app:moveSpeed="1.8"-->
+    <!--        app:showIndicator="true" >-->
+
+    <!--    </com.colin.banner.BannerLayout>-->
+    <com.colin.NoScrollViewPager
+        android:id="@+id/vp_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <com.yinglan.alphatabs.AlphaTabsIndicator
+        android:id="@+id/alphaIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal">
+
+        <com.yinglan.alphatabs.AlphaTabView
+            android:id="@+id/tab1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+
+            app:paddingTexwithIcon="5dp"
+            app:tabIconNormal="@mipmap/icon_home"
+            app:tabIconSelected="@mipmap/icon_home_selected"
+            app:tabText="首页"
+            app:tabTextSize="@dimen/sp_14"
+            app:textColorNormal="@color/colorPrimary"
+            app:textColorSelected="@color/colorAccent" />
+
+        <com.yinglan.alphatabs.AlphaTabView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+
+            app:paddingTexwithIcon="5dp"
+            app:tabIconNormal="@mipmap/icon_channel"
+            app:tabIconSelected="@mipmap/icon_channel_selected"
+            app:tabText="频道"
+            app:tabTextSize="@dimen/sp_14"
+            app:textColorNormal="@color/colorPrimary"
+            app:textColorSelected="@color/colorAccent" />
+
+
+    </com.yinglan.alphatabs.AlphaTabsIndicator>
+</LinearLayout>

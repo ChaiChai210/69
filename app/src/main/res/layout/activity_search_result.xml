@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="@dimen/space_20"
+        android:background="@color/full_transparent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:layout_width="239dp"
+            android:layout_height="@dimen/space_30"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_12"
+            android:background="@drawable/round_bc_all_black_circle_16">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/space_8"
+                android:src="@mipmap/icon_search" />
+
+            <EditText
+                android:id="@+id/search_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="@dimen/space_8"
+                android:background="@null"
+                android:hint="输入关键词查找片源"
+                android:lines="1"
+                android:maxEms="10"
+                android:maxLength="15"
+                android:textColor="@color/core_common_text_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/search_layout" />
+
+        <TextView
+            android:id="@+id/cancel_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingRight="@dimen/space_12"
+            android:text="搜索"
+            android:textColor="@color/text_color"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/no_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/empty_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/img_empty" />
+
+        <TextView
+            android:id="@+id/ser_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/empty_iv"
+            android:layout_centerHorizontal="true"
+            android:text="没有找到与“空查询”相关的结果"
+            android:textColor="@color/core_common_text_gray"
+            android:textSize="@dimen/text_size_11" />
+
+        <LinearLayout
+            android:id="@+id/tell_me_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/empty_iv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="没有找到满意的内容?"
+                android:textColor="@color/text_color_6"
+                android:textSize="@dimen/text_size_13" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_8"
+                android:text="告诉我们"
+                android:textColor="#FFCC91"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_find"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/result_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>
