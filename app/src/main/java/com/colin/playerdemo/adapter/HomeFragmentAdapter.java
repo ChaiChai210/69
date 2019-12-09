@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.colin.playerdemo.R;
+import com.colin.playerdemo.activity.Class_activity;
 import com.colin.playerdemo.bean.MainBean;
 import com.colin.playerdemo.utils.StringUtils;
 
@@ -82,12 +83,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         void showHome_Fragment_AdapterHolder(final MainBean.VideoBean videoBean, final int position) {
-//            childRelayout.setOnClickListener(new View.OnClickListener() {//更多
-//                @Override
-//                public void onClick(View v) {
-//                    itemView.getContext().startActivity(new Intent(itemView.getContext(), Class_activity.class).putExtra("name", videoBean.getTitle()));
-//                }
-//            });
+            //更多
+            childRelayout.setOnClickListener(v -> itemView.getContext().startActivity(new Intent(itemView.getContext(), Class_activity.class).putExtra("name", videoBean.getTitle())));
             childRv.setNestedScrollingEnabled(false);
             child_title_tv.setText(videoBean.getTitle());
             if (null != videoBean.getAdver()) {

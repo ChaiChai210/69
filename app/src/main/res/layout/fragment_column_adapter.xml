@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/popularity_relayout"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="@dimen/space_8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_8"
+            android:text="人气明星"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/space_10"
+            android:drawableRight="@mipmap/icon_getmore"
+            android:drawablePadding="@dimen/space_5"
+            android:text="更多"
+            android:textColor="@color/text_color_6"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/popularity_relayout">
+
+        <RelativeLayout
+
+            android:id="@+id/head_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginTop="@dimen/space_10">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/circular_shade" />
+
+            <com.colin.playerdemo.customeview.third.RoundImageView
+                android:id="@+id/column_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/img8"
+                app:layout_constraintDimensionRatio="6:7"
+                app:layout_constraintTop_toTopOf="parent"
+                app:radius="4dp"
+                app:type="circle" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/head_layout"
+            android:layout_marginLeft="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_toRightOf="@+id/head_layout"
+            tools:text="小罗伯特"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_13" />
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_tv"
+            android:layout_marginLeft="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_6"
+            android:layout_marginRight="@dimen/space_8"
+            android:layout_toRightOf="@+id/head_layout"
+            android:ellipsize="end"
+            android:lines="2"
+            tools:text="小罗伯特的信息介绍, 信息介绍..."
+            android:textColor="#999999"
+            android:textSize="@dimen/text_size_12" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_1"
+            android:layout_marginLeft="@dimen/space_12"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/num_video_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/tip"
+            android:gravity="end|center_vertical"
+            android:paddingRight="@dimen/space_10"
+            android:text="66部电影"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_12" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/colum_h_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/head_layout"
+            android:layout_marginTop="@dimen/space_8"
+            android:overScrollMode="never">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
+</RelativeLayout>

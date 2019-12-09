@@ -24,9 +24,6 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * 没有使用沉浸式的Fragment基类
- */
 
 public abstract class BaseFragment extends ImmersionFragment  implements LifecycleOwner {
     public abstract int getContentViewId();

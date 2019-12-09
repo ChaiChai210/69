@@ -9,6 +9,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.colin.playerdemo.R;
+import com.colin.playerdemo.activity.PlayActivity;
+import com.colin.playerdemo.utils.DataCleanManager;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 
 public class Clean_Cache_Popwindows extends PopupWindow {
@@ -34,9 +37,8 @@ public class Clean_Cache_Popwindows extends PopupWindow {
         confirm_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                DataCleanManager.clearAllCache (mContext);
-////                DataCleanManager.getTotalCacheSize (this);
-//                Tools.showTip (mContext, "缓存清理完毕");
+                DataCleanManager.clearAllCache (mContext);
+                FancyToast.makeText(mContext, "缓存清理完毕", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
                 cash_tv.setText("0M");
                 dismiss();
             }

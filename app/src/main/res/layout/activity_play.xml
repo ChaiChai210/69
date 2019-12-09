@@ -84,7 +84,7 @@
                     android:singleLine="true"
                     android:layout_marginRight="@dimen/space_3"
                     android:layout_alignParentLeft="true"
-                    android:layout_toLeftOf="@+id/normal_iv"
+                    android:layout_toLeftOf="@+id/iv_like"
                     android:id="@+id/title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/unpraise_iv"
+                    android:id="@+id/iv_unlike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -142,12 +142,12 @@
                     android:layout_marginLeft="@dimen/space_8"
                     android:layout_marginRight="@dimen/space_8"
                     android:layout_marginTop="4dp"
-                    android:layout_toLeftOf="@+id/unpraise_iv"
+                    android:layout_toLeftOf="@+id/iv_unlike"
                     android:progress="5"
                     android:progressDrawable="@drawable/u_progressbar_style" />
 
                 <ImageView
-                    android:id="@+id/normal_iv"
+                    android:id="@+id/iv_like"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/play_pBar"

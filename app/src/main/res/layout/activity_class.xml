@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title_include" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/synthesis_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_gravity="center"
+                android:background="@drawable/boder_all_circular_12"
+                android:gravity="center"
+                android:paddingLeft="@dimen/space_12"
+                android:paddingRight="@dimen/space_12"
+                android:text="综合"
+                android:textColor="@color/activity_title_center_text_black"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/more_play_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:paddingLeft="@dimen/space_12"
+                android:paddingRight="@dimen/space_12"
+                android:text="最多播放"
+                android:textColor="@color/activity_title_center_text_black"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/more_new_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:paddingLeft="@dimen/space_12"
+                android:paddingRight="@dimen/space_12"
+                android:text="最接更新"
+                android:textColor="@color/activity_title_center_text_black"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/more_like_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:paddingLeft="@dimen/space_12"
+                android:paddingRight="@dimen/space_12"
+                android:text="最多喜欢"
+                android:textColor="@color/activity_title_center_text_black"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <com.colin.playerdemo.customeview.MySlidingTabLayout
+            android:id="@+id/class_slide_tl"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:overScrollMode="never"
+            app:tl_indicator_width="0dp"
+            app:tl_textBold="SELECT"
+            app:tl_textSelectColor="#B9A492"
+            app:tl_textUnselectColor="@color/activity_title_center_text_black"
+            app:tl_textsize="@dimen/text_size_12">
+
+        </com.colin.playerdemo.customeview.MySlidingTabLayout>
+        <!--<TextView-->
+        <!--android:id="@+id/all_tv"-->
+        <!--android:layout_width="49dp"-->
+        <!--android:layout_height="29dp"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginLeft="@dimen/space_12"-->
+        <!--android:background="@drawable/boder_all_circular_12"-->
+        <!--android:gravity="center"-->
+        <!--android:text="综合"-->
+        <!--android:textColor="#B9A492"-->
+        <!--android:textSize="@dimen/text_size_13" />-->
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_2"
+        android:background="@color/ColorLine" />
+
+    <com.colin.playerdemo.customeview.CustomViewPager
+        android:id="@+id/class_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -7,30 +7,30 @@
     >
 
     <LinearLayout
-        android:layout_marginLeft="@dimen/space_30"
-        android:layout_marginRight="@dimen/space_30"
         android:id="@+id/ll_popup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/space_30"
+        android:layout_marginRight="@dimen/space_30"
         android:background="#ffffff"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Button
-                android:layout_marginTop="@dimen/space_10"
                 android:id="@+id/item_popupwindows_camera"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginTop="@dimen/space_10"
                 android:background="@drawable/bt_nobgd"
+                android:text="修改昵称"
                 android:textColor="#585858"
-                android:textSize="14sp"
-                android:text="修改昵称" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
@@ -39,54 +39,60 @@
             android:background="#f2f2f2" />
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal" >
-        <EditText
-            android:id="@+id/name_edt"
-            android:textSize="@dimen/text_size_13"
-            android:hint="输入新昵称"
-            android:background="@null"
-            android:singleLine="true"
-            android:maxEms="12"
             android:gravity="center"
-            android:layout_width="150dp"
-            android:layout_height="match_parent" />
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/name_edt"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="输入新昵称"
+                android:maxEms="12"
+                android:singleLine="true"
+                android:textSize="@dimen/text_size_13" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#f2f2f2" />
+
         <LinearLayout
             android:id="@+id/delete_layout"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/cancel_Photo"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="55dp"
+                android:layout_weight="1"
                 android:background="@drawable/bt_nobgd"
+                android:text="取消"
                 android:textColor="#585858"
-                android:textSize="18sp"
-                android:text="取消" />
+                android:textSize="18sp" />
+
             <TextView
                 android:layout_width="1px"
                 android:layout_height="match_parent"
                 android:background="#f2f2f2" />
+
             <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
                 android:id="@+id/delete_Photo"
+                android:layout_width="0dp"
                 android:layout_height="55dp"
+                android:layout_weight="1"
                 android:background="@drawable/bt_nobgd"
+                android:text="确定"
                 android:textColor="#585858"
-                android:textSize="18sp"
-                android:text="确定" />
+                android:textSize="18sp" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="2dp"

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.colin.playerdemo.customeview.third.RoundImageView
+        android:id="@+id/class_image"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="@dimen/space_6"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="6dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img8"
+        app:layout_constraintDimensionRatio="6:7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:radius="2dp"
+        app:type="round" />
+
+    <TextView
+        android:id="@+id/introduce_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/class_image"
+        android:layout_marginStart="@dimen/space_22"
+        android:layout_marginTop="@dimen/space_8"
+        android:textColor="#999999"
+        android:textSize="@dimen/text_size_13"
+        tools:text="封面文字介绍..." />
+
+    <TextView
+        android:id="@+id/class_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/class_image"
+        android:layout_alignBottom="@+id/class_image"
+        android:layout_margin="@dimen/space_8"
+        android:textColor="#F6A520"
+        android:textSize="@dimen/text_size_12"
+        tools:text="7.2" />
+</RelativeLayout>

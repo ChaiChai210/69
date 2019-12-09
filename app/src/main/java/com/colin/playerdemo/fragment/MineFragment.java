@@ -1,7 +1,10 @@
 package com.colin.playerdemo.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,6 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.colin.playerdemo.R;
+import com.colin.playerdemo.activity.FeedbackActivity;
+import com.colin.playerdemo.activity.HistoryActivity;
+import com.colin.playerdemo.activity.Login_Activity;
+import com.colin.playerdemo.activity.NotificationActivity;
+import com.colin.playerdemo.activity.Popularize_Activity;
+import com.colin.playerdemo.activity.U_Set_activity;
+import com.colin.playerdemo.activity.VipActivity;
 import com.colin.playerdemo.adapter.DownloadAdapter;
 import com.colin.playerdemo.adapter.HistoryRecordAdapter;
 import com.colin.playerdemo.adapter.MyFavoriteAdapter;
@@ -25,18 +35,27 @@ import com.colin.playerdemo.bean.ConFigBean;
 import com.colin.playerdemo.bean.MineUserInfoBean;
 import com.colin.playerdemo.bean.VideoBean;
 import com.colin.playerdemo.customeview.third.RoundImageView;
-import com.colin.playerdemo.net.Api;
-import com.colin.playerdemo.net.BaseResponseBean;
-import com.colin.playerdemo.net.CommonParser;
-import com.colin.playerdemo.net.RxHttpUtils;
+import com.colin.playerdemo.net.BaseBean;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
+import com.colin.playerdemo.utils.SPUtils;
+import com.colin.playerdemo.utils.StringUtils;
+import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
-import com.rxjava.rxlife.RxLife;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MineFragment extends BaseFragment {
 
@@ -121,6 +140,7 @@ public class MineFragment extends BaseFragment {
 
     private String chatText;
     private MineUserInfoBean userInfoBean;
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_mine;
@@ -161,21 +181,39 @@ public class MineFragment extends BaseFragment {
     }
 
     private void getUserInfo() {
-        RxHttpUtils.getWithToken(Api.myinfo)
-                .asParser(new CommonParser<MineUserInfoBean>(new TypeToken<BaseResponseBean<MineUserInfoBean>>() {
-                }))
-                .as(RxLife.asOnMain(this))//返回String类型
-                .subscribe(s -> {          //订阅观察者，
-                    if (s.getCode() == 0) {
-//                        setView(s.getData());
-                        userInfoBean = s.getData();
-                        setUser(userInfoBean);
-                    } else {
-//                        UIHelper.errorToastString(s.getInfo());
-                    }
 
-                }, throwable -> {
-                });
+        HttpParams httpParams = new HttpParams();
+        OkGo.<String>get(URLs.MINEUSERINFO).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+
+                Type type = new TypeToken<BaseBean<MineUserInfoBean>>() {
+                }.getType();
+                BaseBean<MineUserInfoBean> beanBaseBean = GsonHelper.gson.fromJson(response.body(), type);
+                if (beanBaseBean.getCode() == 0) {
+//                        setView(s.getData());
+                    userInfoBean = beanBaseBean.getData();
+                    setUser(userInfoBean);
+                } else {
+                    FancyToast.makeText(activity, beanBaseBean.getInfo(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                }
+                UIhelper.stopLoadingDialog();
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                UIhelper.showLoadingDialog(activity);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+
+            }
+        });
     }
 
     private void setUser(MineUserInfoBean userInfoBean) {
@@ -256,14 +294,93 @@ public class MineFragment extends BaseFragment {
         myFavoriteAdapter.replaceData(userInfoBean.getCollectlist());
     }
 
+    @OnClick({R.id.iv_setting, R.id.rl_promotion, R.id.feedback_layout, R.id.notification_layout,
+            R.id.history_layout, R.id.download_layout, R.id.love_layout, R.id.vip_tv, R.id.ll_promotion, R.id.ads_iv, R.id.ll_chat, R.id.name_tv, R.id.login_tv})
+    public void onViewClicked(View view) {
+
+        switch (view.getId()) {
+            case R.id.iv_setting://设置
+//                if (!Login_Activity.checkLogin(activity)) {
+//                    return;
+//                }
+                activity.startActivity(new Intent(activity, U_Set_activity.class));
+                break;
+            case R.id.name_tv:
+            case R.id.login_tv:
+                if (!Login_Activity.checkLogin(activity)) {
+                    return;
+                }
+//                activity.startActivity(new Intent(activity, Login_Activity.class));
+                break;
+            case R.id.rl_promotion://推广
+            case R.id.ll_promotion://推广
+                activity.startActivity(new Intent(activity, Popularize_Activity.class));
+                break;
+            case R.id.feedback_layout://反馈
+                activity.startActivity(new Intent(activity, FeedbackActivity.class));
+                break;
+            case R.id.notification_layout://通知
+                activity.startActivity(new Intent(activity, NotificationActivity.class));
+                break;
+            case R.id.history_layout://历史记录
+                activity.startActivity(new Intent(activity, HistoryActivity.class));
+                break;
+            case R.id.download_layout://缓存
+//                if (null != videoBeans && videoBeans.size() > 0) {
+//                    activity.startActivity(new Intent(activity, Cache_Activity.class));
+//                }
+                break;
+            case R.id.love_layout://我的喜欢
+//                activity.startActivity(new Intent(activity, FavoriteActivity.class));
+                break;
+            case R.id.vip_tv://VIP等级兑换
+                activity.startActivity(new Intent(activity, VipActivity.class).putExtra("phone", userInfoBean.getUserinfo().getPhone()));
+                break;
+            case R.id.ads_iv://广告
+                if (userInfoBean.getAdname().size() > 0 && !StringUtils.isEmpty(userInfoBean.getAdname().get(0).getUrl())) {
+                    Uri uri = Uri.parse(userInfoBean.getAdname().get(0).getUrl());
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                    UIhelper.addClickAdRecord(activity, userInfoBean.getAdname().get(0).getId());
+                }
+
+                break;
+            case R.id.ll_chat://交流群
+                Uri uri = Uri.parse(chatText);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                break;
+        }
+    }
 
 
     private void config() {
-        RxHttpUtils.getWithToken(Api.config)
-                .asDataListParser(ConFigBean.DataBean.class)
-                .as(RxLife.asOnMain(this))//返回String类型
-                .subscribe(this::setConfig, throwable -> {
-                });
+        HttpParams httpParams = new HttpParams();
+        OkGo.<String>get(URLs.CONFIGURE).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Type type = new TypeToken<ConFigBean>() {
+                }.getType();
+                ConFigBean conFigBean = GsonHelper.gson.fromJson(response.body(), type);
+                //返回码为成功时的处理
+                if (conFigBean.getCode() == 0) {
+                    setConfig(conFigBean.getData());
+                } else {
+                    UIhelper.ToastMessage(conFigBean.getInfo());
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+
+            }
+        });
     }
 
     private void setConfig(List<ConFigBean.DataBean> dataBeans) {

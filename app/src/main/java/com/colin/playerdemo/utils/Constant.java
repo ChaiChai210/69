@@ -16,7 +16,9 @@ public interface Constant {
     String SP_LOGIN_ACCOUNT = "SP_LOGIN_ACCOUNT";
     String SP_LOGIN_PSW = "SP_LOGIN_PSW";
     String SP_LOGIN_TOKEN = "SP_LOGIN_TOKEN";
-    String SP_FIRST = "SP_FIRST";
+    String SP_DEFAULT_TOKEN = "SP_DEFAULT_TOKEN";
+    String SP_FIRST_INSTALL = "SP_FIRST_INSTALL";
+    String SP_FIRST_ENTER = "SP_FIRST_ENTER";
     String SP_HISTORY_SEARCH = "HISTORY_SEARCH";
 
 

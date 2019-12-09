@@ -28,9 +28,9 @@ import butterknife.ButterKnife;
 public class Fragment_History_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Boolean show = false;
     private int from = 0;
-    private List<HistoryBean> data;
+    private List<HistoryBean.DataBean> data;
 
-    public void setData(List<HistoryBean> data) {
+    public void setData(List<HistoryBean.DataBean> data) {
         this.data.clear();
         this.data.addAll(data);
         notifyDataSetChanged();

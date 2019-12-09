@@ -39,9 +39,8 @@ public class Home_Class_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Home_Class_AdapterHolder adapterHolder = new Home_Class_AdapterHolder(LayoutInflater.from(parent.getContext())
+        return new Home_Class_AdapterHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_home_class, parent, false));
-        return adapterHolder;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class Home_Class_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-            return data.size() + 1;
+        return data.size() + 1;
     }
 
     public class Home_Class_AdapterHolder extends RecyclerView.ViewHolder {
@@ -67,34 +66,34 @@ public class Home_Class_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         void showHome_Class_AdapterHolder(final int position) {
             if (data.size() < 8) {
-                if(position==data.size()){
+                if (position == data.size()) {
                     class_iv.setImageResource(R.mipmap.ic_all);
                     class_tv.setText("全部");
-                }else {
+                } else {
                     Glide.with(itemView.getContext()).load(data.get(position).getPic()).into(class_iv);
                     class_tv.setText(data.get(position).getName());
                 }
-            }else {
-                if(position==7){
+            } else {
+                if (position == 7) {
                     class_iv.setImageResource(R.mipmap.ic_all);
                     class_tv.setText("全部");
-                }else {
+                } else {
                     Glide.with(itemView.getContext()).load(data.get(position).getPic()).into(class_iv);
                     class_tv.setText(data.get(position).getName());
                 }
 
             }
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(class_tv.getText().toString().equals("全部")){
-//                        homeClass_listener.Onclick(-1);
-//                    }else {
-//                        homeClass_listener.Onclick(position);
-//                    }
-//
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (class_tv.getText().toString().equals("全部")) {
+                        homeClass_listener.Onclick(-1);
+                    } else {
+                        homeClass_listener.Onclick(position);
+                    }
+
+                }
+            });
         }
     }
 

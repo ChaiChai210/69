@@ -16,22 +16,36 @@ import androidx.core.content.ContextCompat;
 
 
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.bean.ConFigBean;
 import com.colin.playerdemo.customeview.tabhost.TabItem;
 import com.colin.playerdemo.customeview.tabhost.XFragmentTabHost;
 import com.colin.playerdemo.fragment.ChannelFragment;
 import com.colin.playerdemo.fragment.DiscoverFragment;
 import com.colin.playerdemo.fragment.HomeFragment;
 import com.colin.playerdemo.fragment.MineFragment;
-import com.colin.playerdemo.fragment.RecyclerViewFragment;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
+import com.colin.playerdemo.popwindows.HelpWindow;
+import com.colin.playerdemo.popwindows.MainPopWindows;
+import com.colin.playerdemo.utils.Constant;
+import com.colin.playerdemo.utils.SPUtils;
+import com.colin.playerdemo.utils.UIhelper;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements HelpWindow.PopwindowsListener {
 
 
     @BindView(R.id.main_tab_content)
@@ -42,7 +56,7 @@ public class MainActivity extends BaseActivity {
     LinearLayout mainContent;
     private String[] mTabTitle = new String[]{"首页", "频道", "发现", "我的"};
     private int[] mImageResId = new int[]{R.drawable.sel_tab_home, R.drawable.sel_tab_channel, R.drawable.sel_tab_discover, R.drawable.sel_tab_mine};
-    private Class[] mFragClass = new Class[]{HomeFragment.class, ChannelFragment.class, RecyclerViewFragment.class, MineFragment.class
+    private Class[] mFragClass = new Class[]{HomeFragment.class, ChannelFragment.class, DiscoverFragment.class, MineFragment.class
     };
     private long mExitTime;
     /**
@@ -65,17 +79,14 @@ public class MainActivity extends BaseActivity {
 //        darkImmerseFontColor();
         checkPermissions();
 //        getChannel();
-        if (AppContext.isFrist) {
-            mainContent.post(new Runnable() {
-                @Override
-                public void run() {
-//                    HelpWindow main_popwindows = new HelpWindow(MainActivity.this, mainContent);
-//                    main_popwindows.setPopwindowsListener(MainActivity.this);
-                }
+        if (SPUtils.isFirstEnter()) {
+            mainContent.post(() -> {
+                HelpWindow main_popwindows = new HelpWindow(MainActivity.this, mainContent);
+                main_popwindows.setPopwindowsListener(MainActivity.this);
             });
-
+            SPUtils.put(Constant.SP_FIRST_ENTER, false);
         } else {
-//            config();
+            config();
         }
         //todo这段逻辑不用加
 //        if (!Login_Activity.isLogin(this)) {
@@ -89,11 +100,57 @@ public class MainActivity extends BaseActivity {
         initTabHost();
     }
 
-//    @Override
+    //    @Override
 //    protected void initImmersionBar() {
 //        super.initImmersionBar();
 //        darkImmerseFontColor();
 //    }
+    private void config() {
+        HttpParams httpParams = new HttpParams();
+        OkGo.<String>get(URLs.CONFIGURE).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                UIhelper.stopLoadingDialog();
+
+                Type type = new TypeToken<ConFigBean>() {
+                }.getType();
+                ConFigBean conFigBean = GsonHelper.gson.fromJson(response.body(), type);
+                //返回码为成功时的处理
+                if (conFigBean.getCode() == 0) {
+                    for (int i = 0; i < conFigBean.getData().size(); i++) {
+                        //官网地址
+                        if (conFigBean.getData().get(i).getType().equals("webSite")) {
+                            domain = conFigBean.getData().get(i).getContent();
+                        }
+//                        "主页弹出提示"
+                        if (conFigBean.getData().get(i).getType().equals("alertText")) {
+                            config = conFigBean.getData().get(i).getContent();
+
+                        }
+                    }
+                    mainContent.post(() -> {
+                        new MainPopWindows(MainActivity.this, mainContent, config, domain);
+                    });
+                } else {
+                    UIhelper.ToastMessage(conFigBean.getInfo());
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(MainActivity.this);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+
+            }
+        });
+    }
 
     private void checkPermissions() {
         String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
@@ -167,25 +224,25 @@ public class MainActivity extends BaseActivity {
     }
 
 
-//    @Override
-//    public void Onclick(int state) {
-//        switch (state) {
-//            case 1:
-//            case 2:
-//                mTabHost.setCurrentTab(1);
-//                break;
-//            case 3:
-//                mTabHost.setCurrentTab(3);
-//                break;
-//            case 4:
-////                if (null != verSionBeanBaseBean) {
-////                    if (verSionBeanBaseBean.isSuccess()) {
-////                        if (!Tools.getAppVersion(AppContext.applicationContext).equals(verSionBeanBaseBean.getData().getVersionName())) {
-////                            Cache_Popwindows cache_popwindows =new Cache_Popwindows(MainActivity.this,mainContent);
-////                        }
-////                    }
-////                }
-//                break;
-//        }
-//    }
+    @Override
+    public void Onclick(int state) {
+        switch (state) {
+            case 1:
+            case 2:
+                mTabHost.setCurrentTab(1);
+                break;
+            case 3:
+                mTabHost.setCurrentTab(3);
+                break;
+            case 4:
+//                if (null != verSionBeanBaseBean) {
+//                    if (verSionBeanBaseBean.isSuccess()) {
+//                        if (!Tools.getAppVersion(AppContext.applicationContext).equals(verSionBeanBaseBean.getData().getVersionName())) {
+//                            Cache_Popwindows cache_popwindows =new Cache_Popwindows(MainActivity.this,mainContent);
+//                        }
+//                    }
+//                }
+                break;
+        }
+    }
 }

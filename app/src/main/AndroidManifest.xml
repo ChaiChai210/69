@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.colin.playerdemo">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:name=".AppContext"
@@ -20,7 +28,8 @@
             android:name="notch.config"
             android:value="portrait|landscape" />
 
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,12 +44,33 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.Alone_Activity" />
         <activity android:name=".activity.PlayActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".activity.HistoryActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SearchResultActivity" />
+        <activity android:name=".activity.Star_Activity" />
+        <activity android:name=".activity.PopularTopicsActivity" />
+        <activity android:name=".activity.U_Set_activity" />
+        <activity android:name=".activity.Popularize_Activity" />
+        <activity android:name=".activity.My_Generalize_Activity" />
+        <activity android:name=".activity.Generalize_Activity" />
+        <activity android:name=".activity.AnnouncementActivity" />
+        <activity android:name=".activity.NotificationActivity" />
+        <activity android:name=".activity.FeedbackActivity" />
+        <activity android:name=".activity.ProblemDetailActivity" />
+        <activity android:name=".activity.Class_activity" />
+        <activity android:name=".activity.VipActivity" />
+        <activity android:name=".activity.Login_Activity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.Code_Activity" />
+        <activity android:name=".activity.Protocol_Activity" />
+        <activity android:name=".activity.Manage_Setting_Activity" />
+        <activity android:name=".activity.changePwdActivity" />
+        <activity android:name=".activity.GuideActivity" />
     </application>
 
 </manifest>

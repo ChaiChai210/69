@@ -13,20 +13,25 @@ import com.colin.playerdemo.R;
 import com.colin.playerdemo.adapter.AloneAdapter;
 import com.colin.playerdemo.base.BaseActivity;
 import com.colin.playerdemo.bean.AloneBean;
-import com.colin.playerdemo.net.Api;
-import com.colin.playerdemo.net.BaseResponseBean;
-import com.colin.playerdemo.net.CommonParser;
-import com.colin.playerdemo.net.RxHttpUtils;
+import com.colin.playerdemo.net.BaseBean;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
+import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
-import com.rxjava.rxlife.RxLife;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rxhttp.wrapper.param.RxHttp;
 
 
 public class Alone_Activity extends BaseActivity {
@@ -45,6 +50,7 @@ public class Alone_Activity extends BaseActivity {
     AloneAdapter aloneAdapter;
     private String id;
     List<AloneBean.ListBean> aloneBeans = new ArrayList<>();
+
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_alone;
@@ -52,7 +58,7 @@ public class Alone_Activity extends BaseActivity {
 
     @Override
     protected void initView() {
-        id  =getIntent().getStringExtra("id");
+        id = getIntent().getStringExtra("id");
         aloneRv.setLayoutManager(new GridLayoutManager(this, 3));
         aloneAdapter = new AloneAdapter(aloneBeans);
         aloneRv.setNestedScrollingEnabled(false);
@@ -69,27 +75,39 @@ public class Alone_Activity extends BaseActivity {
                 break;
         }
     }
-    /**
-     * 获取专题详情
-     */
 
-    private void getTop( ) {
-        RxHttp.setDebug(true);
-        RxHttpUtils.getWithToken(Api.special_topic)
-                .add("id",id)
-                .asParser(new CommonParser<AloneBean>(new TypeToken<BaseResponseBean<AloneBean>>() {
-                }))
-                .as(RxLife.asOnMain(this))//返回String类型
-                .subscribe(s -> {          //订阅观察者，
-                    if (s.getCode() == 0) {
-                        setView(s.getData());
+    private void getTop() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("id", id);
+        OkGo.<String>post(URLs.TOPICONFO).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseBean<AloneBean>>() {
+                }.getType();
+                BaseBean<AloneBean> baseBean = GsonHelper.gson.fromJson(response.body(), type);
+                UIhelper.stopLoadingDialog();
+                //返回码为成功时的处理
+                if (baseBean.getCode() == 0) {
+                    setView(baseBean.getData());
+                } else {
+                    FancyToast.makeText(Alone_Activity.this, baseBean.getInfo(), FancyToast.LENGTH_LONG, FancyToast.WARNING, false).show();
+                }
 
-                    } else {
-//                        UIHelper.errorToastString(s.getInfo());
-                    }
+            }
 
-                }, throwable -> {
-                });
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                UIhelper.showLoadingDialog(Alone_Activity.this);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+            }
+        });
     }
 
     private void setView(AloneBean data) {

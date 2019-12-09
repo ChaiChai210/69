@@ -12,29 +12,34 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.adapter.HistorySearchAdapter;
 import com.colin.playerdemo.adapter.HotSearchAdapter;
 import com.colin.playerdemo.base.BaseActivity;
 import com.colin.playerdemo.bean.HotSearchBean;
-import com.colin.playerdemo.net.Api;
-import com.colin.playerdemo.net.RxHttpUtils;
+import com.colin.playerdemo.net.BaseListBean;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.Constant;
 import com.colin.playerdemo.utils.SPUtils;
+import com.colin.playerdemo.utils.UIhelper;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-import com.rxjava.rxlife.RxLife;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,12 +63,8 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.rv_hot_search)
     RecyclerView rvHotSearch;
 
-    private String historySearchString;
-    private String textSearch;
-
-
-    HotSearchAdapter hotSearchAdapter;
-    HistorySearchAdapter historySearchAdapter;
+    private HotSearchAdapter hotSearchAdapter;
+    private HistorySearchAdapter historySearchAdapter;
     private List<HotSearchBean> hotSearchBeans = new ArrayList<>();
     private List<String> historySearchList = new ArrayList<>();
 
@@ -124,6 +125,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void initData() {
+
         getHotSearchData();
     }
 
@@ -157,36 +159,45 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 去重
-     *
-     * @param array
-     * @return
-     */
-    String[] delelte(String[] array) {
-        List<String> list = new ArrayList<>();
-        list.add(array[0]);
-        for (int i = 1; i < array.length; i++) {
-            if (!list.toString().contains(array[i])) {
-                list.add(array[i]);
-            }
-        }
-        return list.toArray(new String[list.size()]);
-    }
-
 
     private void getHotSearchData() {
-        RxHttpUtils.getWithToken(Api.hotSearch)
-                .asDataListParser(HotSearchBean.class)
-                .as(RxLife.asOnMain(this))//返回String类型
-                .subscribe(s -> {
-                    hotSearchBeans.clear();
-                    hotSearchBeans.addAll(s);
-                    hotSearchAdapter.notifyDataSetChanged();
-                }, throwable -> {
-                });
+        HttpParams httpParams = new HttpParams();
+        OkGo.<String>get(URLs.SEARCHGOT).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseListBean<HotSearchBean>>() {
+                }.getType();
+                BaseListBean<HotSearchBean> searchHotBeanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
+                UIhelper.stopLoadingDialog();
 
+
+                //返回码为成功时的处理
+                if (searchHotBeanBaseListBean.getResCode() == 0) {
+                    hotSearchBeans.clear();
+                    hotSearchBeans.addAll(searchHotBeanBaseListBean.getData());
+                    hotSearchAdapter.notifyDataSetChanged();
+                } else {
+                    UIhelper.ToastMessage(searchHotBeanBaseListBean.getInfo());
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(SearchActivity.this);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+
+            }
+        });
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

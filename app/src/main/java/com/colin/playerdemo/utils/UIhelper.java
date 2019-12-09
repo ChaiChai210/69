@@ -26,10 +26,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.colin.playerdemo.AppContext;
 import com.colin.playerdemo.R;
-import com.colin.playerdemo.net.Api;
-import com.colin.playerdemo.net.RxHttpUtils;
+import com.colin.playerdemo.net.BaseBean;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
+import com.colin.playerdemo.net.rxjava.Api;
 import com.google.gson.reflect.TypeToken;
-import com.rxjava.rxlife.RxLife;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,7 +43,6 @@ import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 
-import rxhttp.wrapper.param.RxHttp;
 
 /**
  * 描述：界面工具类
@@ -89,6 +94,44 @@ public class UIhelper {
 //    }
 
     /**
+     * 添加广告点击记录
+     */
+
+    public static void addClickAdRecord(Context context, int ad_id) {
+        HttpParams httpParams = new HttpParams();
+
+        httpParams.put("phone_model", Build.MODEL);
+        httpParams.put("ad_id", ad_id);
+        OkGo.<String>post(URLs.ADDADVER).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseBean>() {
+                }.getType();
+//                BaseBean baseBean = GsonHelper.gson.fromJson(response.body(), type);
+
+//                //返回码为成功时的处理
+//                if (baseBean.getCode() == 0) {
+//                } else {
+//
+//                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+
+            }
+        });
+    }
+
+    /**
      * 将 double 保留至两位小数
      *
      * @param d double
@@ -96,12 +139,8 @@ public class UIhelper {
      */
     public static String formatDouble(Double d) {
         DecimalFormat format = new DecimalFormat("#######0.00");
-        return format.format (d);
+        return format.format(d);
     }
-
-
-
-
 
 
     /**
@@ -111,22 +150,22 @@ public class UIhelper {
      */
     public static void showLoadingDialog(Context context) {
         if (dlg == null) {
-            dlg = new AlertDialog.Builder (context, R.style.CustomDialog).create ();
-            dlg.show ();
-            dlg.setCancelable (false);
-            Window window = dlg.getWindow ();
-            LayoutInflater inflater = LayoutInflater.from (context);
-            View view = inflater.inflate (R.layout.core_dialog_loading, null);
-            window.setContentView (view);
+            dlg = new AlertDialog.Builder(context, R.style.CustomDialog).create();
+            dlg.show();
+            dlg.setCancelable(true);
+            Window window = dlg.getWindow();
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.core_dialog_loading, null);
+            window.setContentView(view);
         } else {
-            if (!dlg.isShowing ()) {
-                dlg = new AlertDialog.Builder (context, R.style.CustomDialog).create ();
-                dlg.show ();
-                dlg.setCancelable (false);
-                Window window = dlg.getWindow ();
-                LayoutInflater inflater = LayoutInflater.from (context);
-                View view = inflater.inflate (R.layout.core_dialog_loading, null);
-                window.setContentView (view);
+            if (!dlg.isShowing()) {
+                dlg = new AlertDialog.Builder(context, R.style.CustomDialog).create();
+                dlg.show();
+                dlg.setCancelable(true);
+                Window window = dlg.getWindow();
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View view = inflater.inflate(R.layout.core_dialog_loading, null);
+                window.setContentView(view);
             }
         }
     }
@@ -136,24 +175,25 @@ public class UIhelper {
      */
     public static void stopLoadingDialog() {
         if (dlg != null) {
-            dlg.dismiss ();
+            dlg.dismiss();
         }
     }
     /**
      * 添加广告点击记录
      */
 
-    public static void addClickAdRecord(int ad_id) {
-        RxHttp.setDebug(true);
-        RxHttpUtils.postWithToken(Api.adClickRecord)
-                .add("phone_model", Build.MODEL)
-                .add("ad_id", ad_id)
-                .asResponse(Object.class)
-                .subscribe(s -> {          //订阅观察者，
-                    Log.e("chai","ad");
-                }, throwable -> {
-                });
-    }
+//    public static void addClickAdRecord(int ad_id) {
+//        RxHttp.setDebug(true);
+//        RxHttpUtils.postWithToken(Api.adClickRecord)
+//                .add("phone_model", Build.MODEL)
+//                .add("ad_id", ad_id)
+//                .asResponse(Object.class)
+//                .subscribe(s -> {          //订阅观察者，
+//                    Log.e("chai","ad");
+//                }, throwable -> {
+//                });
+//    }
+
     /**
      * 编辑栏错误提示
      *
@@ -163,7 +203,7 @@ public class UIhelper {
      * @author zipeng
      */
     public static CharSequence edtError(String str) {
-        return Html.fromHtml ("<font color=#ff0000>" + str + "</font>");
+        return Html.fromHtml("<font color=#ff0000>" + str + "</font>");
     }
 
     /**
@@ -174,7 +214,7 @@ public class UIhelper {
      */
     public static void edtError(EditText editText, String str) {
         if (editText != null)
-            editText.setError (edtError (str));
+            editText.setError(edtError(str));
     }
 
 //    /**
@@ -223,11 +263,11 @@ public class UIhelper {
      * @param msg
      */
     public static void ToastMessage(String msg) {
-        Toast toast = Toast.makeText (AppContext.applicationContext, msg,
+        Toast toast = Toast.makeText(AppContext.applicationContext, msg,
                 Toast.LENGTH_SHORT);
         //可以控制toast显示的位置
-        toast.setGravity (Gravity.CENTER, 0, 0);
-        toast.show ();
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 
 
@@ -244,18 +284,18 @@ public class UIhelper {
     public static void sendNotification(Context context, Intent intent,
                                         String tickerText, String title, String content) {
         NotificationManager nm = (NotificationManager) context
-                .getSystemService (Context.NOTIFICATION_SERVICE);
-        PendingIntent pi = PendingIntent.getActivity (context, 0, intent, 0);
-        Notification n = new Notification.Builder (context)
-                .setAutoCancel (true)
-                .setContentTitle (title)
-                .setContentText (content)
-                .setContentIntent (pi)
-                .setSmallIcon (R.mipmap.ic_launcher)
-                .setTicker (tickerText)
-                .setDefaults (Notification.DEFAULT_ALL)
-                .setWhen (System.currentTimeMillis ())
-                .build ();
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
+        Notification n = new Notification.Builder(context)
+                .setAutoCancel(true)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(pi)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker(tickerText)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .build();
 
 //        n.icon = R.drawable.ic_launcher;
 //        n.tickerText = tickerText;
@@ -263,7 +303,7 @@ public class UIhelper {
 //        n.defaults = Notification.DEFAULT_SOUND;
 //        n.flags |= Notification.FLAG_AUTO_CANCEL;
         // n.flags=Notification.FLAG_ONGOING_EVENT;
-        nm.notify (AppContext.notificationId, n);
+        nm.notify(AppContext.notificationId, n);
         AppContext.notificationId++;
     }
 
@@ -276,7 +316,7 @@ public class UIhelper {
      * @author zipeng
      */
     public static int dip2px(float dpValue) {
-        final float scale = AppContext.applicationContext.getResources ().getDisplayMetrics ().density;
+        final float scale = AppContext.applicationContext.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
 
     }
@@ -290,7 +330,7 @@ public class UIhelper {
      * @author zipeng
      */
     public static int px2dip(float dpValue) {
-        final float scale = AppContext.applicationContext.getResources ().getDisplayMetrics ().density;
+        final float scale = AppContext.applicationContext.getResources().getDisplayMetrics().density;
         return (int) ((dpValue) / scale);
 
     }
@@ -302,8 +342,8 @@ public class UIhelper {
      * @return
      */
     public static int sp2px(float spValue) {
-        return (int) TypedValue.applyDimension (TypedValue.COMPLEX_UNIT_SP,
-                spValue, AppContext.applicationContext.getResources ().getDisplayMetrics ());
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                spValue, AppContext.applicationContext.getResources().getDisplayMetrics());
     }
 
     /**
@@ -313,7 +353,7 @@ public class UIhelper {
      * @return
      */
     public static float px2sp(float pxVal) {
-        return (pxVal / AppContext.applicationContext.getResources ().getDisplayMetrics ().scaledDensity);
+        return (pxVal / AppContext.applicationContext.getResources().getDisplayMetrics().scaledDensity);
     }
 
 
@@ -324,10 +364,10 @@ public class UIhelper {
      * @return
      */
     public static int getViewWidth(View view) {
-        int w = View.MeasureSpec.makeMeasureSpec (0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec (0, View.MeasureSpec.UNSPECIFIED);
-        view.measure (w, h);
-        return view.getMeasuredWidth ();
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        view.measure(w, h);
+        return view.getMeasuredWidth();
     }
 
     /**
@@ -337,10 +377,10 @@ public class UIhelper {
      * @return
      */
     public static int getViewHeight(View view) {
-        int w = View.MeasureSpec.makeMeasureSpec (0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec (0, View.MeasureSpec.UNSPECIFIED);
-        view.measure (w, h);
-        return view.getMeasuredHeight ();
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        view.measure(w, h);
+        return view.getMeasuredHeight();
     }
 
     /**
@@ -352,25 +392,24 @@ public class UIhelper {
     public static void compressBmpToFile(Bitmap bmp, File file) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int options = 100;
-        bmp.compress (Bitmap.CompressFormat.JPEG, options, baos);
-        while ((float) baos.toByteArray ().length / 1024 > (float) 120) {
-            baos.reset ();
+        bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);
+        while ((float) baos.toByteArray().length / 1024 > (float) 120) {
+            baos.reset();
             options -= 10;
-            bmp.compress (Bitmap.CompressFormat.JPEG, options, baos);
+            bmp.compress(Bitmap.CompressFormat.JPEG, options, baos);
         }
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            fos.write (baos.toByteArray ());
-            fos.flush ();
-            fos.close ();
+            fos.write(baos.toByteArray());
+            fos.flush();
+            fos.close();
         } catch (Exception e) {
-            e.printStackTrace ();
+            e.printStackTrace();
         }
     }
 
 
-
-    static AssetManager mgr = AppContext.applicationContext.getAssets ();//得到AssetManager
+    static AssetManager mgr = AppContext.applicationContext.getAssets();//得到AssetManager
 //    static Typeface tf = Typeface.createFromAsset (mgr, "DroidSansFallback.ttf");//根据路径得到Typeface
 
 //    /**
@@ -398,7 +437,15 @@ public class UIhelper {
      * @param activity
      */
     public static void hideSoftKeyboard(AppCompatActivity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService (AppCompatActivity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow (activity.getCurrentFocus ().getWindowToken (), 0);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+    public static void hideSoftInput(final View view) {
+        InputMethodManager imm =
+                (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm == null) {
+            return;
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title_include" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_22"
+        android:layout_marginTop="@dimen/space_22">
+
+        <com.colin.playerdemo.customeview.third.RoundImageView
+            android:id="@+id/vip_image"
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img7"
+            app:layout_constraintDimensionRatio="6:7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:radius="2dp"
+            app:type="circle" />
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_15"
+            android:text="我的昵称"
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="@dimen/text_size_15" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginLeft="@dimen/space_22"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="@dimen/space_22"
+        android:background="@drawable/boder_all_circular_vip_3"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="@dimen/space_15"
+            android:background="@drawable/boder_all_circular_color_top_3"
+            android:gravity="center"
+            android:text="规则说明"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_20"
+            android:layout_marginTop="@dimen/space_10"
+            android:text="兑换后, 立即获得对应等级的VIP服务"
+            android:textColor="@color/text_color_6"
+            android:textSize="@dimen/text_size_12" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="@dimen/space_22"
+        android:layout_marginTop="@dimen/space_30"
+        android:layout_marginRight="@dimen/space_22"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/code_edt"
+            android:layout_width="200dp"
+            android:layout_height="44dp"
+            android:background="@drawable/boder_all_circular_gray_12"
+            android:hint="请输入验证码"
+            android:inputType="number"
+            android:maxLength="6"
+            android:paddingLeft="@dimen/space_10"
+            android:singleLine="true"
+            android:textColor="#999999"
+            android:textSize="@dimen/text_size_12" />
+
+        <TextView
+            android:id="@+id/code_tv"
+            android:layout_width="90dp"
+            android:layout_height="44dp"
+            android:layout_gravity="end"
+            android:layout_marginLeft="@dimen/space_15"
+            android:background="@drawable/boder_all_circular_gray_22"
+            android:gravity="center"
+            android:text="60"
+            android:textColor="#999999"
+            android:textSize="@dimen/space_15" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/jihuoma_edt"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="@dimen/space_22"
+        android:layout_marginTop="@dimen/space_22"
+        android:layout_marginRight="@dimen/space_22"
+        android:background="@drawable/boder_all_circular_gray_12"
+        android:hint="请输入12位激活码"
+        android:maxLength="20"
+        android:paddingLeft="@dimen/space_10"
+        android:singleLine="true"
+        android:textColor="#999999"
+        android:textSize="@dimen/text_size_12" />
+
+    <TextView
+        android:id="@+id/duihuan_tv"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="@dimen/space_12"
+        android:layout_marginTop="@dimen/space_50"
+        android:layout_marginRight="@dimen/space_12"
+        android:background="@drawable/boder_all_circular_22"
+        android:gravity="center"
+        android:text="立即兑换"
+        android:textColor="@color/white" />
+</LinearLayout>

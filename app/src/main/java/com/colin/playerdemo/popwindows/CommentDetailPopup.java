@@ -1,33 +1,139 @@
 package com.colin.playerdemo.popwindows;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.colin.playerdemo.R;
+import com.colin.playerdemo.activity.PlayActivity;
+import com.colin.playerdemo.adapter.PlayCommentDetailAdapter;
+import com.colin.playerdemo.bean.ChildPlayCommentBean;
+import com.colin.playerdemo.bean.PlayCommentBean;
+import com.colin.playerdemo.customeview.third.RoundImageView;
+import com.colin.playerdemo.net.BaseBean;
+import com.colin.playerdemo.net.BaseListBean;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.ButterKnifeUtil;
+import com.colin.playerdemo.utils.StringUtils;
+import com.colin.playerdemo.utils.UIhelper;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import butterknife.ButterKnife;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.OnClick;
-import razerdp.basepopup.BasePopup;
-import razerdp.basepopup.BasePopupSupporter;
-import razerdp.basepopup.BasePopupSupporterX;
 import razerdp.basepopup.BasePopupWindow;
 
-public class CommentDetailPopup extends BasePopupWindow {
-    public CommentDetailPopup(Context context) {
+public class CommentDetailPopup extends BasePopupWindow implements PlayCommentDetailAdapter.CommentListener {
+
+    @BindView(R.id.comment_close_iv)
+    ImageView commentCloseIv;
+    @BindView(R.id.rl_comment_header)
+    RelativeLayout rlCommentHeader;
+    @BindView(R.id.head_image)
+    RoundImageView headImage;
+    @BindView(R.id.name_tv)
+    TextView nameTv;
+    @BindView(R.id.time_tv)
+    TextView timeTv;
+    @BindView(R.id.rl_user_comment)
+    RelativeLayout rlUserComment;
+    @BindView(R.id.show_content_tv)
+    TextView showContentTv;
+    @BindView(R.id.tv_all_reply)
+    TextView tvAllReply;
+    @BindView(R.id.rv_comment_detail)
+    RecyclerView rvCommentDetail;
+    @BindView(R.id.srl_container)
+    SmartRefreshLayout srlContainer;
+    @BindView(R.id.iv_head)
+    RoundImageView ivHead;
+    @BindView(R.id.et_comment)
+    EditText etComment;
+    @BindView(R.id.tv_send_comment)
+    TextView tvSendComment;
+    @BindView(R.id.play_send_layout)
+    LinearLayout playSendLayout;
+    private Context mContext;
+    private PlayCommentBean bean;
+    private PlayCommentDetailAdapter commentDetailAdapter;
+    private List<ChildPlayCommentBean> childlist = new ArrayList<>();
+    private int page = 1;
+    private String id;
+    private String mode;
+    private boolean hasMore = true;
+    private boolean isRefresh;
+
+    public CommentDetailPopup(Context context, String id, PlayCommentBean bean, String mode) {
         super(context);
+        this.mContext = context;
+        this.bean = bean;
+        this.id = id;
+        this.mode = mode;
         ButterKnifeUtil.bind(this, getContentView());
         setPopupGravity(Gravity.BOTTOM);
+        initView(bean);
+        getChildComment(id, bean, mode);
+    }
+
+    private void initView(PlayCommentBean bean) {
+//        srlContainer.setRefreshHeader(new ClassicsHeader(mContext));
+        srlContainer.setEnableLoadMore(true);
+        srlContainer.setEnableOverScrollBounce(true);
+        srlContainer.setEnableOverScrollDrag(true);
+//        srlContainer.setOnRefreshListener(refreshLayout -> {
+//            refreshLayout.finishRefresh();
+//            page = 1;
+//            hasMore = true;
+//            getChildComment(id, bean, mode);
+//        });
+        srlContainer.setEnableRefresh(false);
+        srlContainer.setOnLoadMoreListener(refreshLayout -> {
+            if (!hasMore) {
+                refreshLayout.finishLoadMoreWithNoMoreData();
+            } else {
+                refreshLayout.finishLoadMore();
+                page++;
+            }
+        });
+
+        Glide.with(mContext).load(bean.getPortrait()).into(headImage);
+        nameTv.setText(bean.getNickname());
+        timeTv.setText(bean.getCreate_time());
+        showContentTv.setText(bean.getContent());
+        UIhelper.setGenderIcon(mContext, bean.getSex(), nameTv);
+
+        rvCommentDetail.setLayoutManager(new LinearLayoutManager(mContext));
+        commentDetailAdapter = new PlayCommentDetailAdapter(childlist);
+        rvCommentDetail.setAdapter(commentDetailAdapter);
+        commentDetailAdapter.setChildOnclick(this::childOnclick);
     }
 
     @Override
     public View onCreateContentView() {
-            return createPopupById(R.layout.popup_comment_detail);
+        return createPopupById(R.layout.popup_comment_detail);
     }
-
 
 
     @Override
@@ -36,14 +142,163 @@ public class CommentDetailPopup extends BasePopupWindow {
     }
 
 
+    private void getChildComment(String id, PlayCommentBean bean, String mode) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("comment_id", bean.getId());
+        httpParams.put("type", "reply");
+        httpParams.put("av_id", id);
+        httpParams.put("page", page);
+        httpParams.put("mode", mode);
+        httpParams.put("page_size", 10);
+        OkGo.<String>get(URLs.COMMENT).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseListBean<ChildPlayCommentBean>>() {
+                }.getType();
+                BaseListBean<ChildPlayCommentBean> beanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
+                UIhelper.stopLoadingDialog();
+
+                //返回码为成功时的处理
+                if (beanBaseListBean.getResCode() == 0) {
+                    if (beanBaseListBean.getData().isEmpty()) {
+                        hasMore = false;
+                    }
+                    if (isRefresh) {
+                        commentDetailAdapter.replaceData(beanBaseListBean.getData());
+                    } else {
+                        commentDetailAdapter.addData(beanBaseListBean.getData());
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(mContext);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+
+            }
+        });
+    }
+
+    private void putComment(String comment_id, int islike) {
+        HttpParams httpParams = new HttpParams();
+        String url;
+        url = URLs.COMMENT + "/" + comment_id;
+        httpParams.put("type", "reply");
+        httpParams.put("islike", islike);
+        OkGo.<String>put(url).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+//                UIhelper.stopLoadingDialog();
+                Type types = new TypeToken<BaseBean>() {
+                }.getType();
+                BaseBean baseBeana = GsonHelper.gson.fromJson(response.body(), types);
+
+                if (baseBeana.getCode() == 0) {
+                    page = 1;
+                    getChildComment(id, bean, mode);
+                } else {
+//                    UIhelper.ToastMessage(baseBeana.getMsg());
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+//                UIhelper.showLoadingDialog(Play_Activity.this);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+//                UIhelper.stopLoadingDialog();
+            }
+        });
+    }
+
+    private void postchildComment(String content) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("comment_id", bean.getId());
+        httpParams.put("content", content);
+        httpParams.put("to_uid", bean.getUid());
+        httpParams.put("type", "reply");
+        OkGo.<String>post(URLs.COMMENT).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                UIhelper.stopLoadingDialog();
+
+                Type type = new TypeToken<BaseBean>() {
+                }.getType();
+                BaseBean baseBeana = GsonHelper.gson.fromJson(response.body(), type);
+
+                //返回码为成功时的处理
+                if (baseBeana.getCode() == 0) {
+                    mode = "time";//(支持参数 time 时间排序,zan 赞排序)
+                    page = 1;
+                    getChildComment(id, bean, mode);
+                } else {
+                    UIhelper.ToastMessage(baseBeana.getInfo());
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(mContext);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+
+            }
+        });
+    }
+
     @Override
     protected Animation onCreateDismissAnimation() {
         return getTranslateVerticalAnimation(0f, -1f, 500);
     }
 
-    @OnClick(R.id.comment_close_iv)
+
     @Override
     public void dismiss() {
         super.dismiss();
+    }
+
+    @Override
+    public void childOnclick(int position, int islike) {
+        isRefresh = true;
+        putComment(childlist.get(position).getId() + "", islike);
+    }
+
+    @OnClick({R.id.comment_close_iv, R.id.tv_send_comment})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.comment_close_iv:
+                dismiss();
+                break;
+            case R.id.tv_send_comment:
+                String cotent = etComment.getText().toString();
+                if (StringUtils.isEmpty(cotent)) {
+                    Toast.makeText(mContext, "请输入评论内容", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                postchildComment(cotent);
+                UIhelper.hideSoftInput(view);
+                break;
+        }
     }
 }

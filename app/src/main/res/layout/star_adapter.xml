@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.colin.playerdemo.customeview.third.RoundImageView
+        android:id="@+id/star_image"
+        android:layout_width="161dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/space_6"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/sm_bg"
+        app:layout_constraintDimensionRatio="6:7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:radius="2dp"
+        app:type="round" />
+
+    <ImageView
+        android:layout_width="161dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/space_6"
+        android:background="@color/translucence" />
+
+    <TextView
+        android:id="@+id/video_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_12"
+        android:layout_toRightOf="@+id/star_image"
+        tools:text="视频名称..."
+        android:textColor="@color/activity_title_center_text_black"
+        android:textSize="@dimen/text_size_13" />
+
+    <TextView
+        android:id="@+id/num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/star_image"
+        android:layout_marginLeft="@dimen/text_size_12"
+        android:layout_marginBottom="@dimen/space_8"
+        android:layout_toRightOf="@+id/star_image"
+        tools:text="123万次播放量"
+        android:textColor="@color/text_color_6"
+        android:textSize="@dimen/text_size_12" />
+
+    <TextView
+        android:id="@+id/minute_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/star_image"
+        android:layout_alignBottom="@+id/star_image"
+        android:layout_margin="8dp"
+        tools:text="7.2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_12" />
+</RelativeLayout>

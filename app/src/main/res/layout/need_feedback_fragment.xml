@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/feedback_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_12"
+            android:text="我遇见的问题"
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="@dimen/text_size_15" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feedback_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_10"
+            android:overScrollMode="never" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_12"
+            android:text="详情描述(必填)"
+            android:textColor="@color/activity_title_center_text_black"
+            android:textSize="@dimen/text_size_15" />
+
+        <RelativeLayout
+            android:layout_width="331dp"
+            android:layout_height="190dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/space_15"
+            android:background="@drawable/boder_all_circular_3">
+
+            <EditText
+                android:id="@+id/feed_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/add_iv"
+                android:layout_alignParentTop="true"
+                android:background="@null"
+                android:gravity="start"
+                android:hint="请详尽描述遇到的问题, 以便我们及时为您解决!(10-100字)"
+                android:maxEms="100"
+                android:maxLength="100"
+                android:padding="@dimen/space_10"
+                android:textColor="@color/text_color_6"
+                android:textSize="@dimen/text_size_13" />
+
+            <ImageView
+                android:id="@+id/add_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/space_10"
+                android:src="@mipmap/icon_add_pic" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/commit_tv"
+            android:layout_width="175dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/space_20"
+            android:background="@drawable/coumm_change_shade"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="@dimen/space_15" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

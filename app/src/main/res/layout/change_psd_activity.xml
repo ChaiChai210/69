@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#323232"
+    android:orientation="vertical">
+
+    <include layout="@layout/activity_title_include" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_22"
+        android:layout_marginTop="@dimen/space_30"
+        android:text="修改密码"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_20" />
+
+    <TextView
+        android:id="@+id/_phone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_22"
+        android:layout_marginTop="@dimen/text_size_20"
+        android:text="已向手机111****1231发送验证码"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_13" />
+
+    <RelativeLayout
+        android:layout_width="331dp"
+        android:layout_height="166dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/space_30"
+        android:background="@drawable/boder_all_circular_white_8">
+
+        <com.mock.alipay.view.PasswordView
+            android:id="@+id/password_inputBox"
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/mine_tv"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/mine_tv" />
+
+        <TextView
+            android:id="@+id/mine_tv"
+            android:layout_width="74dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/space_40"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/boder_all_circular_color_3"
+            android:gravity="center"
+            android:text="59s"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/text_size_13" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="@dimen/space_25"
+            android:layout_marginBottom="41dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="新密码"
+                android:textColor="@color/activity_title_center_text_black"
+                android:textSize="@dimen/text_size_13" />
+
+            <EditText
+                android:id="@+id/psd_edt"
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:hint="请输入您的新密码"
+                android:inputType="textPassword"
+                android:maxEms="6"
+                android:singleLine="true"
+                android:textColor="#999999"
+                android:textSize="@dimen/text_size_12" />
+
+            <ImageView
+                android:id="@+id/show_iv"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/text_size_15"
+                android:scaleType="center"
+                android:src="@mipmap/login_eye_open" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/space_25"
+            android:layout_marginRight="@dimen/space_25"
+            android:layout_marginBottom="@dimen/space_40"
+            android:background="@color/text_color" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/quit_tv"
+            android:layout_width="175dp"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/coumm_change_shade"
+            android:gravity="center"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15" />
+
+        <RelativeLayout
+            android:id="@+id/pas_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/cancel_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="取消"
+                android:textColor="#9b9b9b" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="15dp"
+                android:text="请输入验证码"
+                android:textColor="#4A4A4A"
+                android:textSize="18sp" />
+
+            <com.mock.alipay.view.PasswordKeyboard
+                android:id="@+id/password_keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cancel_dialog"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:columnCount="3" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.bean.PlayCommentBean;
 import com.colin.playerdemo.customeview.third.RoundImageView;
+import com.colin.playerdemo.popwindows.CommentDetailPopup;
 import com.colin.playerdemo.utils.UIhelper;
 
 import java.util.List;
@@ -93,14 +94,11 @@ public class PlayCommentAdapter extends BaseQuickAdapter<PlayCommentBean, BaseVi
             }
 
         });
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (show != -1) {
-                    playCommentListener.childClick(item.getId() + "", item.getUid() + "");
-                } else {
-                    playCommentListener.showClick(helper.getLayoutPosition(), item.getUid() + "", item);
-                }
+        helper.itemView.setOnClickListener(v -> {
+            if (show != -1) {
+                playCommentListener.childClick(item.getId() + "", item.getUid() + "");
+            } else {
+                playCommentListener.showClick(item);
             }
         });
 
@@ -109,7 +107,7 @@ public class PlayCommentAdapter extends BaseQuickAdapter<PlayCommentBean, BaseVi
     public interface PlayCommentListener {
         void Onclick(int position, int islike);
 
-        void showClick(int position, String to_uid, PlayCommentBean playCommentBean);
+        void showClick(PlayCommentBean playCommentBean);
 
         void childClick(String id, String to_uid);
     }

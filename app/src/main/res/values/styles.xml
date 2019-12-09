@@ -9,6 +9,10 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+    <style name="SplashTheme" parent="AppTheme">
+        <!--<item name="windowNoTitle">true</item>-->
+        <item name="android:windowBackground">@mipmap/start</item>
+    </style>
     <style name="FullTheme" parent="AppTheme">
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
@@ -16,7 +20,7 @@
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@color/full_transparent</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
     <style name="text_l_white">
         <item name="android:textColor">@color/core_common_white</item>

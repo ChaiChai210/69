@@ -1,2 +1,2 @@
-include ':app', ':dkplayer-ui', ':dkplayer-java', ':dkplayer-players:ijk', ':banner'
+include ':app', ':dkplayer-ui', ':dkplayer-java', ':dkplayer-players:ijk', ':banner', ':zxinglibrary'
 rootProject.name='PlayerDemo'

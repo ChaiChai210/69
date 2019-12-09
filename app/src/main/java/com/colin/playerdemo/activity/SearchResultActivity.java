@@ -14,12 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.adapter.SearchResultAdapter;
 import com.colin.playerdemo.base.BaseActivity;
-import com.colin.playerdemo.bean.DisconverBean;
 import com.colin.playerdemo.bean.SearchBean;
-import com.colin.playerdemo.net.Api;
-import com.colin.playerdemo.net.RxHttpUtils;
+import com.colin.playerdemo.net.BaseListBean;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.StringUtils;
-import com.rxjava.rxlife.RxLife;
+import com.colin.playerdemo.utils.UIhelper;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -29,7 +35,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rxhttp.wrapper.param.RxHttp;
 
 
 public class SearchResultActivity extends BaseActivity {
@@ -96,7 +101,7 @@ public class SearchResultActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tell_me_layout:
-//                startActivity(new Intent(this, FeedbackActivity.class));
+                startActivity(new Intent(this, FeedbackActivity.class));
                 break;
             case R.id.cancel_tv:
                 search = searchEdt.getText().toString();
@@ -112,36 +117,51 @@ public class SearchResultActivity extends BaseActivity {
 
 
     private void getSeach() {
-        RxHttp.setDebug(true);
-        RxHttpUtils.getWithToken(Api.searchResult)
-                .add("keyword", search)
-                .add("page", page)
-                .add("page_size", PAGE_SIZE)
-                .asDataListParser(SearchBean.class)
-                .as(RxLife.asOnMain(this))//返回String类型
-                .subscribe(s -> {          //订阅观察者，
-                    if (s.isEmpty()) {
-                        hasMore = false;
-                        if (page == 1) {
-                            noLayout.setVisibility(View.VISIBLE);
-                            ser_tv.setText("没有找到与“" + search + "”相关的结果");
-                        }
-                    } else {
-                        noLayout.setVisibility(View.GONE);
-                        if (page == 1) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("keyword", search);
+        httpParams.put("page", page);
+        httpParams.put("page_size", 10);
+        OkGo.<String>get(URLs.SEARCH).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseListBean<SearchBean>>() {
+                }.getType();
+                BaseListBean<SearchBean> searchBeanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
+                searchList = searchBeanBaseListBean.getData();
+                UIhelper.stopLoadingDialog();
+                //返回码为成功时的处理
+                if (searchList.isEmpty()) {
+                    hasMore = false;
+                    if (page == 1) {
+                        noLayout.setVisibility(View.VISIBLE);
+                        ser_tv.setText("没有找到与“" + search + "”相关的结果");
+                    }
+                } else {
+                    noLayout.setVisibility(View.GONE);
+                    if (page == 1) {
 //                            discoverList.clear();
 //                            discoverList.addAll(s);
-                            searchResultAdapter.replaceData(s);
-                        } else {
+                        searchResultAdapter.replaceData(searchList);
+                    } else {
 //                            discoverList.addAll(s);
-                            searchResultAdapter.addData(s);
-                        }
+                        searchResultAdapter.addData(searchList);
                     }
+                }
+            }
 
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(SearchResultActivity.this);
+            }
 
-                }, throwable -> {
-                    FancyToast.makeText(this, throwable.getMessage(), FancyToast.LENGTH_LONG, FancyToast.WARNING, false).show();
-                });
-
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                noLayout.setVisibility(View.VISIBLE);
+            }
+        });
     }
 }

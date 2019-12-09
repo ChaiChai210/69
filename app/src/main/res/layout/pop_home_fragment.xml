@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:id="@+id/qq_layout"
     android:background="@color/translucence"
@@ -17,13 +18,13 @@
             android:layout_marginRight="@dimen/text_size_15"
             android:layout_marginLeft="@dimen/text_size_15"
             android:layout_marginTop="135dp"
-            android:text="QQ:156646"
+            tools:text="QQ:156646"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
             android:layout_marginTop="@dimen/space_10"
             android:id="@+id/domain_tv"
-            android:text="官网地址:"
+            tools:text="官网地址:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView

@@ -58,4 +58,15 @@ public class UVersionBean implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "UVersionBean{" +
+                "force_update='" + force_update + '\'' +
+                ", version='" + version + '\'' +
+                ", ios_update_url='" + ios_update_url + '\'' +
+                ", android_update_url='" + android_update_url + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

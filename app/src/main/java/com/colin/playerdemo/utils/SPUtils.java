@@ -168,12 +168,18 @@ public class SPUtils {
 //        return mbrId;
 //    }
 
-    public static boolean isFirst() {
-        return (boolean) SPUtils.get(Constant.SP_FIRST, true);
+    public static boolean isFirstEnter() {
+        return (boolean) SPUtils.get(Constant.SP_FIRST_ENTER, true);
+    }
+    public static boolean isFirstInstall() {
+        return (boolean) SPUtils.get(Constant.SP_FIRST_INSTALL, true);
     }
 
-    public static String getToken() {
+    public static String getLoginToken() {
         return (String) SPUtils.get(Constant.SP_LOGIN_TOKEN, "");
+    }
+    public static String getDefaultToken() {
+        return (String) SPUtils.get(Constant.SP_DEFAULT_TOKEN, "");
     }
 
     public static String getSearchHistory() {

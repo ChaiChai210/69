@@ -50,52 +50,33 @@ public class HelpWindow extends PopupWindow {
         pop4_layout = view.findViewById(R.id.pop4_layout);
         pop5_layout = view.findViewById(R.id.pop5_layout);
         pop6_layout = view.findViewById(R.id.pop6_layout);
-        next_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop1_layout.setVisibility(View.GONE);
-                pop2_layout.setVisibility(View.VISIBLE);
-            }
+        next_tv.setOnClickListener(v -> {
+            pop1_layout.setVisibility(View.GONE);
+            pop2_layout.setVisibility(View.VISIBLE);
         });
-        next_tv1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop2_layout.setVisibility(View.GONE);
-                pop3_layout.setVisibility(View.VISIBLE);
-            }
+        next_tv1.setOnClickListener(v -> {
+            pop2_layout.setVisibility(View.GONE);
+            pop3_layout.setVisibility(View.VISIBLE);
         });
-        next_tv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop3_layout.setVisibility(View.GONE);
-                pop4_layout.setVisibility(View.VISIBLE);
-                popwindowsListener.Onclick(1);
-            }
+        next_tv2.setOnClickListener(v -> {
+            pop3_layout.setVisibility(View.GONE);
+            pop4_layout.setVisibility(View.VISIBLE);
+            popwindowsListener.Onclick(1);
+        });
+        next_tv3.setOnClickListener(v -> {
+            pop4_layout.setVisibility(View.GONE);
+            pop5_layout.setVisibility(View.VISIBLE);
 
+            popwindowsListener.Onclick(2);
         });
-        next_tv3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop4_layout.setVisibility(View.GONE);
-                pop5_layout.setVisibility(View.VISIBLE);
-
-                popwindowsListener.Onclick(2);
-            }
+        next_tv4.setOnClickListener(v -> {
+            pop5_layout.setVisibility(View.GONE);
+            pop6_layout.setVisibility(View.VISIBLE);
+            popwindowsListener.Onclick(3);
         });
-        next_tv4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pop5_layout.setVisibility(View.GONE);
-                pop6_layout.setVisibility(View.VISIBLE);
-                popwindowsListener.Onclick(3);
-            }
-        });
-        next_tv5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popwindowsListener.Onclick(4);
-                dismiss();
-            }
+        next_tv5.setOnClickListener(v -> {
+            popwindowsListener.Onclick(4);
+            dismiss();
         });
     }
 

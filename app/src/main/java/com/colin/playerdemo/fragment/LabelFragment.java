@@ -2,6 +2,7 @@ package com.colin.playerdemo.fragment;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,16 +18,26 @@ import com.colin.playerdemo.base.BaseFragment;
 import com.colin.playerdemo.bean.LabelBean;
 import com.colin.playerdemo.bean.SearchBean;
 import com.colin.playerdemo.bean.TagTypeListBean;
-import com.colin.playerdemo.net.Api;
-import com.colin.playerdemo.net.RxHttpUtils;
-import com.rxjava.rxlife.RxLife;
+import com.colin.playerdemo.net.BaseListBean;
+import com.colin.playerdemo.net.GsonHelper;
+import com.colin.playerdemo.net.URLs;
+import com.colin.playerdemo.net.rxjava.Api;
+import com.colin.playerdemo.utils.GsonUtils;
+import com.colin.playerdemo.utils.UIhelper;
+import com.google.gson.reflect.TypeToken;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import rxhttp.wrapper.param.RxHttp;
 
 public class LabelFragment extends BaseFragment {
     @BindView(R.id.lable_title_rv)
@@ -50,7 +61,9 @@ public class LabelFragment extends BaseFragment {
     private List<LabelBean> mLableBeans = new ArrayList<>();
 
     private String getMyPromotion;
-    //    BaseListBean<SearchBean> searchBeanBaseListBean;
+    BaseListBean<SearchBean> searchBeanBaseListBean;
+    BaseListBean<TagTypeListBean> tagTypeListBeanBaseListBean;
+    BaseListBean<LabelBean> labelBeanBaseListBean;
     private int page = 1;
     private List<SearchBean> list;
 
@@ -86,7 +99,7 @@ public class LabelFragment extends BaseFragment {
 //        content_adapter = new Label_Content_Adapter();
 //        contentRv.setAdapter(content_adapter);
 //
-
+//
 //        lable_adapter.setLableListener(new Lable_Adapter.LableListener() {
 //            @Override
 //            public void Onclick(int position) {
@@ -101,7 +114,7 @@ public class LabelFragment extends BaseFragment {
 
     private void initListener() {
         labelTitleAdapter.setLableListener(position -> {
-            if (position != tagTypeListBeans.size()-1) {
+            if (position != tagTypeListBeans.size() - 1) {
                 getMyPromotion = "";
                 labelTitleAdapter.setItem(position);
                 getTagTypeList(tagTypeListBeans.get(position).getId());
@@ -119,17 +132,7 @@ public class LabelFragment extends BaseFragment {
         });
 
     }
-
-    private void getTagTypeList(int id) {
-        RxHttp.setDebug(true);
-        //订阅观察者，
-        RxHttpUtils.getWithToken(Api.tagDetail)
-                .add("tagtype_id", id)
-                .asDataListParser(LabelBean.class)
-                .as(RxLife.asOnMain(this))//返回String类型
-                .subscribe(this::setLabelDetail, throwable -> {
-                });
-    }
+//
 
     private void setLabelDetail(List<LabelBean> labelBeans) {
         mLableBeans.clear();
@@ -139,17 +142,40 @@ public class LabelFragment extends BaseFragment {
 
 
     private void getLabelTitle() {
-        RxHttp.setDebug(true);
-        RxHttpUtils.getWithToken(Api.label_title)
-//                .asParser(new CommonParser<List<TagTypeListBean>>(new TypeToken<BaseResponseBean<List<TagTypeListBean>>>() {
-//                }))
-                .asDataListParser(TagTypeListBean.class)
-                .as(RxLife.asOnMain(this))//返回String类型
-                .subscribe(s -> {//订阅观察者，
-                    setUi(s);
+        HttpParams httpParams = new HttpParams();
+        OkGo.<String>get(URLs.TAGTYPE).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseListBean<TagTypeListBean>>() {
+                }.getType();
+                tagTypeListBeanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
+                UIhelper.stopLoadingDialog();
+                //返回码为成功时的处理
+                if (tagTypeListBeanBaseListBean.getResCode() == 0) {
 
-                }, throwable -> {
-                });
+                    if (tagTypeListBeanBaseListBean.getData().size() > 0) {
+                        setUi(tagTypeListBeanBaseListBean.getData());
+                    }
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(activity);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+
+            }
+        });
     }
 
     private void setUi(List<TagTypeListBean> data) {
@@ -169,6 +195,42 @@ public class LabelFragment extends BaseFragment {
         tagTypeListBeans.clear();
         tagTypeListBeans.addAll(data);
         getTagTypeList(data.get(0).getId());
+    }
+
+    private void getTagTypeList(int id) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("tagtype_id", id);
+
+        OkGo.<String>get(URLs.TAGLIST).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseListBean<LabelBean>>() {
+                }.getType();
+                labelBeanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
+                UIhelper.stopLoadingDialog();
+                //返回码为成功时的处理
+                if (labelBeanBaseListBean.getResCode() == 0) {
+                    setLabelDetail(labelBeanBaseListBean.getData());
+                } else {
+                    FancyToast.makeText(activity, labelBeanBaseListBean.getInfo(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(activity);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                UIhelper.stopLoadingDialog();
+
+            }
+        });
     }
 
 
