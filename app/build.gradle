@@ -14,6 +14,22 @@ android {
             abiFilters "armeabi-v7a"
         }
     }
+    signingConfigs {
+        debug {
+            keyAlias 'key0'
+            keyPassword 'tomvod'
+            storeFile file('/tomvod.jks')
+            storePassword 'tomvod'
+            v2SigningEnabled false
+        }
+        release {
+            keyAlias 'key0'
+            keyPassword 'tomvod'
+            storeFile file('\\tomvod.jks')
+            storePassword 'tomvod'
+            v2SigningEnabled false
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -23,6 +39,7 @@ android {
             buildConfigField "String", "APP_ID_BUGLY", '""'
             buildConfigField "String", "APP_ID_UMENG", '""'
             buildConfigField "String", "BASE_URL", '""'
+            signingConfig signingConfigs.release
 //            signingConfig signingConfigs.release
 //            resValue("string", "app_name", "69")
         }
@@ -35,10 +52,12 @@ android {
             buildConfigField "String", "BASE_URL", '"https://api.xxvfx.com/"'
             buildConfigField "String", "APP_ID_BUGLY", '""'
             buildConfigField "String", "APP_ID_UMENG", '""'
+            signingConfig signingConfigs.debug
 //            signingConfig signingConfigs.debug
 //            resValue("string", "app_name", "(测试版)")
         }
     }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

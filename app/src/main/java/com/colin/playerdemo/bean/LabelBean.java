@@ -12,6 +12,15 @@ public class LabelBean implements Serializable {
 
     private int id;
     private String name;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public int getId() {
         return id;

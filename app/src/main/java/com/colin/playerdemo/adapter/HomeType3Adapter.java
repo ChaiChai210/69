@@ -21,7 +21,7 @@ public class HomeType3Adapter extends BaseQuickAdapter<MainBean.VideoBean.ListBe
 
     @Override
     protected void convert(BaseViewHolder helper, MainBean.VideoBean.ListBean item) {
-        Glide.with(mContext).load(item.getCover()).into((RoundImageView) helper.getView(R.id.home_item_1_image));
+        Glide.with(mContext).load(item.getCover()).placeholder(R.mipmap.pl_home_222320).into((RoundImageView) helper.getView(R.id.home_item_1_image));
         helper.setText(R.id.home_item_1_tv,item.getName());
         helper.setText(R.id.grade_tv,item.getScore());
         helper.itemView.setOnClickListener(v -> mContext.startActivity(new Intent(mContext, PlayActivity.class).

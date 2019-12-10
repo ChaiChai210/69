@@ -9,10 +9,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.adapter.LabelDetailAdapter;
+import com.colin.playerdemo.adapter.Label_Content_Adapter;
 import com.colin.playerdemo.adapter.LableTitleAdapter;
 import com.colin.playerdemo.base.BaseFragment;
 import com.colin.playerdemo.bean.LabelBean;
@@ -59,7 +61,7 @@ public class LabelFragment extends BaseFragment {
     private List<TagTypeListBean> tagTypeListBeans = new ArrayList<>();
     private LabelDetailAdapter labelDetailAdapter;
     private List<LabelBean> mLableBeans = new ArrayList<>();
-
+    private Label_Content_Adapter content_adapter;
     private String getMyPromotion;
     BaseListBean<SearchBean> searchBeanBaseListBean;
     BaseListBean<TagTypeListBean> tagTypeListBeanBaseListBean;
@@ -79,12 +81,12 @@ public class LabelFragment extends BaseFragment {
     protected void initAllMembersView(Bundle savedInstanceState) {
         refreshFind.setOnRefreshListener(refreshlayout -> {
             page = 1;
-//                getSeach();
+            getSeach();
             refreshFind.finishRefresh(1000);
         });
         refreshFind.setOnLoadMoreListener(refreshLayout -> {
             page++;
-//                getSeach();
+            getSeach();
             refreshFind.finishLoadMore();
         });
         labelTitleAdapter = new LableTitleAdapter();
@@ -95,22 +97,14 @@ public class LabelFragment extends BaseFragment {
         lableRv.setLayoutManager(new GridLayoutManager(activity, 2));
         lableRv.setAdapter(labelDetailAdapter);
 
-//        contentRv.setLayoutManager(new LinearLayoutManager(activity));
-//        content_adapter = new Label_Content_Adapter();
-//        contentRv.setAdapter(content_adapter);
-//
-//
-//        lable_adapter.setLableListener(new Lable_Adapter.LableListener() {
-//            @Override
-//            public void Onclick(int position) {
-//                getMyPromotion = labelBeanBaseListBean.getRows().get(position).getId() + "";
-//                lable_adapter.setLableItem(position);
-//            }
-//        });
+        contentRv.setLayoutManager(new LinearLayoutManager(activity));
+        content_adapter = new Label_Content_Adapter();
+        contentRv.setAdapter(content_adapter);
 
         getLabelTitle();
         initListener();
     }
+
 
     private void initListener() {
         labelTitleAdapter.setLableListener(position -> {
@@ -131,6 +125,14 @@ public class LabelFragment extends BaseFragment {
 
         });
 
+        labelDetailAdapter.setOnItemClickListener((adapter, view, position) -> {
+            getMyPromotion = mLableBeans.get(position).getId() + "";
+            page = 1;
+            getSeach();
+            bottomLabelLayout.setVisibility(View.GONE);
+            refreshFind.setVisibility(View.VISIBLE);
+
+        });
     }
 //
 
@@ -211,6 +213,7 @@ public class LabelFragment extends BaseFragment {
                 UIhelper.stopLoadingDialog();
                 //返回码为成功时的处理
                 if (labelBeanBaseListBean.getResCode() == 0) {
+
                     setLabelDetail(labelBeanBaseListBean.getData());
                 } else {
                     FancyToast.makeText(activity, labelBeanBaseListBean.getInfo(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
@@ -233,5 +236,51 @@ public class LabelFragment extends BaseFragment {
         });
     }
 
+    private void getSeach() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("getMyPromotion", getMyPromotion);
+        httpParams.put("page", page);
+        OkGo.<String>get(URLs.SEARCH).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseListBean<SearchBean>>() {
+                }.getType();
+                searchBeanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
+                UIhelper.stopLoadingDialog();
+                //返回码为成功时的处理
+                if (searchBeanBaseListBean.getResCode() == 0) {
+                    if (page == 1) {
+                        list = searchBeanBaseListBean.getData();
+                    } else {
+                        list.addAll(searchBeanBaseListBean.getData());
+                    }
+                    if (list.size() > 0) {
+                        content_adapter.setList(list);
+                        noLayout.setVisibility(View.GONE);
+
+                    } else {
+                        noLayout.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    UIhelper.ToastMessage(searchBeanBaseListBean.getInfo());
+                    noLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+                UIhelper.showLoadingDialog(activity);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                noLayout.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
 }

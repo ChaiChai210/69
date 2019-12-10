@@ -64,11 +64,11 @@ public class SplashActivity extends BaseActivity {
         } else {
             init();
         }
-//        rpbGg.setOnClickListener(v -> {
-//            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        });
+        rpbGg.setOnClickListener(v -> {
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
         rpbGg.setProgressChangeListener(new RoundProgressBar.ProgressChangeListener() {
             @Override
             public void onFinish() {
@@ -128,9 +128,6 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void init() {
-        // 加载页
-//        AppContext.isFrist = getSharedPreferences("frist", MODE_PRIVATE)
-//                .getBoolean("is", true);
         if (!SPUtils.isFirstInstall()) {
             getAds();
         } else {

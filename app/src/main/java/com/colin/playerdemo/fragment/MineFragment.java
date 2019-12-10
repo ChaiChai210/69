@@ -225,10 +225,9 @@ public class MineFragment extends BaseFragment {
         } else {
             loginTv.setText("小白");
         }
-//        if (!Tools.isEmpty(userInfoBean.getUserinfo().getPhone())) {
-//
-//        }
-        nameTv.setText(userInfoBean.getUserinfo().getPhone());
+        if (!StringUtils.isEmpty(userInfoBean.getUserinfo().getPhone())) {
+            nameTv.setText(userInfoBean.getUserinfo().getPhone());
+        }
         if (userInfoBean.getUserinfo().getSex().equals("1")) {
             Drawable dra = activity.getResources().getDrawable(R.mipmap.boy_comment_mark);
             dra.setBounds(0, 0, dra.getMinimumWidth(), dra.getMinimumHeight());

@@ -74,7 +74,7 @@ public class DiscoverAdapter extends BaseQuickAdapter<DisconverBean.DataBean, Ba
         ImageView mThumb = mPrepareView.findViewById(R.id.thumb);
         Glide.with(mContext)
                 .load(item.getCover())
-                .placeholder(android.R.color.white)
+                .placeholder(R.mipmap.pl_home_320180)
                 .into(mThumb);
         if (mOnItemChildClickListener != null) {
             mPlayerContainer.setOnClickListener(v -> mOnItemChildClickListener.onItemChildClick(helper.getAdapterPosition()));

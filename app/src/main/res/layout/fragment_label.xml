@@ -29,18 +29,18 @@
             android:layout_height="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
-        <TextView
-            android:id="@+id/confirm_tv"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/coumm_change_shade"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_15"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:text="确定"
-            android:gravity="center"
-            android:layout_width="175dp"
-            android:layout_height="36dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/confirm_tv"-->
+<!--            android:layout_marginBottom="60dp"-->
+<!--            android:background="@drawable/coumm_change_shade"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/text_size_15"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:text="确定"-->
+<!--            android:gravity="center"-->
+<!--            android:layout_width="175dp"-->
+<!--            android:layout_height="36dp" />-->
     </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
