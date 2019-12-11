@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <include 
+        android:id="@+id/cache_include_layout"
+        layout="@layout/activity_title_include"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_above="@+id/cache_bottom_layout"
+        android:layout_below="@+id/cache_include_layout"
+        android:id="@+id/refresh_find"
+        android:layout_height="match_parent">
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/cache_layout"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/text_tv"
+                android:layout_below="@+id/cache_include_layout"
+                android:layout_marginTop="@dimen/space_20"
+                android:layout_marginBottom="@dimen/space_5"
+                android:layout_marginLeft="@dimen/space_12"
+                android:textColor="@color/text_color_6"
+                android:textSize="15sp"
+                android:text="已缓冲"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:overScrollMode="never"
+                android:id="@+id/cache_rv"
+                android:layout_height="wrap_content">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id="@+id/cache_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="49dp">
+        <TextView
+            android:id="@+id/all_change_tv"
+            android:background="#323232"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/text_color"
+            android:text="全选"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/delelte_tv"
+            android:background="@drawable/delete_shade"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/white"
+            android:text="删除"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/no_layout"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_below="@+id/cache_include_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:src="@mipmap/img_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/live_tv"
+            android:textSize="@dimen/text_size_13"
+            android:textColor="@color/activity_title_center_text_black"
+            android:layout_gravity="center_horizontal"
+            android:text="您还没有缓存"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/like_content_tv"
+            android:layout_marginTop="@dimen/space_20"
+            android:textSize="@dimen/text_size_13"
+            android:textColor="@color/core_common_text_gray"
+            android:layout_gravity="center_horizontal"
+            android:text="在详情页可点击离线缓存按钮进行缓存"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</RelativeLayout>

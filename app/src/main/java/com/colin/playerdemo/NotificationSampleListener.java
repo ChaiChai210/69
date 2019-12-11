@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.colin.playerdemo.activity.PlayActivity;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.SpeedCalculator;
 import com.liulishuo.okdownload.core.breakpoint.BlockInfo;
@@ -36,6 +37,7 @@ import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
 import com.liulishuo.okdownload.core.cause.EndCause;
 import com.liulishuo.okdownload.core.listener.DownloadListener4WithSpeed;
 import com.liulishuo.okdownload.core.listener.assist.Listener4SpeedAssistExtend;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
 import java.util.Map;
@@ -73,7 +75,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final NotificationChannel channel = new NotificationChannel(
                     channelId,
-                    "OkDownloadSample",
+                    "正在下载",
                     NotificationManager.IMPORTANCE_MIN);
             manager.createNotificationChannel(channel);
         }
@@ -81,12 +83,12 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
         builder = new NotificationCompat.Builder(context, channelId);
 
 
-        builder.setDefaults(Notification.DEFAULT_LIGHTS)
+        builder.setDefaults(Notification.DEFAULT_SOUND)
                 .setOngoing(true)
                 .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setContentTitle("OkDownloadSample")
-                .setContentText("Download a task showing on notification sample")
+                .setContentTitle("下载")
+                .setContentText("下载")
                 .setSmallIcon(R.mipmap.ic_launcher);
 
         if (action != null) {
@@ -153,7 +155,7 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
                                    @NonNull SpeedCalculator taskSpeed) {
         Log.d("NotificationActivity", "progress " + currentOffset);
 
-        builder.setContentText("downloading with speed: " + taskSpeed.speed());
+        builder.setContentText("下载速度为: " + taskSpeed.speed());
         builder.setProgress(totalLength, (int) currentOffset, false);
         manager.notify(task.getId(), builder.build());
     }
@@ -174,7 +176,10 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
         builder.setContentText(
                 "task end " + cause + " average speed: " + taskSpeed.averageSpeed());
         if (cause == EndCause.COMPLETED) {
+            FancyToast.makeText(context, "下载成功", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
             builder.setProgress(1, 1, false);
+        }else if(cause == EndCause.ERROR){
+            FancyToast.makeText(context, "下载出错", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
         }
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {

@@ -29,6 +29,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -62,6 +63,8 @@ public class SearchActivity extends BaseActivity {
     RecyclerView rvHistory;
     @BindView(R.id.rv_hot_search)
     RecyclerView rvHotSearch;
+    @BindView(R.id.status_bar_view)
+    View statusBarView;
 
     private HotSearchAdapter hotSearchAdapter;
     private HistorySearchAdapter historySearchAdapter;
@@ -72,10 +75,18 @@ public class SearchActivity extends BaseActivity {
     protected int getLayoutResId() {
         return R.layout.activity_search;
     }
-
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        ImmersionBar.with(this).statusBarView(statusBarView)
+                .statusBarColorInt(getResources().getColor(R.color.full_transparent)).statusBarDarkFont(false, 1f)
+                .navigationBarColor(R.color.colorPrimary)
+                .keyboardEnable(true)
+                .init();
+    }
     @Override
     protected void initView() {
-        darkImmerseFontColor();
+//        darkImmerseFontColor();
         String history = SPUtils.getSearchHistory();
         if (history.isEmpty()) {
             rlHistory.setVisibility(View.GONE);

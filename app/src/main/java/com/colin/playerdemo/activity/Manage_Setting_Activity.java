@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.bean.Change_Head_bean;
 import com.colin.playerdemo.bean.CodeTokenbean;
 import com.colin.playerdemo.bean.UserInfoBean;
@@ -47,7 +48,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class Manage_Setting_Activity extends BaseActivity {
+public class Manage_Setting_Activity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)

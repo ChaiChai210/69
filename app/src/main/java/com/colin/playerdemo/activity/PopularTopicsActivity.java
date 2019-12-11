@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.adapter.PopularTopicsAdapter;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.bean.HotBean;
 import com.colin.playerdemo.net.BaseListBean;
 import com.colin.playerdemo.net.GsonHelper;
 import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -32,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class PopularTopicsActivity extends BaseActivity {
+public class PopularTopicsActivity extends CommonImmerseActivity {
 
     @BindView(R.id.iv_left)
     ImageView ivLeft;
@@ -57,6 +59,7 @@ public class PopularTopicsActivity extends BaseActivity {
                 break;
         }
     }
+
 
     /**
      * 获取热门
@@ -113,7 +116,6 @@ public class PopularTopicsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        darkImmerseFontColor();
         tvCenter.setText("热门专题");
 
         hotDisRv.setLayoutManager(new GridLayoutManager(this, 4));

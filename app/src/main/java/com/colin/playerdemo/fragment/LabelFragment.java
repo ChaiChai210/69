@@ -46,8 +46,6 @@ public class LabelFragment extends BaseFragment {
     RecyclerView lableTitleRv;
     @BindView(R.id.lable_rv)
     RecyclerView lableRv;
-    @BindView(R.id.confirm_tv)
-    TextView confirmTv;
     @BindView(R.id.bottom_label_layout)
     RelativeLayout bottomLabelLayout;
     @BindView(R.id.content_rv)

@@ -1,6 +1,7 @@
 package com.colin.playerdemo.activity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,18 +10,21 @@ import androidx.fragment.app.Fragment;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.customeview.CustomViewPager;
 import com.colin.playerdemo.fragment.AnnouncementFragment;
 import com.colin.playerdemo.fragment.MessageFragment;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class NotificationActivity extends BaseActivity {
+public class NotificationActivity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)
@@ -33,6 +37,7 @@ public class NotificationActivity extends BaseActivity {
     SlidingTabLayout chatRoomStartTl;
     @BindView(R.id.chat_room_vp)
     CustomViewPager chatRoomVp;
+
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
     String[] tabs = {"公告", "消息"};
@@ -84,4 +89,10 @@ public class NotificationActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

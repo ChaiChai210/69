@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.bean.ConFigBean;
 import com.colin.playerdemo.bean.UserInfoBean;
 import com.colin.playerdemo.customeview.third.RoundImageView;
@@ -46,14 +48,11 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Generalize_Activity extends BaseActivity {
-    @BindView(R.id.iv_left)
-    ImageView activityTitleIncludeLeftIv;
-    @BindView(R.id.tv_center)
-    TextView activityTitleIncludeCenterTv;
+public class Generalize_Activity extends CommonImmerseActivity {
     @BindView(R.id.gener_image)
     RoundImageView generImage;
     @BindView(R.id.code_tv)
@@ -68,6 +67,14 @@ public class Generalize_Activity extends BaseActivity {
     TextView guanwang_tv;
     @BindView(R.id.gener_layout)
     RelativeLayout gener_layout;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.tv_center)
+    TextView tvCenter;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
     private String code;
     String copy = "";
 
@@ -78,7 +85,7 @@ public class Generalize_Activity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        tvCenter.setText(getString(R.string.text_promote_refund));
     }
 
     @Override
@@ -331,5 +338,12 @@ public class Generalize_Activity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

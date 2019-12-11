@@ -1,10 +1,14 @@
 package com.colin.playerdemo.activity;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -15,10 +19,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.colin.playerdemo.NotificationSampleListener;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.adapter.PlayCommentAdapter;
 import com.colin.playerdemo.adapter.PlayGuessLikeAdapter;
@@ -29,6 +35,10 @@ import com.colin.playerdemo.bean.MineUserInfoBean;
 import com.colin.playerdemo.bean.PlayCommentBean;
 import com.colin.playerdemo.bean.PlayDetailBean;
 import com.colin.playerdemo.customeview.third.RoundImageView;
+import com.colin.playerdemo.download.CancelReceiver;
+import com.colin.playerdemo.download.FileUtil;
+import com.colin.playerdemo.download.FileUtils;
+import com.colin.playerdemo.download.GlobalTaskManager;
 import com.colin.playerdemo.net.BaseBean;
 import com.colin.playerdemo.net.BaseListBean;
 import com.colin.playerdemo.net.GsonHelper;
@@ -48,6 +58,9 @@ import com.dueeeke.videocontroller.component.VodControlView;
 import com.dueeeke.videoplayer.player.VideoView;
 import com.google.gson.reflect.TypeToken;
 import com.gyf.immersionbar.ImmersionBar;
+import com.liulishuo.okdownload.DownloadTask;
+import com.liulishuo.okdownload.OkDownload;
+import com.liulishuo.okdownload.StatusUtil;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -152,6 +165,12 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     private String downUrl;
     private String to_uid, reply_id;
 
+
+    private CancelReceiver cancelReceiver;
+
+    private DownloadTask task;
+    private NotificationSampleListener listener;
+
     public static void start(Context context, String id) {
         Intent intent = new Intent(context, PlayActivity.class);
 
@@ -175,12 +194,6 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
 
         rvComment.setLayoutManager(new LinearLayoutManager(this));
         rvComment.setNestedScrollingEnabled(false);
-//        commentDetailAdapter = new PlayCommentDetailAdapter(childlist);
-
-//        rvCommentDetail.setLayoutManager(new LinearLayoutManager(this));
-//        rvCommentDetail.setNestedScrollingEnabled(false);
-//        rvCommentDetail.setAdapter(commentDetailAdapter);
-//        commentDetailAdapter.setChildOnclick(this);
 
 
         rpbGg.setDirection(RoundProgressBar.Direction.FORWARD);
@@ -210,6 +223,21 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         config();
         getUserInfo();
         getComment();
+
+        initListener();
+        IntentFilter filter = new IntentFilter(CancelReceiver.ACTION);
+        cancelReceiver = new CancelReceiver();
+        registerReceiver(cancelReceiver, filter);
+    }
+
+    private void initListener() {
+        listener = new NotificationSampleListener(this);
+        final Intent intent = new Intent(CancelReceiver.ACTION);
+        final PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        listener.setAction(new NotificationCompat.Action(0, "Cancel", cancelPendingIntent));
+        listener.initNotification();
     }
 
     @Override
@@ -330,7 +358,9 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
                 //返回码为成功时的处理
                 if (mineUserInfoBeanBaseBean.getCode() == 0) {
                     userInfoBean = mineUserInfoBeanBaseBean.getData();
-                    Glide.with(PlayActivity.this).load(userInfoBean.getUserinfo().getPortrait()).into(ivHead);
+                    if (!PlayActivity.this.isFinishing()) {
+                        Glide.with(PlayActivity.this).load(userInfoBean.getUserinfo().getPortrait()).into(ivHead);
+                    }
                     getVideoInfo();
                 } else {
                     FancyToast.makeText(PlayActivity.this, mineUserInfoBeanBaseBean.getInfo(), FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
@@ -457,16 +487,6 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         guessLikeAdapter.replaceData(bean.getYou_is_love());
     }
 
-//    private void saveVideo() {
-//        RxHttp.setDebug(true);
-//        RxHttpUtils.postWithToken(Api.video_watch_record)
-//                .add("vid", id)
-//                .asResponse(Object.class)
-//                .as(RxLife.asOnMain(this))//返回String类型
-//                .subscribe(s -> {          //订阅观察者，
-//                }, throwable -> {
-//                });
-//    }
 
     @Override
     protected void onResume() {
@@ -491,6 +511,8 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         if (mVideoView != null) {
             mVideoView.release();
         }
+        unregisterReceiver(cancelReceiver);
+        listener.releaseTaskEndRunnable();
     }
 
     @Override
@@ -567,9 +589,22 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         this.to_uid = to_uid;
     }
 
-    @OnClick({R.id.ads_iv, R.id.title_layout, R.id.favor_iv, R.id.send_iv, R.id.love_more_tv, R.id.new_tv, R.id.hot_tv, R.id.tv_send_comment,R.id.iv_left})
+    @OnClick({R.id.ads_iv, R.id.title_layout, R.id.favor_iv, R.id.send_iv, R.id.love_more_tv, R.id.new_tv, R.id.hot_tv,
+            R.id.tv_send_comment, R.id.iv_left, R.id.download_nopress_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.download_nopress_iv://下载
+                initTextData(playDetailBeanBaseBean);
+                initTask(playDetailBeanBaseBean.getData(), view);
+//                if (null != playDetailBeanBaseBean) {
+//                    if (mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_cache_day() - mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_avail_use() > 0) {
+//                        initTask(playDetailBeanBaseBean.getData(),view);
+//                    } else {
+//                        Toast.makeText(this, "可用缓存次数不够", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
+                break;
             case R.id.iv_left:
                 finish();
                 break;
@@ -626,6 +661,48 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
                 UIhelper.hideSoftKeyboard(PlayActivity.this);
                 break;
         }
+    }
+
+    void initTextData(BaseBean<PlayDetailBean> playDetailBeanBaseBean) {
+        String dirName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+        String fileName = "/vod.txt";
+        FileUtils.writeTxtToFile(playDetailBeanBaseBean.getData().getCover() + "_" + playDetailBeanBaseBean.getData().getName(), dirName, fileName);
+    }
+
+    private void initTask(PlayDetailBean data, View view) {
+
+        if (data == null) {
+            return;
+        }
+        task = new DownloadTask
+                .Builder(data.getVideo_download_url(), FileUtil.getParentFile())
+                .setFilename(playDetailBean.getName())
+                // if there is the same task has been completed download, just delete it and
+                // re-download automatically.
+                .setPassIfAlreadyCompleted(false)
+                .setMinIntervalMillisCallbackProcess(80)
+                // because for the notification we don't need make sure invoke on the ui thread, so
+                // just let callback no need callback to the ui thread.
+                .setAutoCallbackToUIThread(false)
+                .build();
+        cancelReceiver.setTask(task);
+        Log.e("chai", task.getFilename());
+
+        if (view.getTag() == null) {
+            GlobalTaskManager.getImpl().enqueueTask(task, listener);
+            view.setTag(new Object());
+            view.setEnabled(false);
+        } else {
+//            task.cancel();
+        }
+
+        GlobalTaskManager.getImpl().attachListener(task, listener);
+        GlobalTaskManager.getImpl().addAutoRemoveListenersWhenTaskEnd(task.getId());
+//        if (StatusUtil.isSameTaskPendingOrRunning(task)) {
+//            actionTv.setText(R.string.cancel);
+//            view.setTag(new Object());
+//        }
+
     }
 
     /**

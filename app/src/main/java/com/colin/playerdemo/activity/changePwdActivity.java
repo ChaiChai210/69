@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.net.BaseBean;
 import com.colin.playerdemo.net.GsonHelper;
 import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.StringUtils;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -34,10 +36,11 @@ import com.mock.alipay.view.PasswordView;
 import java.lang.reflect.Type;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class changePwdActivity extends BaseActivity implements PasswordKeyboard.OnPasswordInputListener {
+public class changePwdActivity extends CommonImmerseActivity implements PasswordKeyboard.OnPasswordInputListener {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)
@@ -64,15 +67,15 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
     RelativeLayout pas_layout;
     @BindView(R.id.cancel_dialog)
     TextView cancel_dialog;
+
     private StringBuffer mPasswordBuffer = new StringBuffer();
     private boolean passwordState = true;
     private String phone;
 
     @Override
     protected int getLayoutResId() {
-        return  R.layout.change_psd_activity;
+        return R.layout.change_psd_activity;
     }
-
     @Override
     protected void initView() {
         darkImmerseFontColor();
@@ -88,7 +91,7 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
                 pas_layout.setVisibility(View.VISIBLE);
             }
         });
-        if(!StringUtils.isEmpty(phone)){
+        if (!StringUtils.isEmpty(phone)) {
             getCode();
             mineTv.setEnabled(false);
             mHander.postDelayed(runnable, 1000);
@@ -99,12 +102,11 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
 
     @Override
     public void initData() {
-      
+
     }
 
 
-
-    @OnClick({R.id.iv_left, R.id.quit_tv,R.id.cancel_dialog,R.id.mine_tv,R.id.show_iv})
+    @OnClick({R.id.iv_left, R.id.quit_tv, R.id.cancel_dialog, R.id.mine_tv, R.id.show_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left:
@@ -112,11 +114,11 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
                 break;
             case R.id.quit_tv:
                 password = psdEdt.getText().toString();
-                if(StringUtils.isEmpty(password)){
+                if (StringUtils.isEmpty(password)) {
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(StringUtils.isEmpty(check_code)){
+                if (StringUtils.isEmpty(check_code)) {
                     Toast.makeText(this, "请输入验证码", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -145,6 +147,7 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
 
         }
     }
+
     private boolean show = false;
     private int count = 60;
     /**
@@ -185,20 +188,21 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
             }
         }
     };
+
     /**
      * 发送短信验证码
      */
     private void getCode() {
         HttpParams httpParams = new HttpParams();
-        httpParams.put("type","newpass");
-        httpParams.put("phone",phone);
+        httpParams.put("type", "newpass");
+        httpParams.put("phone", phone);
         OkGo.<String>post(URLs.GETCODE).params(httpParams).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 //解析data里面为数组的形式，用的baseListBean基本类
                 Type type = new TypeToken<BaseBean>() {
                 }.getType();
-                BaseBean    baseBean = GsonHelper.gson.fromJson(response.body(), type);
+                BaseBean baseBean = GsonHelper.gson.fromJson(response.body(), type);
                 UIhelper.stopLoadingDialog();
                 //返回码为成功时的处理
                 if (baseBean.isSuccess()) {
@@ -229,24 +233,25 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
     /**
      * 用户修改密码
      */
-    private String password,check_code;
+    private String password, check_code;
+
     private void changePsd() {
         HttpParams httpParams = new HttpParams();
-        httpParams.put("password",password);
-        httpParams.put("phone",phone);
-        httpParams.put("check_code",check_code);
+        httpParams.put("password", password);
+        httpParams.put("phone", phone);
+        httpParams.put("check_code", check_code);
         OkGo.<String>post(URLs.CHANGEPASD).params(httpParams).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 //解析data里面为数组的形式，用的baseListBean基本类
                 Type type = new TypeToken<BaseBean>() {
                 }.getType();
-                BaseBean    baseBean = GsonHelper.gson.fromJson(response.body(), type);
+                BaseBean baseBean = GsonHelper.gson.fromJson(response.body(), type);
                 UIhelper.stopLoadingDialog();
                 //返回码为成功时的处理
                 UIhelper.ToastMessage(baseBean.getInfo());
                 if (baseBean.isSuccess()) {
-                        finish();
+                    finish();
                 } else {
                 }
 
@@ -268,6 +273,7 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
             }
         });
     }
+
     @Override
     public void onInput(String character) {
         if (PasswordKeyboard.DEL.equals(character)) {
@@ -296,7 +302,7 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
 
         @Override
         public void onInputCompleted(CharSequence password) {
-            check_code  = password.toString();
+            check_code = password.toString();
         }
 
         @Override
@@ -315,5 +321,12 @@ public class changePwdActivity extends BaseActivity implements PasswordKeyboard.
         if (mCallback != null) {
             mCallback.onInputCompleted(password);
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

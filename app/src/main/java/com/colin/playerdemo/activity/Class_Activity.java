@@ -1,6 +1,7 @@
 package com.colin.playerdemo.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.bean.Category_Bean;
 import com.colin.playerdemo.customeview.CustomViewPager;
 import com.colin.playerdemo.customeview.MySlidingTabLayout;
@@ -20,6 +22,7 @@ import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.StringUtils;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -31,9 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Class_activity extends BaseActivity {
+public class Class_activity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)
@@ -72,6 +76,7 @@ public class Class_activity extends BaseActivity {
     protected void initView() {
 
     }
+
 
     @Override
     public void initData() {
@@ -272,5 +277,12 @@ public class Class_activity extends BaseActivity {
                 super.onError(response);
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

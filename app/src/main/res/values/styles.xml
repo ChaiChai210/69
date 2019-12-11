@@ -11,6 +11,7 @@
     </style>
     <style name="SplashTheme" parent="AppTheme">
         <!--<item name="windowNoTitle">true</item>-->
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@mipmap/start</item>
     </style>
     <style name="FullTheme" parent="AppTheme">

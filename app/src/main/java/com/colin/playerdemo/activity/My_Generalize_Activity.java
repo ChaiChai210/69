@@ -1,5 +1,6 @@
 package com.colin.playerdemo.activity;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.adapter.My_Generalize_Adapter;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.bean.GeneraListBean;
 import com.colin.playerdemo.net.BaseListBean;
 import com.colin.playerdemo.net.GsonHelper;
 import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -31,10 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class My_Generalize_Activity extends BaseActivity {
+public class My_Generalize_Activity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)
@@ -57,6 +61,7 @@ public class My_Generalize_Activity extends BaseActivity {
     protected int getLayoutResId() {
         return R.layout.activity_my_generalize;
     }
+
 
     @Override
     protected void initView() {
@@ -144,5 +149,12 @@ public class My_Generalize_Activity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

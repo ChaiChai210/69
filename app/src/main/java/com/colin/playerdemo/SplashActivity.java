@@ -1,16 +1,11 @@
 package com.colin.playerdemo;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -27,6 +22,7 @@ import com.colin.playerdemo.utils.SPUtils;
 import com.colin.playerdemo.utils.StringUtils;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpHeaders;
@@ -36,8 +32,6 @@ import com.lzy.okgo.request.base.Request;
 import com.qfxl.view.RoundProgressBar;
 
 import java.lang.reflect.Type;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +50,7 @@ public class SplashActivity extends BaseActivity {
     protected int getLayoutResId() {
         return R.layout.activity_splash;
     }
+
 
     @Override
     protected void initView() {

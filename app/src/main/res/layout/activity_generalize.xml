@@ -6,35 +6,35 @@
     android:layout_height="match_parent"
     android:background="@mipmap/share_bg"
     android:orientation="vertical">
+    <include layout="@layout/activity_title_include" />
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="45dp"-->
+<!--       >-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="@dimen/space_20">
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_left"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:paddingLeft="12dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:src="@mipmap/ic_back_black" />-->
 
-        <ImageView
-            android:id="@+id/iv_left"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:paddingLeft="12dp"
-            android:paddingRight="15dp"
-            android:src="@mipmap/ic_back_black" />
+<!--        <TextView-->
+<!--            android:id="@+id/tv_center"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:ellipsize="end"-->
+<!--            android:ems="10"-->
+<!--            android:gravity="center"-->
+<!--            android:lines="1"-->
+<!--            android:text="推广分享获取永久免费观影"-->
+<!--            android:textColor="@color/text_color_6"-->
+<!--            android:textSize="18sp" />-->
 
-        <TextView
-            android:id="@+id/tv_center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:ellipsize="end"
-            android:ems="10"
-            android:gravity="center"
-            android:lines="1"
-            android:text="推广分享获取永久免费观影"
-            android:textColor="@color/text_color_6"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
+<!--    </RelativeLayout>-->
 
     <LinearLayout
         android:id="@+id/code_layout"

@@ -1,6 +1,7 @@
 package com.colin.playerdemo.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.StringUtils;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -57,12 +60,24 @@ public class SearchResultActivity extends BaseActivity {
     LinearLayout tell_me_layout;
     @BindView(R.id.ser_tv)
     TextView ser_tv;
+    @BindView(R.id.status_bar_view)
+    View statusBarView;
     private String search;
     private SearchResultAdapter searchResultAdapter;
     private int page = 1;
     private static final Object PAGE_SIZE = 10;
     private List<SearchBean> searchList = new ArrayList<>();
     private boolean hasMore = true;
+
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        ImmersionBar.with(this).statusBarView(statusBarView)
+                .statusBarColorInt(getResources().getColor(R.color.full_transparent)).statusBarDarkFont(false, 1f)
+                .navigationBarColor(R.color.colorPrimary)
+                .keyboardEnable(true)
+                .init();
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -163,5 +178,12 @@ public class SearchResultActivity extends BaseActivity {
                 noLayout.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

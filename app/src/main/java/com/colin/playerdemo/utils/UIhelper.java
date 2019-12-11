@@ -152,7 +152,7 @@ public class UIhelper {
         if (dlg == null) {
             dlg = new AlertDialog.Builder(context, R.style.CustomDialog).create();
             dlg.show();
-            dlg.setCancelable(true);
+            dlg.setCancelable(false);
             Window window = dlg.getWindow();
             LayoutInflater inflater = LayoutInflater.from(context);
             View view = inflater.inflate(R.layout.core_dialog_loading, null);
@@ -161,7 +161,7 @@ public class UIhelper {
             if (!dlg.isShowing()) {
                 dlg = new AlertDialog.Builder(context, R.style.CustomDialog).create();
                 dlg.show();
-                dlg.setCancelable(true);
+                dlg.setCancelable(false);
                 Window window = dlg.getWindow();
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View view = inflater.inflate(R.layout.core_dialog_loading, null);

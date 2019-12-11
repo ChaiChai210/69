@@ -1,6 +1,7 @@
 package com.colin.playerdemo.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.bean.UserInfoBean;
 import com.colin.playerdemo.customeview.third.RoundImageView;
 import com.colin.playerdemo.net.BaseBean;
@@ -17,6 +19,7 @@ import com.colin.playerdemo.net.GsonHelper;
 import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -26,9 +29,10 @@ import com.lzy.okgo.request.base.Request;
 import java.lang.reflect.Type;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Popularize_Activity extends BaseActivity {
+public class Popularize_Activity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)
@@ -92,6 +96,7 @@ public class Popularize_Activity extends BaseActivity {
         activityTitleIncludeRightTv.setText("我的推广");
         getUserInfo();
     }
+
     @OnClick({R.id.popular_tv, R.id.tv_right, R.id.iv_left})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -109,6 +114,7 @@ public class Popularize_Activity extends BaseActivity {
 
         }
     }
+
     private void getUserInfo() {
         HttpParams httpParams = new HttpParams();
         OkGo.<String>get(URLs.USERINFO).params(httpParams).execute(new StringCallback() {
@@ -201,5 +207,12 @@ public class Popularize_Activity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

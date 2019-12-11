@@ -1,16 +1,20 @@
 package com.colin.playerdemo.activity;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
+import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProblemDetailActivity extends BaseActivity {
+public class ProblemDetailActivity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView ivLeft;
     @BindView(R.id.tv_center)
@@ -28,7 +32,6 @@ public class ProblemDetailActivity extends BaseActivity {
     protected int getLayoutResId() {
         return R.layout.activity_problem_detail;
     }
-
     @Override
     protected void initView() {
         tvCenter.setText("问题详情");
@@ -44,5 +47,12 @@ public class ProblemDetailActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

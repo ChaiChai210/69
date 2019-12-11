@@ -1,7 +1,6 @@
 package com.colin.playerdemo.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.colin.playerdemo.AppContext;
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.bean.UVersionBean;
 import com.colin.playerdemo.net.BaseBean;
 import com.colin.playerdemo.net.GsonHelper;
@@ -22,6 +22,7 @@ import com.colin.playerdemo.utils.AppUtils;
 import com.colin.playerdemo.utils.DataCleanManager;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -34,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class U_Set_activity extends BaseActivity {
+public class U_Set_activity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView ivLeft;
     @BindView(R.id.tv_center)
@@ -64,7 +65,6 @@ public class U_Set_activity extends BaseActivity {
     protected int getLayoutResId() {
         return R.layout.activity_setting;
     }
-
     @Override
     protected void initView() {
         darkImmerseFontColor();

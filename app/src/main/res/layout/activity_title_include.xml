@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="wrap_content"
     android:background="@color/full_transparent">
+
+    <View
+        android:id="@+id/status_bar_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_alignParentBottom="true">
+        android:layout_below="@+id/status_bar_view">
 
         <ImageView
             android:id="@+id/iv_left"
@@ -21,7 +27,7 @@
         <TextView
             android:id="@+id/tv_center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:ellipsize="end"
             android:ems="10"
@@ -34,17 +40,19 @@
         <TextView
             android:id="@+id/tv_right"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
+            android:gravity="center"
             android:textColor="@color/text_color"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="dd" />
 
         <ImageView
             android:id="@+id/iv_right"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.customeview.third.RoundImageView;
 import com.colin.playerdemo.net.BaseBean;
 import com.colin.playerdemo.net.GsonHelper;
@@ -20,6 +21,7 @@ import com.colin.playerdemo.net.URLs;
 import com.colin.playerdemo.utils.StringUtils;
 import com.colin.playerdemo.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
@@ -32,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class VipActivity extends BaseActivity {
+public class VipActivity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView ivLeft;
     @BindView(R.id.tv_center)

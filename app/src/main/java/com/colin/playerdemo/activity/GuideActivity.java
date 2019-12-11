@@ -57,12 +57,15 @@ public class GuideActivity extends BaseActivity implements CallBack {
         SPUtils.put(Constant.SP_FIRST_INSTALL, false);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        guideCustomView.clear();
+        if (guideCustomView != null) {
+            guideCustomView.clear();
+        }
     }
 
 

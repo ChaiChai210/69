@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.customeview.CustomViewPager;
 import com.colin.playerdemo.fragment.Fragment_History;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class HistoryActivity extends BaseActivity {
+public class HistoryActivity extends CommonImmerseActivity {
 
     @BindView(R.id.iv_left)
     ImageView ivLeft;

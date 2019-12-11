@@ -11,15 +11,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
+import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Protocol_Activity extends BaseActivity {
+public class Protocol_Activity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)
@@ -40,7 +42,7 @@ public class Protocol_Activity extends BaseActivity {
 
     @Override
     protected void initView() {
-        darkImmerseFontColor();
+//        darkImmerseFontColor();
         activityTitleIncludeCenterTv.setText("用户协议");
         iData();
     }
@@ -111,5 +113,12 @@ public class Protocol_Activity extends BaseActivity {
         mWebView.setVisibility(View.GONE);
         mWebView.destroy();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.colin.banner.BannerLayout;
 import com.colin.playerdemo.R;
+import com.colin.playerdemo.activity.Cache_Activity;
 import com.colin.playerdemo.activity.Class_activity;
 import com.colin.playerdemo.activity.HistoryActivity;
 import com.colin.playerdemo.activity.SearchActivity;
@@ -89,9 +90,9 @@ public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.On
                 Intent intent = new Intent(activity, CaptureActivity.class);
                 startActivityForResult(intent, 1111);
                 break;
-//            case R.id.cache_iv://缓存
-//                activity.startActivity(new Intent(activity, Cache_Activity.class));
-//                break;
+            case R.id.cache_iv://缓存
+                activity.startActivity(new Intent(activity, Cache_Activity.class));
+                break;
             case R.id.record_iv://历史记录
                 activity.startActivity(new Intent(activity, HistoryActivity.class));
                 break;

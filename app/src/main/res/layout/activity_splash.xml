@@ -13,41 +13,41 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY" />
 
-<!--    <com.colin.playerdemo.customeview.third.RoundProgressBar-->
-<!--        android:id="@+id/load_goto_gg"-->
-<!--        android:layout_width="40dp"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_gravity="right"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:layout_marginTop="50dp"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        android:clickable="true"-->
-<!--        android:focusable="true"-->
-<!--        android:gravity="center"-->
-<!--        android:text="3"-->
-<!--        android:textColor="@color/red"-->
-<!--        android:visibility="gone"-->
-<!--        app:fillRoundColor="@color/login_bc_tv"-->
-<!--        app:roundColor="@color/red"-->
-<!--        app:roundProgressColor="@color/login_bc_tv"-->
-<!--        app:roundWidth="5dip"-->
-<!--        app:textColor="@color/white"-->
-<!--        app:textIsDisplayable="false" />-->
+    <!--    <com.colin.playerdemo.customeview.third.RoundProgressBar-->
+    <!--        android:id="@+id/load_goto_gg"-->
+    <!--        android:layout_width="40dp"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_gravity="right"-->
+    <!--        android:layout_marginLeft="20dp"-->
+    <!--        android:layout_marginTop="50dp"-->
+    <!--        android:layout_marginRight="20dp"-->
+    <!--        android:clickable="true"-->
+    <!--        android:focusable="true"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="3"-->
+    <!--        android:textColor="@color/red"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:fillRoundColor="@color/login_bc_tv"-->
+    <!--        app:roundColor="@color/red"-->
+    <!--        app:roundProgressColor="@color/login_bc_tv"-->
+    <!--        app:roundWidth="5dip"-->
+    <!--        app:textColor="@color/white"-->
+    <!--        app:textIsDisplayable="false" />-->
     <com.qfxl.view.RoundProgressBar
         android:id="@+id/rpb_gg"
         android:layout_width="46dp"
         android:layout_height="46dp"
         android:layout_gravity="right"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="36dp"
         android:layout_marginBottom="8dp"
+        android:visibility="gone"
         app:rpb_autoStart="false"
         app:rpb_centerBackgroundColor="@color/login_bc_tv"
         app:rpb_centerText="5"
-        android:visibility="gone"
-        tools:visibility="visible"
         app:rpb_centerTextColor="@color/red"
         app:rpb_countDownTimeInMillis="5000"
-        app:rpb_sweepStrokeColor="@color/red" />
+        app:rpb_sweepStrokeColor="@color/red"
+        tools:visibility="visible" />
 </merge>

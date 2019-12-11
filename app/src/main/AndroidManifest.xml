@@ -15,6 +15,7 @@
         android:name=".AppContext"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -70,7 +71,9 @@
         <activity android:name=".activity.Protocol_Activity" />
         <activity android:name=".activity.Manage_Setting_Activity" />
         <activity android:name=".activity.changePwdActivity" />
-        <activity android:name=".activity.GuideActivity" />
+        <activity android:name=".activity.GuideActivity"
+            android:theme="@style/FullTheme"/>
+        <activity android:name=".activity.Cache_Activity" />
     </application>
 
 </manifest>

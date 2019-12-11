@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.colin.playerdemo.R;
 import com.colin.playerdemo.base.BaseActivity;
+import com.colin.playerdemo.base.CommonImmerseActivity;
 import com.colin.playerdemo.customeview.CustomViewPager;
 import com.colin.playerdemo.fragment.AnnouncementFragment;
 import com.colin.playerdemo.fragment.MessageFragment;
@@ -23,7 +24,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class FeedbackActivity extends BaseActivity {
+public class FeedbackActivity extends CommonImmerseActivity {
     @BindView(R.id.iv_left)
     ImageView activityTitleIncludeLeftIv;
     @BindView(R.id.tv_center)
