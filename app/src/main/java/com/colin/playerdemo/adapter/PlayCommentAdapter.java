@@ -40,7 +40,7 @@ public class PlayCommentAdapter extends BaseQuickAdapter<PlayCommentBean, BaseVi
         TextView reply2 = helper.getView(R.id.tv_reply2);
         TextView allReply = helper.getView(R.id.tv_all_reply);
 
-        Glide.with(mContext).load(item.getCover()).into((RoundImageView) helper.getView(R.id.head_image));
+        Glide.with(mContext).load(item.getPortrait()).into((RoundImageView) helper.getView(R.id.head_image));
         helper.setText(R.id.name_tv, item.getNickname());
 
         helper.setText(R.id.time_tv, item.getCreate_time());
@@ -95,11 +95,7 @@ public class PlayCommentAdapter extends BaseQuickAdapter<PlayCommentBean, BaseVi
 
         });
         helper.itemView.setOnClickListener(v -> {
-            if (show != -1) {
-                playCommentListener.childClick(item.getId() + "", item.getUid() + "");
-            } else {
-                playCommentListener.showClick(item);
-            }
+            playCommentListener.showClick(item);
         });
 
     }
@@ -109,6 +105,5 @@ public class PlayCommentAdapter extends BaseQuickAdapter<PlayCommentBean, BaseVi
 
         void showClick(PlayCommentBean playCommentBean);
 
-        void childClick(String id, String to_uid);
     }
 }

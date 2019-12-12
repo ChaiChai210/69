@@ -175,17 +175,17 @@ public class NotificationSampleListener extends DownloadListener4WithSpeed {
         builder.setTicker("taskEnd " + cause);
         builder.setContentText(
                 "task end " + cause + " average speed: " + taskSpeed.averageSpeed());
-        if (cause == EndCause.COMPLETED) {
-            FancyToast.makeText(context, "下载成功", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-            builder.setProgress(1, 1, false);
-        }else if(cause == EndCause.ERROR){
-            FancyToast.makeText(context, "下载出错", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
-        }
+
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override public void run() {
+                if (cause == EndCause.COMPLETED) {
+                    FancyToast.makeText(context, "下载成功", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                    builder.setProgress(1, 1, false);
+                }else if(cause == EndCause.ERROR){
+                    FancyToast.makeText(context, "下载出错", FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                }
                 if (taskEndRunnable != null) taskEndRunnable.run();
-
 
                 manager.notify(task.getId(), builder.build());
             }

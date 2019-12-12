@@ -59,11 +59,7 @@ public class Fragment_History extends BaseFragment {
 
     private int historyType = 0;
     public Boolean allshow = false;
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        activity = (Activity) context;
-    }
+
 
     public static Fragment_History newInstance(int from) {
         Fragment_History fragment = new Fragment_History();

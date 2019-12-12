@@ -78,8 +78,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PlayActivity extends BaseActivity implements PlayCommentAdapter.PlayCommentListener {
-    private static final String THUMB = "https://cms-bucket.nosdn.127.net/eb411c2810f04ffa8aaafc42052b233820180418095416.jpeg";
-    private static final String VOD_URL = "https://sys-v.hgpjc.com/6597338118197911552/720p/mp4/Mds5A9GELOlv.mp4";
     @BindView(R.id.player)
     VideoView mVideoView;
     @BindView(R.id.status_bar_view)
@@ -160,12 +158,7 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     private List<PlayCommentBean> commentList = new ArrayList<>();
     private int page = 1;
     private String mode = "zan";//(支持参数 time 时间排序,zan 赞排序)
-    private List<ChildPlayCommentBean> childlist = new ArrayList<>();
-    private String comment_id;
     private String downUrl;
-    private String to_uid, reply_id;
-
-
     private CancelReceiver cancelReceiver;
 
     private DownloadTask task;
@@ -534,8 +527,6 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         putComment(commentList.get(position).getId() + "", islike);
     }
 
-    private String type = "comment";
-
     private void putComment(String comment_id, int islike) {
         HttpParams httpParams = new HttpParams();
         String url;
@@ -583,19 +574,16 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
 
     }
 
-    @Override
-    public void childClick(String id, String to_uid) {
-//        playSendLayout.setVisibility(View.VISIBLE);
-        this.to_uid = to_uid;
-    }
-
     @OnClick({R.id.ads_iv, R.id.title_layout, R.id.favor_iv, R.id.send_iv, R.id.love_more_tv, R.id.new_tv, R.id.hot_tv,
             R.id.tv_send_comment, R.id.iv_left, R.id.download_nopress_iv})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.download_nopress_iv://下载
-                initTextData(playDetailBeanBaseBean);
-                initTask(playDetailBeanBaseBean.getData(), view);
+                if (playDetailBeanBaseBean != null) {
+                    initTextData(playDetailBeanBaseBean);
+                    initTask(playDetailBeanBaseBean.getData(), view);
+                }
+
 //                if (null != playDetailBeanBaseBean) {
 //                    if (mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_cache_day() - mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_avail_use() > 0) {
 //                        initTask(playDetailBeanBaseBean.getData(),view);

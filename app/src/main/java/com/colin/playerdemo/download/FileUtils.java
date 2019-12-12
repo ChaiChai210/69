@@ -1,5 +1,10 @@
 package com.colin.playerdemo.download;
 
+import android.content.Context;
+import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -15,6 +20,29 @@ import java.util.List;
 import java.util.Set;
 
 public class FileUtils {
+
+    public static final String downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+    public static final String VodDirectory = downloadDirectory + "/vod";
+
+    /**
+     * 针对系统文夹只需要扫描,不用插入内容提供者,不然会重复
+     *
+     * @param context  上下文
+     * @param filePath 文件路径
+     */
+    public static void scanFile(Context context, String filePath) {
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(new File(filePath)));
+        context.sendBroadcast(intent);
+    }
+
+    //获取视频总时长
+    public static String getVideoDuration(String path) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(path);
+        return mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION); //
+    }
+
     // 将字符串写入到文本文件中
     public static void writeTxtToFile(String strcontent, String filePath, String fileName) {
         //生成文件夹之后，再生成文件，不然会出错

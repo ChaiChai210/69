@@ -67,7 +67,7 @@ public class UIhelper {
             + "img.alignleft {float:left;max-width:120px;margin:0 10px 5px 0;border:1px solid #ccc;background:#ffeeeeee;padding:2px;} </style>";
 
     public static void setGenderIcon(Context context, String sex, TextView textView) {
-        Drawable drawable = null;
+        Drawable drawable;
         if (sex.equals("1")) {
             drawable = context.getResources().getDrawable(R.mipmap.boy_comment_mark);
         } else {

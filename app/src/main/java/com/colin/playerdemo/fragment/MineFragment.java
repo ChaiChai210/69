@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.colin.playerdemo.R;
+import com.colin.playerdemo.activity.Cache_Activity;
 import com.colin.playerdemo.activity.FeedbackActivity;
 import com.colin.playerdemo.activity.HistoryActivity;
 import com.colin.playerdemo.activity.Login_Activity;
@@ -35,9 +37,11 @@ import com.colin.playerdemo.bean.ConFigBean;
 import com.colin.playerdemo.bean.MineUserInfoBean;
 import com.colin.playerdemo.bean.VideoBean;
 import com.colin.playerdemo.customeview.third.RoundImageView;
+import com.colin.playerdemo.download.FileUtils;
 import com.colin.playerdemo.net.BaseBean;
 import com.colin.playerdemo.net.GsonHelper;
 import com.colin.playerdemo.net.URLs;
+import com.colin.playerdemo.utils.Constant;
 import com.colin.playerdemo.utils.SPUtils;
 import com.colin.playerdemo.utils.StringUtils;
 import com.colin.playerdemo.utils.UIhelper;
@@ -50,6 +54,7 @@ import com.lzy.okgo.request.base.Request;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +62,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.colin.playerdemo.download.FileUtils.VodDirectory;
+import static com.colin.playerdemo.download.FileUtils.downloadDirectory;
+
 public class MineFragment extends BaseFragment {
-
-
     @BindView(R.id.back_iv)
     ImageView backIv;
     @BindView(R.id.vip_tv)
@@ -175,9 +181,46 @@ public class MineFragment extends BaseFragment {
 
     private void getData() {
         config();
-//        scanFile(activity, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + "/vod");
+        FileUtils.scanFile(activity, VodDirectory);
         getUserInfo();
-//        getFilePath();
+        getFilePath();
+    }
+
+    public void getFilePath() {
+        videoBeans = new ArrayList<>();
+        List<String> vodeList = new ArrayList<>();
+        List<String> newList;
+
+        File[] files = new File(VodDirectory).listFiles();
+        if (files == null) {
+            return;
+        }
+        downNumTv.setText("目前本地大片有" + files.length + "部");
+        for (File file : files) {
+            vodeList.add(file.getPath());
+        }
+        newList = FileUtils.ReadTxtFile(downloadDirectory + "/vod.txt");
+
+        for (int i = 0; i < newList.size(); i++) {
+            String[] s = newList.get(i).split("_");
+            try {
+                for (int j = 0; j < vodeList.size(); j++) {
+                    String[] v = vodeList.get(j).split("/");
+                    String[] k = v[v.length - 1].split("_");
+                    if (s.length > 0 && s[s.length - 1].contains(k[0])) {
+                        VideoBean videoBean = new VideoBean();
+                        videoBean.setName(s[1]);
+                        videoBean.setLength(FileUtils.getVideoDuration(vodeList.get(j)));
+                        videoBean.setUrl(s[0]);
+                        videoBeans.add(videoBean);
+                    }
+                }
+
+            } catch (Exception e) {
+
+            }
+        }
+        downloadAdapter.notifyDataSetChanged();
     }
 
     private void getUserInfo() {
@@ -217,31 +260,23 @@ public class MineFragment extends BaseFragment {
     }
 
     private void setUser(MineUserInfoBean userInfoBean) {
+        MineUserInfoBean.UserinfoBean userinfo = userInfoBean.getUserinfo();
         Glide.with(activity).applyDefaultRequestOptions(new RequestOptions().error(R.mipmap.ic_head_l))
-                .load(userInfoBean.getUserinfo().getPortrait()).into(centerHeadImage);
-//        Tools.setSharedPreferencesValues(activity, "head", userInfoBean.getUserinfo().getPortrait());
+                .load(userinfo.getPortrait()).into(centerHeadImage);
         if (null != userInfoBean.getPresentlevel()) {
             loginTv.setText(userInfoBean.getPresentlevel().getLevel_name());
         } else {
             loginTv.setText("小白");
         }
-        if (!StringUtils.isEmpty(userInfoBean.getUserinfo().getPhone())) {
-            nameTv.setText(userInfoBean.getUserinfo().getPhone());
+        if (!StringUtils.isEmpty(userinfo.getPhone())) {
+            nameTv.setText(userinfo.getPhone());
         }
-        if (userInfoBean.getUserinfo().getSex().equals("1")) {
-            Drawable dra = activity.getResources().getDrawable(R.mipmap.boy_comment_mark);
-            dra.setBounds(0, 0, dra.getMinimumWidth(), dra.getMinimumHeight());
-            nameTv.setCompoundDrawables(dra, null, null, null);
-        } else {
-            Drawable dra = activity.getResources().getDrawable(R.mipmap.girl_comment_mark);
-            dra.setBounds(0, 0, dra.getMinimumWidth(), dra.getMinimumHeight());
-            nameTv.setCompoundDrawables(dra, null, null, null);
-        }
-        if (userInfoBean.getUserinfo().getVideo_avail_day() < userInfoBean.getUserinfo().getVideo_avail()) {
-            numTv.setText(userInfoBean.getUserinfo().getVideo_avail() - userInfoBean.getUserinfo().getVideo_avail_use() + "/" + userInfoBean.getUserinfo().getVideo_avail());
+        UIhelper.setGenderIcon(activity, userinfo.getSex(), nameTv);
+        if (userinfo.getVideo_avail_day() < userinfo.getVideo_avail()) {
+            numTv.setText(userinfo.getVideo_avail() - userinfo.getVideo_avail_use() + "/" + userinfo.getVideo_avail());
 
         } else {
-            numTv.setText((userInfoBean.getUserinfo().getVideo_avail_day() - userInfoBean.getUserinfo().getVideo_avail_use()) + "/" + userInfoBean.getUserinfo().getVideo_avail_day());
+            numTv.setText((userinfo.getVideo_avail_day() - userinfo.getVideo_avail_use()) + "/" + userinfo.getVideo_avail_day());
         }
         if (userInfoBean.getAdname().size() > 0) {
             Glide.with(activity).applyDefaultRequestOptions(new RequestOptions().error(R.mipmap.ads))
@@ -250,7 +285,7 @@ public class MineFragment extends BaseFragment {
             adsIv.setVisibility(View.GONE);
         }
         if (null != userInfoBean.getNextlevel() && null != userInfoBean.getPresentlevel()) {
-            tvPromotion.setText("下一等级还差" + (userInfoBean.getNextlevel().getShare_num() - userInfoBean.getPresentlevel().getShare_num()) + "人");
+            tvPromotion.setText(String.format("下一等级还差%d人", userInfoBean.getNextlevel().getShare_num() - userInfoBean.getPresentlevel().getShare_num()));
         } else if (null != userInfoBean.getPresentlevel()) {
             tvPromotion.setText("当前已经是最高级");
         }
@@ -283,12 +318,6 @@ public class MineFragment extends BaseFragment {
         }
         hostoryNumTv.setText("目前历史观看过" + userInfoBean.getRecordstlist_count() + "部");
         tvFavorNum.setText("目前已有喜欢" + userInfoBean.getCollectlist_count() + "部");
-//       recordstlistBeans.clear();
-//       recordstlistBeans.addAll(userInfoBean.getRecordstlist());
-//       historyRecordAdapter.notifyDataSetChanged();
-//       collectlistBeans.clear();
-//       collectlistBeans.addAll(userInfoBean.getCollectlist());
-//       myFavoriteAdapter.notifyDataSetChanged();
         historyRecordAdapter.replaceData(userInfoBean.getRecordstlist());
         myFavoriteAdapter.replaceData(userInfoBean.getCollectlist());
     }
@@ -325,9 +354,9 @@ public class MineFragment extends BaseFragment {
                 activity.startActivity(new Intent(activity, HistoryActivity.class));
                 break;
             case R.id.download_layout://缓存
-//                if (null != videoBeans && videoBeans.size() > 0) {
-//                    activity.startActivity(new Intent(activity, Cache_Activity.class));
-//                }
+                if (null != videoBeans && videoBeans.size() > 0) {
+                    activity.startActivity(new Intent(activity, Cache_Activity.class));
+                }
                 break;
             case R.id.love_layout://我的喜欢
 //                activity.startActivity(new Intent(activity, FavoriteActivity.class));

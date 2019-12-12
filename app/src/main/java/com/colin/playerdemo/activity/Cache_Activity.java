@@ -173,7 +173,7 @@ public class Cache_Activity extends CommonImmerseActivity {
             vodeList.add(file.getPath());
             Log.v("this", "file==" + file);
         }
-        newList = FileUtils.ReadTxtFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + "/vod.txt");
+        newList = FileUtils.ReadTxtFile(directory + "/vod.txt");
 
         for (int i = 0; i < newList.size(); i++) {
             String[] s = newList.get(i).split("_");

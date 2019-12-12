@@ -20,6 +20,7 @@ public interface Constant {
     String SP_FIRST_INSTALL = "SP_FIRST_INSTALL";
     String SP_FIRST_ENTER = "SP_FIRST_ENTER";
     String SP_HISTORY_SEARCH = "HISTORY_SEARCH";
+    String SP_AVATAR = "SP_AVATAR";
 
 
     String APK_NAME = "dyd_shop.apk";
