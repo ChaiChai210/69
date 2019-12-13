@@ -118,4 +118,5 @@ dependencies {
     implementation 'com.github.razerdp:BasePopup:2.2.1'
     implementation project(path: ':zxinglibrary')
 //    implementation 'com.github.yuzhiqiang/1993:zxing:2.2.5'
+    implementation 'pub.devrel:easypermissions:3.0.0'
 }

@@ -66,12 +66,7 @@ public class Fragment_Class_Adapter extends RecyclerView.Adapter<RecyclerView.Vi
             Glide.with(itemView.getContext()).load(list.get(position).getCover()).into(class_image);
             introduce_tv.setText(list.get(position).getName());
             class_tv.setText(list.get(position).getScore()+"");
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    itemView.getContext().startActivity(new Intent(itemView.getContext(), PlayActivity.class).putExtra("id",list.get(position).getId()+""));
-                }
-            });
+            itemView.setOnClickListener(v -> itemView.getContext().startActivity(new Intent(itemView.getContext(), PlayActivity.class).putExtra("id",list.get(position).getId()+"")));
         }
     }
 }

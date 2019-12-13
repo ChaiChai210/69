@@ -36,6 +36,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -83,7 +84,6 @@ public class CommentDetailPopup extends BasePopupWindow implements PlayCommentDe
     private String id;
     private String mode;
     private boolean hasMore = true;
-    private boolean isRefresh;
 
     public CommentDetailPopup(Context context, String id, PlayCommentBean bean, String mode) {
         super(context);
@@ -102,23 +102,24 @@ public class CommentDetailPopup extends BasePopupWindow implements PlayCommentDe
         srlContainer.setEnableLoadMore(true);
         srlContainer.setEnableOverScrollBounce(true);
         srlContainer.setEnableOverScrollDrag(true);
-//        srlContainer.setOnRefreshListener(refreshLayout -> {
-//            refreshLayout.finishRefresh();
-//            page = 1;
-//            hasMore = true;
-//            getChildComment(id, bean, mode);
-//        });
+        srlContainer.setOnRefreshListener(refreshLayout -> {
+            refreshLayout.finishRefresh();
+            page = 1;
+            hasMore = true;
+            getChildComment(id, bean, mode);
+        });
         srlContainer.setEnableRefresh(false);
         srlContainer.setOnLoadMoreListener(refreshLayout -> {
-            if (!hasMore) {
-                refreshLayout.finishLoadMoreWithNoMoreData();
-            } else {
+            if (hasMore) {
                 refreshLayout.finishLoadMore();
                 page++;
+            } else {
+                refreshLayout.finishLoadMoreWithNoMoreData();
             }
         });
 
         Glide.with(mContext).load(bean.getPortrait()).into(headImage);
+        Glide.with(mContext).load(bean.getPortrait()).into(ivHead);
         nameTv.setText(bean.getNickname());
         timeTv.setText(bean.getCreate_time());
         showContentTv.setText(bean.getContent());
@@ -161,16 +162,16 @@ public class CommentDetailPopup extends BasePopupWindow implements PlayCommentDe
 
                 //返回码为成功时的处理
                 if (beanBaseListBean.getResCode() == 0) {
-                    if (beanBaseListBean.getData().isEmpty()) {
+                    if (beanBaseListBean.getData().size() < 10) {
                         hasMore = false;
                     }
-                    if (isRefresh) {
+                    if (page == 1) {
                         commentDetailAdapter.replaceData(beanBaseListBean.getData());
                     } else {
                         commentDetailAdapter.addData(beanBaseListBean.getData());
                     }
                 } else {
-
+                    FancyToast.makeText(mContext, beanBaseListBean.getInfo(), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                 }
             }
 
@@ -280,7 +281,6 @@ public class CommentDetailPopup extends BasePopupWindow implements PlayCommentDe
 
     @Override
     public void childOnclick(int position, int islike) {
-        isRefresh = true;
         putComment(childlist.get(position).getId() + "", islike);
     }
 

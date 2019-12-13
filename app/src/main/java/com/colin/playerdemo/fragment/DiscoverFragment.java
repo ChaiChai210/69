@@ -78,7 +78,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
     @BindView(R.id.refresh_find)
     SmartRefreshLayout refreshFind;
 
-    private static final int PAGE_SIZE = 6;
     private int page = 1;
     private boolean hasMore = true;
     DisconverBean disconverBean;
@@ -90,7 +89,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
 
     private static LinkedHashMap<Integer, Long> progressMap = new LinkedHashMap<>();
 
-    protected void initVideoView() {
+    private void initVideoView() {
         mVideoView = new VideoView(activity);
         mVideoView.setProgressManager(new ProgressManager() {
             @Override
@@ -192,8 +191,6 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
         PlayUtils.removeViewFormParent(mVideoView);
         FrameLayout container = viewHolder.getView(R.id.player_container);
         container.addView(mVideoView, 0);
-//        //播放之前将VideoView添加到VideoViewManager以便在别的页面也能操作它
-//        getVideoViewManager().add(mVideoView, Tag.LIST);
         mVideoView.start();
         mCurPos = position;
     }
@@ -228,7 +225,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
 
                 //返回码为成功时的处理
                 if (disconverBean.getCode() == 0) {
-                    if (disconverBean.getData().isEmpty()) {
+                    if (disconverBean.getData().size() < 6) {
                         hasMore = false;
                     }
                     if (page == 1) {
@@ -239,19 +236,16 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
                 } else {
                     UIhelper.ToastMessage(disconverBean.getInfo());
                 }
-                UIhelper.stopLoadingDialog();
             }
 
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
-                UIhelper.showLoadingDialog(activity);
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                UIhelper.stopLoadingDialog();
             }
         });
     }
@@ -269,8 +263,11 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
             if (hasMore) {
                 page++;
                 getVideos();
+                refreshFind.finishLoadMore();
+            } else {
+                refreshFind.finishLoadMoreWithNoMoreData();
             }
-            refreshFind.finishLoadMore();
+
         });
         refreshFind.autoRefresh();
         mLinearLayoutManager = new LinearLayoutManager(getContext());
@@ -337,7 +334,7 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
     @Override
     public void onclick(int position, int type) {
         if (type == 3) {
-            AppUtils.copyToClipboard(activity, downUrl + "");
+            AppUtils.copyToClipboard(activity, downUrl);
             Toast.makeText(activity, "已复制到粘贴板", Toast.LENGTH_SHORT).show();
         }
     }
@@ -349,31 +346,17 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
             @Override
             public void onSuccess(Response<String> response) {
                 //解析data里面为数组的形式，用的baseListBean基本类
-                Type type = new TypeToken<BaseBean>() {
-                }.getType();
-                BaseBean baseBean = GsonHelper.gson.fromJson(response.body(), type);
-                UIhelper.stopLoadingDialog();
-
-                //返回码为成功时的处理
-                if (baseBean.getCode() == 0) {
-
-                } else {
-
-                }
             }
 
             @Override
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
                 //显示loading框
-                UIhelper.showLoadingDialog(activity);
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                UIhelper.stopLoadingDialog();
-
             }
         });
     }

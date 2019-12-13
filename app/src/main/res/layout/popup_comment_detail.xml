@@ -114,13 +114,14 @@
         android:id="@+id/srl_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_all_reply">
+        android:layout_below="@+id/tv_all_reply"
+        android:layout_above="@+id/play_send_layout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_comment_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"></androidx.recyclerview.widget.RecyclerView>
+            android:overScrollMode="never" />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <LinearLayout

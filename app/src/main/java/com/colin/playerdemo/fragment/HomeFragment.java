@@ -1,5 +1,6 @@
 package com.colin.playerdemo.fragment;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,14 +43,17 @@ import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static androidx.appcompat.app.AppCompatActivity.RESULT_OK;
 
 
-public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.OnAdClickListener, Home_Class_Adapter.HomeClass_Listener {
+public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.OnAdClickListener, Home_Class_Adapter.HomeClass_Listener, EasyPermissions.PermissionCallbacks{
     @BindView(R.id.banner)
     BannerLayout banner;
     @BindView(R.id.class_rv)
@@ -70,10 +75,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.On
     HomeFragmentAdapter home_fragment_adapter;
     //
     private MainBean mainBean;
-    private static final int REQUEST_CODE_SCAN = 0x0000;
-
-    private static final String DECODED_CONTENT_KEY = "codedContent";
-    private static final String DECODED_BITMAP_KEY = "codedBitmap";
+    private static final int RC_CAMERA_PERM = 123;
 
     @Override
     public int getContentViewId() {
@@ -87,8 +89,16 @@ public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.On
                 activity.startActivity(new Intent(activity, SearchActivity.class));
                 break;
             case R.id.scan_iv://扫描
-                Intent intent = new Intent(activity, CaptureActivity.class);
-                startActivityForResult(intent, 1111);
+                if (EasyPermissions.hasPermissions(activity, Manifest.permission.CAMERA)) {
+                    Intent intent = new Intent(activity, CaptureActivity.class);
+                    startActivityForResult(intent, 1111);
+                } else {
+                    EasyPermissions.requestPermissions(
+                            this,
+                            getString(R.string.rationale_camera),
+                            RC_CAMERA_PERM,
+                            Manifest.permission.CAMERA);
+                }
                 break;
             case R.id.cache_iv://缓存
                 activity.startActivity(new Intent(activity, Cache_Activity.class));
@@ -207,17 +217,25 @@ public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.On
         }
     }
 
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Intent intent = new Intent(activity, CaptureActivity.class);
+        startActivityForResult(intent, 1111);
+    }
 
-//    @Override
-//    public void onItemClick(int position) {
-//        if (!Tools.isEmpty(mainBean.getAd_chart().get(position).getUrl())) {
-//            ADDAds(mainBean.getAd_chart().get(position).getId() + "");
-//            Uri uri = Uri.parse( mainBean.getAd_chart().get(position).getUrl());
-//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//            startActivity(intent);
-//
-//        }
-//    }
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
 
 }

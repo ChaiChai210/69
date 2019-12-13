@@ -80,7 +80,7 @@ public class Class_activity extends CommonImmerseActivity {
 
     @Override
     public void initData() {
-        darkImmerseFontColor();
+//        darkImmerseFontColor();
         activityTitleIncludeCenterTv.setText("全部视频");
         activityTitleIncludeRightIv.setImageResource(R.mipmap.icon_search);
         if (getIntent().hasExtra("id")) {

@@ -78,6 +78,8 @@ public class Fragment_Class1 extends BaseFragment {
                 page++;
                 getSeach();
                 refreshFind.finishLoadMore();
+            } else {
+                refreshFind.finishLoadMoreWithNoMoreData();
             }
 
         });
@@ -110,7 +112,9 @@ public class Fragment_Class1 extends BaseFragment {
                 searchBeanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
                 //返回码为成功时的处理
                 if (searchBeanBaseListBean.getResCode() == 0) {
-                    Hasmore = searchBeanBaseListBean.getData().size() >= 20;
+                    if (searchBeanBaseListBean.getData().size() < 20) {
+                        Hasmore = false;
+                    }
                     if (page == 1) {
                         searchBeans = searchBeanBaseListBean.getData();
                     } else {

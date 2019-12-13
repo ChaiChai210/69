@@ -65,7 +65,6 @@ public class SearchResultActivity extends BaseActivity {
     private String search;
     private SearchResultAdapter searchResultAdapter;
     private int page = 1;
-    private static final Object PAGE_SIZE = 10;
     private List<SearchBean> searchList = new ArrayList<>();
     private boolean hasMore = true;
 
@@ -101,9 +100,13 @@ public class SearchResultActivity extends BaseActivity {
             refreshFind.finishRefresh(1000);
         });
         refreshFind.setOnLoadMoreListener(refreshLayout -> {
-            page++;
-            getSeach();
-            refreshFind.finishLoadMore();
+            if (hasMore) {
+                page++;
+                getSeach();
+                refreshFind.finishLoadMore();
+            } else {
+                refreshFind.finishLoadMoreWithNoMoreData();
+            }
         });
         searchResultAdapter = new SearchResultAdapter(searchList);
         resultRv.setLayoutManager(new LinearLayoutManager(this));
@@ -147,12 +150,12 @@ public class SearchResultActivity extends BaseActivity {
                 UIhelper.stopLoadingDialog();
                 //返回码为成功时的处理
                 if (searchList.isEmpty()) {
-                    hasMore = false;
-                    if (page == 1) {
-                        noLayout.setVisibility(View.VISIBLE);
-                        ser_tv.setText("没有找到与“" + search + "”相关的结果");
-                    }
+                    noLayout.setVisibility(View.VISIBLE);
+                    ser_tv.setText("没有找到与“" + search + "”相关的结果");
                 } else {
+                    if(searchList.size() < 10){
+                        hasMore = false;
+                    }
                     noLayout.setVisibility(View.GONE);
                     if (page == 1) {
 //                            discoverList.clear();

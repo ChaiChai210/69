@@ -37,7 +37,6 @@ import butterknife.BindView;
 
 
 public class Fragment_Class extends BaseFragment {
-    Activity activity;
     @BindView(R.id.history_rv)
     RecyclerView historyRv;
     @BindView(R.id.refresh_find)
@@ -46,11 +45,15 @@ public class Fragment_Class extends BaseFragment {
     RelativeLayout noLayout;
     Fragment_Class_Adapter adapter;
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        activity = (Activity) context;
-    }
+    private boolean isViewInitFinished = false;
+    /**
+     * 全局搜索
+     */
+    BaseListBean<SearchBean> searchBeanBaseListBean;
+    private int page = 1;
+    private boolean Hasmore = true;
+    private List<SearchBean> list;
+    private String ranking, classify;
 
     public static Fragment_Class newInstance(int from, String ranking) {
         Fragment_Class fragment = new Fragment_Class();
@@ -60,8 +63,6 @@ public class Fragment_Class extends BaseFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
-    private boolean isViewInitFinished = false;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -92,31 +93,24 @@ public class Fragment_Class extends BaseFragment {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-        refreshFind.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                refreshFind.setVisibility(View.VISIBLE);
-                page = 1;
-                getSeach();
-                refreshFind.finishRefresh(1000);
-            }
-
+        refreshFind.setOnRefreshListener(refreshlayout -> {
+//            refreshFind.setVisibility(View.VISIBLE);
+            page = 1;
+            getSeach();
+            refreshFind.finishRefresh(1000);
         });
-        refreshFind.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                if (Hasmore) {
-                    page++;
-                    getSeach();
-                    refreshFind.finishLoadMore();
-                }
-
+        refreshFind.setOnLoadMoreListener(refreshLayout -> {
+            if (Hasmore) {
+                page++;
+                getSeach();
+                refreshFind.finishLoadMore();
+            } else {
+                refreshFind.finishLoadMoreWithNoMoreData();
             }
+
         });
 
     }
-
-    private String ranking, classify;
 
     public void setRanking(String ranking, String classify) {
         this.ranking = ranking;
@@ -124,14 +118,6 @@ public class Fragment_Class extends BaseFragment {
         page = 1;
         getSeach();
     }
-
-    /**
-     * 全局搜索
-     */
-    BaseListBean<SearchBean> searchBeanBaseListBean;
-    private int page = 1;
-    private boolean Hasmore = true;
-    private List<SearchBean> list;
 
     private void getSeach() {
         HttpParams httpParams = new HttpParams();
@@ -156,7 +142,9 @@ public class Fragment_Class extends BaseFragment {
                 searchBeanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
                 //返回码为成功时的处理
                 if (searchBeanBaseListBean.getResCode() == 0) {
-                    Hasmore = searchBeanBaseListBean.getData().size() >= 20;
+                    if (searchBeanBaseListBean.getData().size() < 20) {
+                        Hasmore = false;
+                    }
                     if (page == 1) {
                         list = searchBeanBaseListBean.getData();
                     } else {
@@ -166,7 +154,7 @@ public class Fragment_Class extends BaseFragment {
                 } else {
                     UIhelper.ToastMessage(searchBeanBaseListBean.getInfo());
                     noLayout.setVisibility(View.VISIBLE);
-                    refreshFind.setVisibility(View.INVISIBLE);
+//                    refreshFind.setVisibility(View.GONE);
                 }
             }
 
@@ -180,11 +168,10 @@ public class Fragment_Class extends BaseFragment {
             public void onError(Response<String> response) {
                 super.onError(response);
                 noLayout.setVisibility(View.VISIBLE);
-                refreshFind.setVisibility(View.INVISIBLE);
+//                refreshFind.setVisibility(View.GONE);
             }
         });
     }
-
 
 
 }

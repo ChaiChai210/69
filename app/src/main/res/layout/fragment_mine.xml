@@ -380,7 +380,7 @@
                             android:layout_marginStart="@dimen/space_12"
                             android:layout_marginTop="@dimen/space_11"
                             android:layout_toEndOf="@+id/download_iv"
-                            android:text="目前本地大片有0部"
+                            tools:text="目前本地大片有0部"
                             android:textColor="#999999" />
 
                         <ImageView

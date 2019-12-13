@@ -88,23 +88,9 @@ public class MainActivity extends BaseActivity implements HelpWindow.PopwindowsL
         } else {
             config();
         }
-        //todo这段逻辑不用加
-//        if (!Login_Activity.isLogin(this)) {
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.put("app-token", Tools.getSharedPreferencesValues(MainActivity.this, "app-token"));
-//            OkGo.getWithToken().addCommonHeaders(headers);
-//            initTabHost();
-//        } else {
-//            initTabHost();
-//        }
         initTabHost();
     }
 
-    //    @Override
-//    protected void initImmersionBar() {
-//        super.initImmersionBar();
-//        darkImmerseFontColor();
-//    }
     private void config() {
         HttpParams httpParams = new HttpParams();
         OkGo.<String>get(URLs.CONFIGURE).params(httpParams).execute(new StringCallback() {
@@ -173,16 +159,6 @@ public class MainActivity extends BaseActivity implements HelpWindow.PopwindowsL
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 0://定位
-                break;
-            case 1://
-                break;
-            case 2:
-                break;
-            case 3://读取和写入文件
-                break;
-        }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 

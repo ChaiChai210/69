@@ -86,24 +86,19 @@ public class Fragment_History extends BaseFragment {
 
     @Override
     protected void initAllMembersView(Bundle savedInstanceState) {
-        refreshFind.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                hasmore = true;
-                page = 1;
-                getHistory(historyType);
-                refreshFind.finishRefresh(1000);
-            }
-
+        refreshFind.setOnRefreshListener(refreshlayout -> {
+            hasmore = true;
+            page = 1;
+            getHistory(historyType);
+            refreshFind.finishRefresh(1000);
         });
-        refreshFind.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                if (hasmore) {
-                    page++;
-                    getHistory(historyType);
-                }
+        refreshFind.setOnLoadMoreListener(refreshLayout -> {
+            if (hasmore) {
+                page++;
+                getHistory(historyType);
                 refreshFind.finishLoadMore();
+            } else {
+                refreshFind.finishLoadMoreWithNoMoreData();
             }
         });
         historyType = getArguments().getInt("from");
@@ -156,7 +151,9 @@ public class Fragment_History extends BaseFragment {
                 UIhelper.stopLoadingDialog();
                 //返回码为成功时的处理
                 if (baseBean.getCode() == 0) {
-                    hasmore = baseBean.getData().size() >= page_size;
+                    if (baseBean.getData().size() < page_size) {
+                        hasmore = false;
+                    }
                     if (page == 1) {
                         HistoryActivity.historybooleanslsit.get(historyType).clear();
                         data = baseBean.getData();
