@@ -47,7 +47,7 @@
         <activity android:name=".activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:windowSoftInputMode="adjustNothing"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".activity.HistoryActivity"
             android:screenOrientation="portrait"/>

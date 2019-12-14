@@ -2,7 +2,7 @@ project.ext {
     releaseVersion = '3.2.0'
     releaseVersionCode = 41
 
-    minSdkVersion = 16
+    minSdkVersion = 17
     targetSdkVersion = 29
     compileSdkVersion = 29
     buildToolsVersion = '28.0.3'
@@ -11,6 +11,8 @@ project.ext {
     supportLibraryVersion = '28.0.0'
     ijkPlayerVersion = '0.8.8'
     exoPlayerVersion = '2.10.6'
+    basePopupVersion = '2.2.2.191101'
 
     annotation = 'androidx.annotation:annotation:1.1.0'
+
 }

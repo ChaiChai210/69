@@ -9,11 +9,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -76,6 +79,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import razerdp.basepopup.BasePopupWindow;
+
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING;
 
 public class PlayActivity extends BaseActivity implements PlayCommentAdapter.PlayCommentListener {
     @BindView(R.id.player)
@@ -563,15 +569,17 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         });
     }
 
+//    public int alignMode = BasePopupWindow.FLAG_KEYBOARD_ALIGN_TO_VIEW | BasePopupWindow.FLAG_KEYBOARD_ANIMATE_ALIGN;
 
     @Override
     public void showClick(PlayCommentBean playCommentBean) {
 
         CommentDetailPopup popup = new CommentDetailPopup(this, id, playCommentBean, mode);
-//        popup.setAlignBackground(true);
+//        popup.setKeepSize(true);
+        popup.setPopupWindowFullScreen(false);
+        popup.setAdjustInputMethod(true, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        popup.setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popup.showPopupWindow(mVideoView);
-        popup.linkTo(mVideoView);
-
     }
 
     @OnClick({R.id.ads_iv, R.id.title_layout, R.id.favor_iv, R.id.send_iv, R.id.love_more_tv, R.id.new_tv, R.id.hot_tv,

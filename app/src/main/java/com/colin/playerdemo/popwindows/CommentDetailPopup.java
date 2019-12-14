@@ -3,6 +3,7 @@ package com.colin.playerdemo.popwindows;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -92,7 +93,7 @@ public class CommentDetailPopup extends BasePopupWindow implements PlayCommentDe
         this.id = id;
         this.mode = mode;
         ButterKnifeUtil.bind(this, getContentView());
-        setPopupGravity(Gravity.BOTTOM);
+//        setPopupGravity(Gravity.BOTTOM);
         initView(bean);
         getChildComment(id, bean, mode);
     }

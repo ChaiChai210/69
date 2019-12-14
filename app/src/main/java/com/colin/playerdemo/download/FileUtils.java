@@ -22,6 +22,7 @@ import java.util.Set;
 public class FileUtils {
 
     public static final String downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+//    public static final String downloadDirectory =getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
     public static final String VodDirectory = downloadDirectory + "/vod";
 
     /**
