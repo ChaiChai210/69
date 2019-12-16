@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,7 +51,6 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class Need_Feedback_Fragment extends BaseFragment {
-    Activity activity;
     @BindView(R.id.feedback_rv)
     RecyclerView feedbackRv;
     @BindView(R.id.feed_edt)
@@ -140,14 +140,13 @@ public class Need_Feedback_Fragment extends BaseFragment {
                             fileCropUri.delete();
                         cropImageUri = Uri.fromFile(fileCropUri);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            newUri = FileProvider.getUriForFile(activity, "com.tmkj.vod.FileProvider", new File(newUri.getPath()));
+                            newUri = FileProvider.getUriForFile(activity, "com.colin.playerdemo.FileProvider", new File(newUri.getPath()));
                         AppUtils.cropImageUri(activity, newUri, cropImageUri, 1, 1, 480, 480, 3);
                     } else {
                         Toast.makeText(activity, "设备没有SD卡", Toast.LENGTH_LONG).show();
                     }
                     break;
                 case 3://裁剪完成
-
                     getQNTk(fileCropUri);
                     break;
                 case 5://拍照完成
@@ -178,7 +177,7 @@ public class Need_Feedback_Fragment extends BaseFragment {
                 //返回码为成功时的处理
                 if (baseBean.isSuccess()) {
                     Glide.with(activity).applyDefaultRequestOptions(new RequestOptions().error(R.mipmap.ic_head_l))
-                            .load(baseBean.getData().getUrl()).into(addIv);
+                            .load(baseBean.getData().getDomain()+baseBean.getData().getUrl()).into(addIv);
                     pic = baseBean.getData().getUrl();
                 } else {
                     UIhelper.ToastMessage(baseBean.getInfo());

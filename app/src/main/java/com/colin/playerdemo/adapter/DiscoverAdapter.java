@@ -60,9 +60,9 @@ public class DiscoverAdapter extends BaseQuickAdapter<DisconverBean.DataBean, Ba
 //        ivFavorite.setOnClickListener(v -> collectListener.onclick(helper.getLayoutPosition(), 2));
         ivFavorite.setOnClickListener(v -> {
             if (item.getIs_collect() == 1) {
-                deleteCollectList(item, ivFavorite,helper.getLayoutPosition());
+                deleteCollectList(item, ivFavorite, helper.getLayoutPosition());
             } else {
-                collect(item, ivFavorite,helper.getLayoutPosition());
+                collect(item, ivFavorite, helper.getLayoutPosition());
             }
         });
         helper.getView(R.id.send_iv).setOnClickListener(v -> collectListener.onclick(helper.getLayoutPosition(), 3));
@@ -87,7 +87,7 @@ public class DiscoverAdapter extends BaseQuickAdapter<DisconverBean.DataBean, Ba
         OkGo.<String>post(URLs.COLLECT).params(httpParams).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-//                UIhelper.stopLoadingDialog();
+                UIhelper.stopLoadingDialog();
 
                 Type type = new TypeToken<BaseBean>() {
                 }.getType();
@@ -107,19 +107,19 @@ public class DiscoverAdapter extends BaseQuickAdapter<DisconverBean.DataBean, Ba
             public void onStart(Request<String, ? extends Request> request) {
                 super.onStart(request);
                 //显示loading框
-//                UIhelper.showLoadingDialog(activity);
+                UIhelper.showLoadingDialog(mContext);
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-//                UIhelper.stopLoadingDialog();
+                UIhelper.stopLoadingDialog();
 
             }
         });
     }
 
-    private void deleteCollectList(DisconverBean.DataBean item, ImageView ivFavorite,int pos) {
+    private void deleteCollectList(DisconverBean.DataBean item, ImageView ivFavorite, int pos) {
         HttpParams httpParams = new HttpParams();
         String url;
         url = URLs.COLLECT + "/" + item.getId();

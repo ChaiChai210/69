@@ -31,6 +31,7 @@ import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.lang.reflect.Type;
 
@@ -250,7 +251,7 @@ public class Login_Activity extends BaseActivity {
                     startActivity(intent);
                     finish();
                 } else {
-
+                    FancyToast.makeText(mContext, loginBean.getInfo(), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                 }
             }
 

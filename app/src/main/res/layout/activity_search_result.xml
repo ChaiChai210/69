@@ -4,15 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <View
         android:id="@+id/status_bar_view"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:background="@color/full_transparent"
         android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="12dp"
+            android:paddingRight="15dp"
+            android:src="@mipmap/icon_nav_back" />
 
         <LinearLayout
             android:id="@+id/search_layout"
@@ -20,7 +31,9 @@
             android:layout_height="@dimen/space_30"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/space_12"
+            android:layout_toRightOf="@+id/iv_left"
             android:background="@drawable/round_bc_all_black_circle_16">
+
 
             <ImageView
                 android:layout_width="wrap_content"

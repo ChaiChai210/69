@@ -204,6 +204,7 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
                 }
                 if (mVideoView != null && !mVideoView.isPlaying()) {
                     mVideoView.start();
+                    saveVideo();
                 }
             }
 
@@ -214,6 +215,42 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
             }
         });
 
+    }
+
+    private void saveVideo() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("vid", id);
+        OkGo.<String>post(URLs.RECORDS).params(httpParams).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //解析data里面为数组的形式，用的baseListBean基本类
+                Type type = new TypeToken<BaseBean>() {
+                }.getType();
+                BaseBean baseBean = GsonHelper.gson.fromJson(response.body(), type);
+//                UIhelper.stopLoadingDialog();
+
+                //返回码为成功时的处理
+                if (baseBean.getCode() == 0) {
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                //显示loading框
+//                UIhelper.showLoadingDialog(Play_Activity.this);
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+//                UIhelper.stopLoadingDialog();
+
+            }
+        });
     }
 
     @Override
@@ -587,19 +624,20 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.download_nopress_iv://下载
-                if (playDetailBeanBaseBean != null) {
-                    initTextData(playDetailBeanBaseBean);
-                    initTask(playDetailBeanBaseBean.getData(), view);
-                }
-
-//                if (null != playDetailBeanBaseBean) {
-//                    if (mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_cache_day() - mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_avail_use() > 0) {
-//                        initTask(playDetailBeanBaseBean.getData(),view);
-//                    } else {
-//                        Toast.makeText(this, "可用缓存次数不够", Toast.LENGTH_SHORT).show();
-//                    }
-//
+//                if (playDetailBeanBaseBean != null) {
+//                    initTextData(playDetailBeanBaseBean);
+//                    initTask(playDetailBeanBaseBean.getData(), view);
 //                }
+
+                if (null != playDetailBeanBaseBean) {
+                    if (mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_cache_day() - mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_avail_use() > 0) {
+                        initTask(playDetailBeanBaseBean.getData(),view);
+                        initTextData(playDetailBeanBaseBean);
+                    } else {
+                        Toast.makeText(this, "可用缓存次数不够", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
                 break;
             case R.id.iv_left:
                 finish();

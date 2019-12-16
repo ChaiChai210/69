@@ -62,6 +62,8 @@ public class SearchResultActivity extends BaseActivity {
     TextView ser_tv;
     @BindView(R.id.status_bar_view)
     View statusBarView;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
     private String search;
     private SearchResultAdapter searchResultAdapter;
     private int page = 1;
@@ -115,9 +117,12 @@ public class SearchResultActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tell_me_layout, R.id.cancel_tv})
+    @OnClick({R.id.tell_me_layout, R.id.cancel_tv,R.id.iv_left})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_left:
+                finish();
+                break;
             case R.id.tell_me_layout:
                 startActivity(new Intent(this, FeedbackActivity.class));
                 break;
@@ -153,7 +158,7 @@ public class SearchResultActivity extends BaseActivity {
                     noLayout.setVisibility(View.VISIBLE);
                     ser_tv.setText("没有找到与“" + search + "”相关的结果");
                 } else {
-                    if(searchList.size() < 10){
+                    if (searchList.size() < 10) {
                         hasMore = false;
                     }
                     noLayout.setVisibility(View.GONE);

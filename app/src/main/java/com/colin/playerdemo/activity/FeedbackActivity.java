@@ -1,10 +1,13 @@
 package com.colin.playerdemo.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.colin.playerdemo.R;
@@ -88,5 +91,9 @@ public class FeedbackActivity extends CommonImmerseActivity {
 //        });
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mFragments.get(1).onActivityResult(requestCode,resultCode,data);
+    }
 }

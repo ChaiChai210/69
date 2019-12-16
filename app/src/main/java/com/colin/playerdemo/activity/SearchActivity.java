@@ -65,6 +65,8 @@ public class SearchActivity extends BaseActivity {
     RecyclerView rvHotSearch;
     @BindView(R.id.status_bar_view)
     View statusBarView;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
 
     private HotSearchAdapter hotSearchAdapter;
     private HistorySearchAdapter historySearchAdapter;
@@ -75,6 +77,7 @@ public class SearchActivity extends BaseActivity {
     protected int getLayoutResId() {
         return R.layout.activity_search;
     }
+
     @Override
     protected void initImmersionBar() {
         super.initImmersionBar();
@@ -84,6 +87,7 @@ public class SearchActivity extends BaseActivity {
                 .keyboardEnable(true)
                 .init();
     }
+
     @Override
     protected void initView() {
 //        darkImmerseFontColor();
@@ -141,9 +145,12 @@ public class SearchActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_search, R.id.delete_iv})
+    @OnClick({R.id.tv_search, R.id.delete_iv,R.id.iv_left})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_left:
+                finish();
+                break;
             case R.id.tv_search:
                 doSearch(etSearch.getText().toString());
                 break;
@@ -215,5 +222,9 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @OnClick()
+    public void onViewClicked() {
     }
 }
