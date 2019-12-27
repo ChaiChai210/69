@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.colin.playerdemo.customeview.third.RoundImageView
+    <com.colin.tomvod.customeview.third.RoundImageView
         android:id="@+id/class_image"
         android:layout_width="match_parent"
         android:layout_height="120dp"

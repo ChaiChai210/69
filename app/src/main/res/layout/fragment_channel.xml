@@ -25,7 +25,7 @@
             app:tl_textsize="@dimen/text_size_16">
         </com.flyco.tablayout.SlidingTabLayout>
     </LinearLayout>
-    <com.colin.playerdemo.customeview.CustomViewPager
+    <com.colin.tomvod.customeview.CustomViewPager
         android:id="@+id/channel_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

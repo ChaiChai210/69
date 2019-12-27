@@ -29,7 +29,7 @@
         android:layout_height="@dimen/space_10"
         android:background="#F5F5F5" />
 
-    <com.colin.playerdemo.customeview.CustomViewPager
+    <com.colin.tomvod.customeview.CustomViewPager
         android:id="@+id/chat_room_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

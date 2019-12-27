@@ -1,0 +1,56 @@
+package com.colin.tomvod.activity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.colin.tomvod.R;
+import com.colin.tomvod.base.CommonImmerseActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class ProblemDetailActivity extends CommonImmerseActivity {
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.tv_center)
+    TextView tvCenter;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
+    @BindView(R.id.text_content)
+    TextView textContent;
+    @BindView(R.id.proble_iv)
+    ImageView probleIv;
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_problem_detail;
+    }
+    @Override
+    protected void initView() {
+        tvCenter.setText("问题详情");
+        darkImmerseFontColor();
+        textContent.setText(getIntent().getStringExtra("content"));
+    }
+
+    @OnClick({R.id.iv_left})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_left:
+                finish();
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+}

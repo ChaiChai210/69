@@ -16,7 +16,7 @@ android:layout_height="wrap_content">
     android:visibility="gone"
     tools:visibility="visible" />
 
-<com.colin.playerdemo.customeview.third.RoundImageView
+<com.colin.tomvod.customeview.third.RoundImageView
     android:id="@+id/cache_image"
     android:layout_width="160dp"
     android:layout_height="100dp"

@@ -53,7 +53,7 @@
             android:text="扫码下载69视频"
             android:textColor="@color/white" />
 
-        <com.colin.playerdemo.customeview.third.RoundImageView
+        <com.colin.tomvod.customeview.third.RoundImageView
             android:id="@+id/gener_image"
             android:layout_width="208dp"
             android:layout_height="208dp"
@@ -85,7 +85,7 @@
             android:textSize="@dimen/text_size_13" />
     </LinearLayout>
 
-    <com.colin.playerdemo.customeview.third.MyTextView
+    <com.colin.tomvod.customeview.third.MyTextView
         android:id="@+id/guanwang_tv"
         android:layout_width="240dp"
         android:layout_height="wrap_content"

@@ -42,7 +42,7 @@
         android:layout_height="49dp"
         android:layout_below="@+id/rl_comment_header">
 
-        <com.colin.playerdemo.customeview.third.RoundImageView
+        <com.colin.tomvod.customeview.third.RoundImageView
             android:id="@+id/head_image"
             android:layout_width="54dp"
             android:layout_height="54dp"
@@ -130,7 +130,7 @@
         android:layout_height="45dp"
         android:layout_alignParentBottom="true">
 
-        <com.colin.playerdemo.customeview.third.RoundImageView
+        <com.colin.tomvod.customeview.third.RoundImageView
             android:id="@+id/iv_head"
             android:layout_width="44dp"
             android:layout_height="44dp"

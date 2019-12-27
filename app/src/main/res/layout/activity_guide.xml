@@ -6,7 +6,7 @@
     android:orientation="vertical"
    >
 
-    <com.colin.playerdemo.customeview.guide.GuideCustomViews
+    <com.colin.tomvod.customeview.guide.GuideCustomViews
         android:id="@+id/guide_CustomView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

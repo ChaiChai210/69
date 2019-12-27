@@ -12,7 +12,7 @@
         android:layout_height="49dp"
         android:layout_marginLeft="@dimen/space_15">
 
-        <com.colin.playerdemo.customeview.third.RoundImageView
+        <com.colin.tomvod.customeview.third.RoundImageView
             android:id="@+id/head_image"
             android:layout_width="54dp"
             android:layout_height="54dp"

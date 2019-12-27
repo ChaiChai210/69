@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android'
 apply from: '../constants.gradle'
 
 android {
@@ -15,6 +17,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     compileOnly project.ext.annotation
     api project(':dkplayer-java')
+//    implementation "androidx.core:core-ktx:+"
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 ext {
@@ -22,3 +26,6 @@ ext {
 }
 
 apply from: '../publish.gradle'
+repositories {
+    mavenCentral()
+}

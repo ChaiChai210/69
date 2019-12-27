@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="70dp">
 
-    <com.colin.playerdemo.customeview.third.RoundImageView
+    <com.colin.tomvod.customeview.third.RoundImageView
         android:id="@+id/procla_image"
         android:layout_width="54dp"
         android:layout_height="54dp"

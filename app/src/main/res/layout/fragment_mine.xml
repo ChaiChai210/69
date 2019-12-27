@@ -463,7 +463,7 @@
                         android:layout_height="80dp" />
                 </LinearLayout>
 
-                <com.colin.playerdemo.customeview.third.RoundImageView
+                <com.colin.tomvod.customeview.third.RoundImageView
                     android:id="@+id/center_head_image"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -478,7 +478,7 @@
                     app:radius="2dp"
                     app:type="circle" />
 
-                <com.colin.playerdemo.customeview.third.RoundImageView
+                <com.colin.tomvod.customeview.third.RoundImageView
                     android:id="@+id/center_head_b_image"
                     android:layout_width="20dp"
                     android:layout_height="20dp"

@@ -5,4 +5,5 @@
     <string name="viewfinderview_status_text2" />
     <string name="text_promote_refund">推广分享获取永久免费观影</string>
     <string name="rationale_camera">调用扫码需要以下权限</string>
+    <string name="dialog_msg">ddd</string>
 </resources>

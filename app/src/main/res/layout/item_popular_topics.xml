@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.colin.playerdemo.customeview.third.RoundImageView
+    <com.colin.tomvod.customeview.third.RoundImageView
         android:id="@+id/column_class_image"
         android:layout_width="64dp"
         android:layout_height="64dp"

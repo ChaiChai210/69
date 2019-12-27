@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="184dp">
 
-                    <com.colin.playerdemo.customeview.third.RoundImageView
+                    <com.colin.tomvod.customeview.third.RoundImageView
                         android:id="@+id/star_image"
                         android:layout_width="71dp"
                         android:layout_height="71dp"

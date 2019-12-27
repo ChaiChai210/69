@@ -7,7 +7,7 @@
     android:layout_marginLeft="12dp"
     android:background="@drawable/boder_all_circular_white_2">
 
-    <com.colin.playerdemo.customeview.third.RoundImageView
+    <com.colin.tomvod.customeview.third.RoundImageView
         android:id="@+id/column_image"
         android:layout_width="54dp"
         android:layout_height="54dp"

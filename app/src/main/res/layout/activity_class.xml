@@ -94,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp">
 
-        <com.colin.playerdemo.customeview.MySlidingTabLayout
+        <com.colin.tomvod.customeview.MySlidingTabLayout
             android:id="@+id/class_slide_tl"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -105,7 +105,7 @@
             app:tl_textUnselectColor="@color/activity_title_center_text_black"
             app:tl_textsize="@dimen/text_size_12">
 
-        </com.colin.playerdemo.customeview.MySlidingTabLayout>
+        </com.colin.tomvod.customeview.MySlidingTabLayout>
         <!--<TextView-->
         <!--android:id="@+id/all_tv"-->
         <!--android:layout_width="49dp"-->
@@ -125,7 +125,7 @@
         android:layout_height="@dimen/space_2"
         android:background="@color/ColorLine" />
 
-    <com.colin.playerdemo.customeview.CustomViewPager
+    <com.colin.tomvod.customeview.CustomViewPager
         android:id="@+id/class_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

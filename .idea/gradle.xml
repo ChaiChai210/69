@@ -8,6 +8,18 @@
         </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/banner" />
+            <option value="$PROJECT_DIR$/dkplayer-java" />
+            <option value="$PROJECT_DIR$/dkplayer-players" />
+            <option value="$PROJECT_DIR$/dkplayer-players/ijk" />
+            <option value="$PROJECT_DIR$/dkplayer-ui" />
+            <option value="$PROJECT_DIR$/zxinglibrary" />
+          </set>
+        </option>
         <option name="resolveModulePerSourceSet" value="false" />
         <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>

@@ -31,7 +31,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/boder_all_circular__8">
 
-                <com.colin.playerdemo.customeview.third.RoundImageView
+                <com.colin.tomvod.customeview.third.RoundImageView
                     android:id="@+id/pop_image"
                     android:layout_width="54dp"
                     android:layout_height="54dp"
@@ -46,7 +46,7 @@
                     app:radius="2dp"
                     app:type="circle" />
 
-                <com.colin.playerdemo.customeview.third.RoundImageView
+                <com.colin.tomvod.customeview.third.RoundImageView
                     android:id="@+id/popularze_iv"
                     android:layout_width="56dp"
                     android:layout_height="56dp"

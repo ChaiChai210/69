@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.colin.playerdemo">
+    package="com.colin.tomvod">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
-        android:name=".AppContext"
+        android:name="com.colin.tomvod.AppContext"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
@@ -32,7 +32,7 @@
             android:name="notch.config"
             android:value="portrait|landscape" />
 
-        <activity android:name=".SplashActivity"
+        <activity android:name="com.colin.tomvod.SplashActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
@@ -43,53 +43,54 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.colin.tomvod.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".activity.Alone_Activity" />
-        <activity android:name=".activity.PlayActivity"
+        <activity android:name="com.colin.tomvod.activity.Alone_Activity" />
+        <activity android:name="com.colin.tomvod.activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".activity.HistoryActivity"
+        <activity android:name="com.colin.tomvod.activity.HistoryActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.SearchResultActivity" />
-        <activity android:name=".activity.Star_Activity" />
-        <activity android:name=".activity.PopularTopicsActivity" />
-        <activity android:name=".activity.U_Set_activity" />
-        <activity android:name=".activity.Popularize_Activity" />
-        <activity android:name=".activity.My_Generalize_Activity" />
-        <activity android:name=".activity.Generalize_Activity" />
-        <activity android:name=".activity.AnnouncementActivity" />
-        <activity android:name=".activity.NotificationActivity" />
-        <activity android:name=".activity.FeedbackActivity" />
-        <activity android:name=".activity.ProblemDetailActivity" />
-        <activity android:name=".activity.Class_activity" />
-        <activity android:name=".activity.VipActivity" />
-        <activity android:name=".activity.Login_Activity" />
-        <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.Code_Activity" />
-        <activity android:name=".activity.Protocol_Activity" />
-        <activity android:name=".activity.Manage_Setting_Activity" />
-        <activity android:name=".activity.changePwdActivity" />
-        <activity android:name=".activity.GuideActivity"
+        <activity android:name="com.colin.tomvod.activity.SearchActivity" />
+        <activity android:name="com.colin.tomvod.activity.SearchResultActivity" />
+        <activity android:name="com.colin.tomvod.activity.Star_Activity" />
+        <activity android:name="com.colin.tomvod.activity.PopularTopicsActivity" />
+        <activity android:name="com.colin.tomvod.activity.SettingActivity" />
+        <activity android:name="com.colin.tomvod.activity.Popularize_Activity" />
+        <activity android:name="com.colin.tomvod.activity.My_Generalize_Activity" />
+        <activity android:name="com.colin.tomvod.activity.Generalize_Activity" />
+        <activity android:name="com.colin.tomvod.activity.AnnouncementActivity" />
+        <activity android:name="com.colin.tomvod.activity.NotificationActivity" />
+        <activity android:name="com.colin.tomvod.activity.FeedbackActivity" />
+        <activity android:name="com.colin.tomvod.activity.ProblemDetailActivity" />
+        <activity android:name="com.colin.tomvod.activity.Class_activity" />
+        <activity android:name="com.colin.tomvod.activity.VipActivity" />
+        <activity android:name="com.colin.tomvod.activity.Login_Activity" />
+        <activity android:name="com.colin.tomvod.activity.RegisterActivity" />
+        <activity android:name="com.colin.tomvod.activity.Code_Activity" />
+        <activity android:name="com.colin.tomvod.activity.Protocol_Activity" />
+        <activity android:name="com.colin.tomvod.activity.Manage_Setting_Activity" />
+        <activity android:name="com.colin.tomvod.activity.changePwdActivity" />
+        <activity android:name="com.colin.tomvod.activity.GuideActivity"
             android:theme="@style/FullTheme"/>
-        <activity android:name=".activity.Cache_Activity" />
-        <activity android:name=".activity.Forget_Activity" />
-        <activity android:name=".activity.Forget_End_Activity" />
+        <activity android:name="com.colin.tomvod.activity.Cache_Activity" />
+        <activity android:name="com.colin.tomvod.activity.Forget_Activity" />
+        <activity android:name="com.colin.tomvod.activity.Forget_End_Activity" />
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.colin.playerdemo.FileProvider"
+            android:authorities="${applicationId}"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/rc_file_path" />
+                android:resource="@xml/file_paths_public" />
         </provider>
+
     </application>
 
 </manifest>
