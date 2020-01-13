@@ -1,12 +1,15 @@
 package com.colin.tomvod.base;
 
 import android.content.Context;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.colin.tomvod.R;
+import com.colin.tomvod.utils.NetworkChangeReceiver;
 import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.ButterKnife;
@@ -16,7 +19,7 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected Context mContext;
-//    private NetworkChangeReceiver receiver;
+    private NetworkChangeReceiver receiver;
 //    protected LoadingDialog loadingDialog;
     private Unbinder mUnbinder;
 
@@ -40,13 +43,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        StatusBarUtil.setLightMode(this);
 
 
-//        registerNetworkChangeReceiver();
+        registerNetworkChangeReceiver();
         initView();
         initData();
     }
 
 
-
+    /**
+     * 注册网络监听广播
+     */
+    private void registerNetworkChangeReceiver() {
+        receiver = new NetworkChangeReceiver(this);
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(receiver, filter);
+    }
     protected abstract int getLayoutResId();
 
     protected abstract void initView();
@@ -68,11 +78,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        if (receiver != null) {
-//            unregisterReceiver(receiver);
-//            receiver.onDestroy();
-//            receiver = null;
-//        }
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+            receiver.onDestroy();
+            receiver = null;
+        }
         // 取消注册
         if (this.getClass().isAnnotationPresent(BindEventBus.class)) {
             EventBusHelper.unregister(this);

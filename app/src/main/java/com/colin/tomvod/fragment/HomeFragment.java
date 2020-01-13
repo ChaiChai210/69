@@ -49,7 +49,7 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.OnAdClickListener, Home_Class_Adapter.HomeClass_Listener, EasyPermissions.PermissionCallbacks{
+public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.OnAdClickListener, Home_Class_Adapter.HomeClass_Listener, EasyPermissions.PermissionCallbacks {
     @BindView(R.id.banner)
     BannerLayout banner;
     @BindView(R.id.class_rv)
@@ -67,8 +67,8 @@ public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.On
     @BindView(R.id.record_iv)
     ImageView record_iv;
 
-    Home_Class_Adapter class_adapter;
-    HomeFragmentAdapter home_fragment_adapter;
+    private Home_Class_Adapter class_adapter;
+    private HomeFragmentAdapter home_fragment_adapter;
     //
     private MainBean mainBean;
     private static final int RC_CAMERA_PERM = 123;
@@ -197,7 +197,7 @@ public class HomeFragment extends BaseFragment implements HomeFragmentAdapter.On
     }
 
     @Override
-    public void OnAdclick(String url, int id) {
+    public void OnAdClick(String url, int id) {
         UIhelper.addClickAdRecord(activity, id);
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);

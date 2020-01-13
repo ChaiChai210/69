@@ -16,13 +16,16 @@ import androidx.core.content.ContextCompat;
 
 
 import com.colin.tomvod.base.BaseActivity;
+import com.colin.tomvod.bean.ChildPlayCommentBean;
 import com.colin.tomvod.bean.ConFigBean;
+import com.colin.tomvod.bean.ConfigureBean;
 import com.colin.tomvod.customeview.tabhost.TabItem;
 import com.colin.tomvod.customeview.tabhost.XFragmentTabHost;
 import com.colin.tomvod.fragment.ChannelFragment;
 import com.colin.tomvod.fragment.DiscoverFragment;
 import com.colin.tomvod.fragment.HomeFragment;
 import com.colin.tomvod.fragment.MineFragment;
+import com.colin.tomvod.net.BaseListBean;
 import com.colin.tomvod.net.GsonHelper;
 import com.colin.tomvod.net.URLs;
 import com.colin.tomvod.popwindows.HelpWindow;
@@ -33,9 +36,11 @@ import com.colin.tomvod.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -98,27 +103,46 @@ public class MainActivity extends BaseActivity implements HelpWindow.PopwindowsL
             public void onSuccess(Response<String> response) {
                 UIhelper.stopLoadingDialog();
 
-                Type type = new TypeToken<ConFigBean>() {
+//                Type type = new TypeToken<ConFigBean>() {
+//                }.getType();
+                Type type = new TypeToken<BaseListBean<ConfigureBean>>() {
                 }.getType();
-                ConFigBean conFigBean = GsonHelper.gson.fromJson(response.body(), type);
+                BaseListBean<ConfigureBean> beanBaseListBean = GsonHelper.gson.fromJson(response.body(), type);
+//                ConFigBean conFigBean = GsonHelper.gson.fromJson(response.body(), type);
                 //返回码为成功时的处理
-                if (conFigBean.getCode() == 0) {
-                    for (int i = 0; i < conFigBean.getData().size(); i++) {
-                        //官网地址
-                        if (conFigBean.getData().get(i).getType().equals("webSite")) {
-                            domain = conFigBean.getData().get(i).getContent();
+//                if (conFigBean.getCode() == 0) {
+//                    for (int i = 0; i < conFigBean.getData().size(); i++) {
+//                        //官网地址
+//                        if (conFigBean.getData().get(i).getType().equals("webSite")) {
+//                            domain = conFigBean.getData().get(i).getContent();
+//                        }
+////                        "主页弹出提示"
+//                        if (conFigBean.getData().get(i).getType().equals("alertText")) {
+//                            config = conFigBean.getData().get(i).getContent();
+//
+//                        }
+//                    }
+//                    mainContent.post(() -> {
+//                        new MainPopWindows(MainActivity.this, mainContent, config, domain);
+//                    });
+//                } else {
+//                    UIhelper.ToastMessage(conFigBean.getInfo());
+//                }
+
+                if (beanBaseListBean.getResCode() == 0) {
+                    for (int i = 0; i < beanBaseListBean.getData().size(); i++) {
+//                        //官网地址
+                        if (beanBaseListBean.getData().get(i).getType().equals("webSite")) {
+                            domain = beanBaseListBean.getData().get(i).getContent();
                         }
 //                        "主页弹出提示"
-                        if (conFigBean.getData().get(i).getType().equals("alertText")) {
-                            config = conFigBean.getData().get(i).getContent();
+                        if (beanBaseListBean.getData().get(i).getType().equals("alertText")) {
+                            config = beanBaseListBean.getData().get(i).getContent();
 
                         }
                     }
-                    mainContent.post(() -> {
-                        new MainPopWindows(MainActivity.this, mainContent, config, domain);
-                    });
                 } else {
-                    UIhelper.ToastMessage(conFigBean.getInfo());
+                    FancyToast.makeText(mContext, beanBaseListBean.getInfo(), FancyToast.LENGTH_SHORT, FancyToast.ERROR, false).show();
                 }
             }
 

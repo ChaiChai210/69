@@ -53,21 +53,21 @@ import butterknife.BindView;
  */
 public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.OnItemChildClickListener, DiscoverAdapter.CollectListener {
 
-    protected List<DisconverBean.DataBean> mVideos = new ArrayList<>();
-    protected DiscoverAdapter mAdapter;
+    private List<DisconverBean.DataBean> mVideos = new ArrayList<>();
+    private DiscoverAdapter mAdapter;
 
-    protected LinearLayoutManager mLinearLayoutManager;
+    private LinearLayoutManager mLinearLayoutManager;
 
-    protected VideoView mVideoView;
-    protected StandardVideoController mController;
-    protected ErrorView mErrorView;
-    protected CompleteView mCompleteView;
-    protected TitleView mTitleView;
+    private VideoView mVideoView;
+    private StandardVideoController mController;
+    private ErrorView mErrorView;
+    private CompleteView mCompleteView;
+    private TitleView mTitleView;
 
     /**
      * 当前播放的位置
      */
-    protected int mCurPos = -1;
+    private int mCurPos = -1;
     @BindView(R.id.status_bar_view)
     View statusBarView;
     @BindView(R.id.search_iv)
@@ -79,12 +79,12 @@ public class DiscoverFragment extends BaseFragment implements DiscoverAdapter.On
 
     private int page = 1;
     private boolean hasMore = true;
-    DisconverBean disconverBean;
+    private DisconverBean disconverBean;
     private String downUrl;
     /**
      * 上次播放的位置，用于页面切回来之后恢复播放
      */
-    protected int mLastPos = mCurPos;
+    private int mLastPos = mCurPos;
 
     private static LinkedHashMap<Integer, Long> progressMap = new LinkedHashMap<>();
 

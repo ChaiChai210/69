@@ -18,6 +18,8 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 
+import org.litepal.LitePal;
+
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -33,7 +35,6 @@ import okhttp3.OkHttpClient;
 public class AppContext extends Application {
     public static Context applicationContext;
     public static int notificationId;
-    public static boolean isFrist = true, home_guide = true;//是否第一次加载 是否是首页的导航
 //    public static Context sCurContext;
 //    private static ImagePicker imagePicker;
 
@@ -49,31 +50,13 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
         applicationContext = getApplicationContext();
-
+        LitePal.initialize(this);
         initOkGo();
 //        initLogger ();//初始化logger框架
 //        initImgPicker ();
 //        MobSDK.init (this);//初始化Mob SDK
     }
 
-//    private void initImgPicker() {
-//        imagePicker = ImagePicker.getWithToken ();
-//        imagePicker.setImageLoader (new GlideLoader ());   //设置图片加载器
-//        imagePicker.setShowCamera (true);  //显示拍照按钮
-//        imagePicker.setMultiMode (false);
-//        imagePicker.setCrop (false);        //允许裁剪（单选才有效）
-//        imagePicker.setSaveRectangle (true); //是否按矩形区域保存
-//        imagePicker.setSelectLimit (9);    //选中数量限制
-//        imagePicker.setStyle (CropImageView.Style.RECTANGLE);  //裁剪框的形状
-//        imagePicker.setFocusWidth (800);   //裁剪框的宽度。单位像素（圆形自动取宽高最小值）
-//        imagePicker.setFocusHeight (800);  //裁剪框的高度。单位像素（圆形自动取宽高最小值）
-//        imagePicker.setOutPutX (1000);//保存文件的宽度。单位像素
-//        imagePicker.setOutPutY (1000);//保存文件的高度。单位像素
-//    }
-//
-//    public static ImagePicker getImagePicker() {
-//        return imagePicker;
-//    }
 //
 //    private void initLogger() {
 //        Logger.addLogAdapter (new AndroidLogAdapter ());

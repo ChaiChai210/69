@@ -110,6 +110,7 @@ public class CommentDetailPopup extends BasePopupWindow implements PlayCommentDe
             if (hasMore) {
                 refreshLayout.finishLoadMore();
                 page++;
+                getChildComment(id, bean, mode);
             } else {
                 refreshLayout.finishLoadMoreWithNoMoreData();
             }

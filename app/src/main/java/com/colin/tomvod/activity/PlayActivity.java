@@ -1,5 +1,6 @@
 package com.colin.tomvod.activity;
 
+import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -34,11 +35,10 @@ import com.colin.tomvod.bean.ConFigBean;
 import com.colin.tomvod.bean.MineUserInfoBean;
 import com.colin.tomvod.bean.PlayCommentBean;
 import com.colin.tomvod.bean.PlayDetailBean;
+import com.colin.tomvod.bean.VideoDownLoad;
 import com.colin.tomvod.customeview.third.RoundImageView;
 import com.colin.tomvod.download.CancelReceiver;
-import com.colin.tomvod.download.FileUtil;
 import com.colin.tomvod.download.FileUtils;
-import com.colin.tomvod.download.GlobalTaskManager;
 import com.colin.tomvod.net.BaseBean;
 import com.colin.tomvod.net.BaseListBean;
 import com.colin.tomvod.net.GsonHelper;
@@ -46,6 +46,7 @@ import com.colin.tomvod.net.URLs;
 import com.colin.tomvod.popwindows.CommentDetailPopup;
 import com.colin.tomvod.popwindows.VideoIntroPopup;
 import com.colin.tomvod.utils.AppUtils;
+import com.colin.tomvod.utils.DownLoadUtils;
 import com.colin.tomvod.utils.StringUtils;
 import com.colin.tomvod.utils.UIhelper;
 import com.dueeeke.videocontroller.StandardVideoController;
@@ -65,7 +66,10 @@ import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.qfxl.view.RoundProgressBar;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shashank.sony.fancytoastlib.FancyToast;
+
+import org.litepal.LitePal;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -140,6 +144,8 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     LinearLayout playSendLayout;
     @BindView(R.id.iv_left)
     ImageView ivLeft;
+    @BindView(R.id.srl_container)
+    SmartRefreshLayout srlContainer;
 
 
     private String id;
@@ -155,12 +161,14 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     //    private PlayCommentDetailAdapter commentDetailAdapter;
     private List<PlayCommentBean> commentList = new ArrayList<>();
     private int page = 1;
+    private boolean hasMore = true;
     private String mode = "zan";//(支持参数 time 时间排序,zan 赞排序)
     private String downUrl;
-    private CancelReceiver cancelReceiver;
+//    private CancelReceiver cancelReceiver;
 
     private DownloadTask task;
     private NotificationSampleListener listener;
+    private VideoDownloadReceiver videoDownloadReceiver;
 
     public static void start(Context context, String id) {
         Intent intent = new Intent(context, PlayActivity.class);
@@ -177,6 +185,7 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
 
     @Override
     protected void initView() {
+
         id = getIntent().getStringExtra("id");
         rvGuessLike.setLayoutManager(new LinearLayoutManager(this));
         rvGuessLike.setNestedScrollingEnabled(false);
@@ -185,7 +194,16 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
 
         rvComment.setLayoutManager(new LinearLayoutManager(this));
         rvComment.setNestedScrollingEnabled(false);
-
+        srlContainer.setEnableRefresh(false);
+        srlContainer.setOnLoadMoreListener(refreshLayout -> {
+            if (hasMore) {
+                page++;
+                getComment();
+                srlContainer.finishLoadMore();
+            } else {
+                srlContainer.finishLoadMoreWithNoMoreData();
+            }
+        });
 
         rpbGg.setDirection(RoundProgressBar.Direction.FORWARD);
         rpbGg.setProgressChangeListener(new RoundProgressBar.ProgressChangeListener() {
@@ -253,9 +271,15 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         getComment();
 
         initListener();
-        IntentFilter filter = new IntentFilter(CancelReceiver.ACTION);
-        cancelReceiver = new CancelReceiver();
-        registerReceiver(cancelReceiver, filter);
+//        IntentFilter filter = new IntentFilter(CancelReceiver.ACTION);
+//        cancelReceiver = new CancelReceiver();
+//        registerReceiver(cancelReceiver, filter);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        intentFilter.addAction(DownloadManager.ACTION_NOTIFICATION_CLICKED);
+        videoDownloadReceiver = new VideoDownloadReceiver();
+        mContext.registerReceiver(videoDownloadReceiver,
+                intentFilter);
     }
 
     private void initListener() {
@@ -539,8 +563,10 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
         if (mVideoView != null) {
             mVideoView.release();
         }
-        unregisterReceiver(cancelReceiver);
-        listener.releaseTaskEndRunnable();
+//        unregisterReceiver(cancelReceiver);
+//        listener.releaseTaskEndRunnable();
+        unregisterReceiver(videoDownloadReceiver);
+
     }
 
     @Override
@@ -607,7 +633,7 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
 //        popup.setKeepSize(true);
         popup.setPopupWindowFullScreen(false);
         popup.setAdjustInputMethod(true, WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        popup.setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        popup.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popup.showPopupWindow(mVideoView);
     }
 
@@ -616,20 +642,23 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.download_nopress_iv://下载
-//                if (playDetailBeanBaseBean != null) {
+                if (playDetailBeanBaseBean != null) {
 //                    initTextData(playDetailBeanBaseBean);
-//                    initTask(playDetailBeanBaseBean.getData(), view);
-//                }
-
-                if (null != playDetailBeanBaseBean) {
-                    if (mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_cache_day() - mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_avail_use() > 0) {
-                        initTask(playDetailBeanBaseBean.getData(),view);
-                        initTextData(playDetailBeanBaseBean);
-                    } else {
-                        Toast.makeText(this, "可用缓存次数不够", Toast.LENGTH_SHORT).show();
-                    }
-
+                    initTask(playDetailBeanBaseBean.getData());
                 }
+
+//                if (null != playDetailBeanBaseBean) {
+//                    if (mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_cache_day() - mineUserInfoBeanBaseBean.getData().getUserinfo().getVideo_avail_use() > 0) {
+//                        if (taskId == -1) {
+//                            initTask(playDetailBeanBaseBean.getData(), view);
+//                        } else {
+//                            Toast.makeText(this, "已下载", Toast.LENGTH_SHORT).show();
+//                        }
+//                    } else {
+//                        Toast.makeText(this, "可用缓存次数不够", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
                 break;
             case R.id.iv_left:
                 finish();
@@ -690,44 +719,54 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     }
 
     void initTextData(BaseBean<PlayDetailBean> playDetailBeanBaseBean) {
-        String dirName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
+        String dirName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath();
         String fileName = "/vod.txt";
         FileUtils.writeTxtToFile(playDetailBeanBaseBean.getData().getCover() + "_" + playDetailBeanBaseBean.getData().getName(), dirName, fileName);
     }
 
-    private void initTask(PlayDetailBean data, View view) {
 
-        if (data == null) {
+    private void initTask(PlayDetailBean data) {
+        List<VideoDownLoad> videoDownLoadList = LitePal.where("name = ?", data.getName()).find(VideoDownLoad.class);
+        if (videoDownLoadList.isEmpty()) {
+            //新建一个下载任务
+            long taskId = DownLoadUtils.startDownload(mContext, data.getVideo_download_url(), data.getName());
+            VideoDownLoad videoDownLoad = new VideoDownLoad();
+            videoDownLoad.setId(taskId);
+            videoDownLoad.setName(data.getName());
+            videoDownLoad.setUrl(data.getCover());
+            videoDownLoad.save();
+        } else {
+            Toast.makeText(this, "已在下载列表", Toast.LENGTH_SHORT).show();
             return;
         }
-        task = new DownloadTask
-                .Builder(data.getVideo_download_url(), FileUtil.getParentFile())
-                .setFilename(playDetailBean.getName())
-                // if there is the same task has been completed download, just delete it and
-                // re-download automatically.
-                .setPassIfAlreadyCompleted(false)
-                .setMinIntervalMillisCallbackProcess(80)
-                // because for the notification we don't need make sure invoke on the ui thread, so
-                // just let callback no need callback to the ui thread.
-                .setAutoCallbackToUIThread(false)
-                .build();
-        cancelReceiver.setTask(task);
-        Log.e("chai", task.getFilename());
 
-        if (view.getTag() == null) {
-            GlobalTaskManager.getImpl().enqueueTask(task, listener);
-            view.setTag(new Object());
-            view.setEnabled(false);
-        } else {
-//            task.cancel();
-        }
-
-        GlobalTaskManager.getImpl().attachListener(task, listener);
-        GlobalTaskManager.getImpl().addAutoRemoveListenersWhenTaskEnd(task.getId());
-//        if (StatusUtil.isSameTaskPendingOrRunning(task)) {
-//            actionTv.setText(R.string.cancel);
-//            view.setTag(new Object());
+//        if (data == null) {
+//            return;
 //        }
+//        task = new DownloadTask
+//                .Builder(data.getVideo_download_url(), FileUtil.getParentFile())
+//                .setFilename(playDetailBean.getName())
+//                // if there is the same task has been completed download, just delete it and
+//                // re-download automatically.
+//                .setPassIfAlreadyCompleted(false)
+//                .setMinIntervalMillisCallbackProcess(80)
+//                // because for the notification we don't need make sure invoke on the ui thread, so
+//                // just let callback no need callback to the ui thread.
+//                .setAutoCallbackToUIThread(false)
+//                .build();
+//        cancelReceiver.setTask(task);
+//        Log.e("chai", task.getFilename());
+//
+//        if (view.getTag() == null) {
+//            GlobalTaskManager.getImpl().enqueueTask(task, listener);
+//            view.setTag(new Object());
+//            view.setEnabled(false);
+//        } else {
+////            task.cancel();
+//        }
+//
+//        GlobalTaskManager.getImpl().attachListener(task, listener);
+//        GlobalTaskManager.getImpl().addAutoRemoveListenersWhenTaskEnd(task.getId());
 
     }
 
@@ -850,4 +889,6 @@ public class PlayActivity extends BaseActivity implements PlayCommentAdapter.Pla
     @OnClick()
     public void onViewClicked() {
     }
+
+
 }

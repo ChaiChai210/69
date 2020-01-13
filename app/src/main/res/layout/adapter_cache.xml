@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-<CheckBox
-    android:id="@+id/cache_checkBox"
-    style="@style/CustomCheckBoxTheme"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_marginLeft="@dimen/space_8"
-    android:padding="@dimen/space_4"
-    android:visibility="gone"
-    tools:visibility="visible" />
+    <CheckBox
+        android:id="@+id/cache_checkBox"
+        style="@style/CustomCheckBoxTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/space_8"
+        android:padding="@dimen/space_4"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
-<com.colin.tomvod.customeview.third.RoundImageView
-    android:id="@+id/cache_image"
-    android:layout_width="160dp"
-    android:layout_height="100dp"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginLeft="@dimen/space_8"
-    android:layout_marginTop="8dp"
-    android:layout_toRightOf="@+id/cache_checkBox"
-    android:adjustViewBounds="true"
-    android:scaleType="centerCrop"
-    android:src="@mipmap/img7"
-    app:layout_constraintDimensionRatio="6:7"
-    app:layout_constraintTop_toTopOf="parent"
-    app:radius="4dp"
-    app:type="round" />
+    <com.colin.tomvod.customeview.third.RoundImageView
+        android:id="@+id/cache_image"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/space_8"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/cache_checkBox"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/img7"
+        app:layout_constraintDimensionRatio="6:7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:radius="4dp"
+        app:type="round" />
 
-<TextView
-    android:id="@+id/video_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/space_12"
-    android:layout_marginTop="@dimen/space_8"
-    android:layout_marginRight="@dimen/space_12"
-    android:layout_toRightOf="@+id/cache_image"
-    android:lines="2"
-    tools:text="视频名称..."
-    android:textColor="@color/activity_title_center_text_black"
-    android:textSize="@dimen/text_size_13" />
+    <TextView
+        android:id="@+id/video_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_12"
+        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginRight="@dimen/space_12"
+        android:layout_toRightOf="@+id/cache_image"
+        android:lines="2"
+        android:textColor="@color/activity_title_center_text_black"
+        android:textSize="@dimen/text_size_13"
+        tools:text="视频名称..." />
 
-<TextView
-    android:id="@+id/size_tv"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignBottom="@+id/cache_image"
-    android:layout_marginLeft="@dimen/space_12"
-    android:layout_marginBottom="@dimen/space_10"
-    android:layout_toRightOf="@+id/cache_image"
-    tools:text="已缓存 | 123M"
-    android:textColor="@color/text_color_6"
-    android:textSize="12sp" />
+    <TextView
+        android:id="@+id/size_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cache_image"
+        android:layout_marginLeft="@dimen/space_12"
+        android:layout_marginBottom="@dimen/space_10"
+        android:layout_toRightOf="@+id/cache_image"
+        android:textColor="@color/text_color_6"
+        android:textSize="12sp"
+        tools:text="已缓存 | 123M" />
 </RelativeLayout>

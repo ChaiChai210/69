@@ -191,4 +191,6 @@ public class SPUtils {
         //登出状态
         SPUtils.put(Constant.LOGIN_STATE, Constant.LOGIN_STATE_OUT);
     }
+
+
 }

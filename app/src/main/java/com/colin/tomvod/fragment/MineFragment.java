@@ -38,6 +38,7 @@ import com.colin.tomvod.download.FileUtils;
 import com.colin.tomvod.net.BaseBean;
 import com.colin.tomvod.net.GsonHelper;
 import com.colin.tomvod.net.URLs;
+import com.colin.tomvod.utils.SPUtils;
 import com.colin.tomvod.utils.StringUtils;
 import com.colin.tomvod.utils.UIhelper;
 import com.google.gson.reflect.TypeToken;
@@ -258,11 +259,15 @@ public class MineFragment extends BaseFragment {
         MineUserInfoBean.UserinfoBean userinfo = userInfoBean.getUserinfo();
         Glide.with(activity).applyDefaultRequestOptions(new RequestOptions().error(R.mipmap.ic_head_l))
                 .load(userinfo.getPortrait()).into(centerHeadImage);
-        if (null != userInfoBean.getPresentlevel()) {
-            loginTv.setText(userInfoBean.getPresentlevel().getLevel_name());
-        } else {
-            loginTv.setText("小白");
+        if (!StringUtils.isEmpty(SPUtils.getLoginToken())){
+            if (null != userInfoBean.getPresentlevel()) {
+                loginTv.setText(userInfoBean.getPresentlevel().getLevel_name());
+            } else {
+                loginTv.setText("小白");
+            }
         }
+
+
         nameTv.setText(userinfo.getNickname());
         UIhelper.setGenderIcon(activity, userinfo.getSex(), nameTv);
         if (userinfo.getVideo_avail_day() < userinfo.getVideo_avail()) {
@@ -330,7 +335,7 @@ public class MineFragment extends BaseFragment {
                 if (!Login_Activity.checkLogin(activity)) {
                     return;
                 }
-//                activity.startActivity(new Intent(activity, Login_Activity.class));
+                activity.startActivity(new Intent(activity, Login_Activity.class));
                 break;
             case R.id.rl_promotion://推广
             case R.id.ll_promotion://推广

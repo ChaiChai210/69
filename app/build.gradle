@@ -1,17 +1,14 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'kotlin-android'
-apply from: '../constants.gradle'
+//apply from: '../constants.gradle'
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion rootProject.ext.App.compileSdkVersion
+    buildToolsVersion rootProject.ext.App.buildToolsVersion
     defaultConfig {
-        applicationId "com.colin.playerdemo"
-        minSdkVersion project.ext.minSdkVersion
-        targetSdkVersion 29
-        versionCode 4
-        versionName "1.3"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdkVersion rootProject.ext.App.minSdkVersion
+        targetSdkVersion  rootProject.ext.App.targetSdkVersion
+        manifestPlaceholders = rootProject.ext.Six_manifestPlaceholders
         ndk {
             abiFilters "armeabi-v7a"
         }
@@ -39,12 +36,8 @@ android {
             zipAlignEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "APP_ID_BUGLY", '""'
-            buildConfigField "String", "APP_ID_UMENG", '""'
             buildConfigField "String", "BASE_URL", '""'
             signingConfig signingConfigs.release
-//            signingConfig signingConfigs.release
-//            resValue("string", "app_name", "69")
         }
 
         debug {
@@ -53,18 +46,36 @@ android {
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", '"https://api.xxvfx.com/"'
-            buildConfigField "String", "APP_ID_BUGLY", '""'
-            buildConfigField "String", "APP_ID_UMENG", '""'
             signingConfig signingConfigs.debug
-//            signingConfig signingConfigs.debug
-//            resValue("string", "app_name", "(测试版)")
         }
     }
-
+    flavorDimensions "flavor"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    productFlavors {
+        Six {
+            applicationId "com.colin.six"
+            dimension "flavor"
+            versionCode rootProject.ext.Six.versionCode
+            versionName rootProject.ext.Six.versionName
+            manifestPlaceholders = rootProject.ext.Six_manifestPlaceholders
+        }
+
+        NaiNiu {
+            applicationId "com.colin.nainiu"
+            dimension "flavor"
+            versionCode rootProject.ext.Nainiu.versionCode
+            versionName rootProject.ext.Nainiu.versionName
+            manifestPlaceholders = rootProject.ext.Nainiu_manifestPlaceholders
+        }
+
     }
 }
 
@@ -82,9 +93,6 @@ dependencies {
     implementation project(':dkplayer-ui')
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-    //    implementation 'com.rxjava.rxhttp:rxhttp:1.2.4'
-    //    annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:1.2.4' //注解处理器，生成RxHttp类
-    //    implementation 'com.rxjava.rxlife:rxlife:1.1.0'  //页面销毁，关闭请求，非必须
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation 'com.squareup.okio:okio:2.2.2'
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -129,7 +137,7 @@ dependencies {
     implementation 'com.azhon:appupdateX:2.6.0'
 //    implementation "androidx.core:core-ktx:+"
 //    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'org.litepal.android:java:3.0.0'
 }
-repositories {
-    mavenCentral()
-}
+

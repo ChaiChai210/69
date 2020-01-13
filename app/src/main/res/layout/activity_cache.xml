@@ -29,7 +29,7 @@
                 android:layout_marginLeft="@dimen/space_12"
                 android:textColor="@color/text_color_6"
                 android:textSize="15sp"
-                android:text="已缓冲"
+                android:text="已缓存"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <androidx.recyclerview.widget.RecyclerView

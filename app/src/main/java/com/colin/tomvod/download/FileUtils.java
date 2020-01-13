@@ -22,7 +22,7 @@ import java.util.Set;
 public class FileUtils {
 
     public static final String downloadDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-//    public static final String downloadDirectory =getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+    //    public static final String downloadDirectory =getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
     public static final String VodDirectory = downloadDirectory + "/vod";
 
     /**
@@ -132,4 +132,11 @@ public class FileUtils {
         list.addAll(set);
         return list;
     }
+
+    public static String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getPath() + "/vod";
+
+    public static File getVideo(String name) {
+        return new File(FileUtils.directory, name + ".mp4");
+    }
+
 }

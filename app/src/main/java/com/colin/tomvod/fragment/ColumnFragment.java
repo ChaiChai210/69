@@ -58,7 +58,7 @@ public class ColumnFragment extends BaseFragment implements BannerLayout.OnBanne
 
     ColumnRecommentAdapter columnRecommentAdapter;
     ColumnHotTopicAdapter hotTopicAdapter;
-//    ColumnPopularStarAdapter popularStarAdapter;
+    //    ColumnPopularStarAdapter popularStarAdapter;
 //        Column_Class_Adapter column_class_adapter;
     Fragment_Column_Adapter column_adapter;
     HomeBannerAdapter webBannerAdapter;
@@ -142,7 +142,6 @@ public class ColumnFragment extends BaseFragment implements BannerLayout.OnBanne
 
         }
     }
-
 
 
     private void setView(Column_Bean data) {

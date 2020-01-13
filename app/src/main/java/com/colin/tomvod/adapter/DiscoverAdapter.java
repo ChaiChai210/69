@@ -53,7 +53,6 @@ public class DiscoverAdapter extends BaseQuickAdapter<DisconverBean.DataBean, Ba
         } else {
             ivFavorite.setImageResource(R.mipmap.favor_nopress);
         }
-//        ivFavorite.setOnClickListener(v -> collectListener.onclick(helper.getLayoutPosition(), 2));
         ivFavorite.setOnClickListener(v -> {
             if (item.getIs_collect() == 1) {
                 deleteCollectList(item, ivFavorite, helper.getLayoutPosition());

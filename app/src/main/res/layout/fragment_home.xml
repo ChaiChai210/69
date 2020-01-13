@@ -84,9 +84,9 @@
             <com.colin.banner.BannerLayout
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
+                android:layout_height="200dp"
                 app:autoPlaying="true"
-                app:centerScale="1.3"
+                app:centerScale="1"
                 app:indicatorGravity="center"
                 app:itemSpace="20"
                 app:moveSpeed="1.8"

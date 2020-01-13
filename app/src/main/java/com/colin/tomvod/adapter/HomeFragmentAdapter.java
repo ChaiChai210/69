@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,7 +74,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @BindView(R.id.ad_iv)
         ImageView ad_iv;
         @BindView(R.id.adv_layout)
-        LinearLayout advLayout;
+        ConstraintLayout advLayout;
         @BindView(R.id.child_title_tv)
         TextView child_title_tv;
 
@@ -93,7 +94,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Glide.with(itemView.getContext()).load(videoBean.getAdver().getPic()).into(ad_iv);
                 advLayout.setOnClickListener(v -> {
                     if (!StringUtils.isEmpty(videoBean.getAdver().getUrl())) {
-                        adClickListener.OnAdclick(videoBean.getAdver().getUrl(), videoBean.getAdver().getId());
+                        adClickListener.OnAdClick(videoBean.getAdver().getUrl(), videoBean.getAdver().getId());
                     }
 
                 });
@@ -125,6 +126,6 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public interface OnAdClickListener {
-        void OnAdclick(String url, int id);
+        void OnAdClick(String url, int id);
     }
 }

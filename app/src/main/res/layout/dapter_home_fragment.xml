@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/adv_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,22 +54,28 @@
         <ImageView
             android:id="@+id/ad_iv"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/img11" />
+            android:layout_height="0dp"
+            android:src="@mipmap/img11"
+            app:layout_constraintDimensionRatio="3:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/adv_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/space_12"
+            android:layout_marginStart="@dimen/dp_10"
             android:textColor="@color/white"
             android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ad_iv"
             tools:text="广告位标题..." />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="#010101" />
-    </LinearLayout>
+            android:background="#010101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adv_tv" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
